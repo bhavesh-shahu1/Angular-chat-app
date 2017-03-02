@@ -6,53 +6,28 @@
         .controller('SignupController', SignupController);
 
     /* @ngInject */
-    function SignupController($scope, $state, $mdToast, $http, $filter,authenticationService) {
+    function SignupController($scope, $state, $mdToast, $http, $filter,authenticationService,commonService) {
         var vm = this;
-        // vm.signupClick = signupClick;
-        vm.user = {
-            name: '',
-            email: '',
-            password: '',
-            confirm: ''
-        };
-
+        vm.init = init;
+        vm.user = {};
         vm.signupClick = signupClick;
 
+        function init(){
+            // Add intial code
+        }
+
         function signupClick(){
-            var postParam =vm.data;
-            authenticationService.postData(postParam)
+            var postParam = vm.user
+            // console.log(postParam);
+            authenticationService.postData('signup',postParam)
             .then(function(response){
+                commonService.showToast(response.data.message);
+                if(response.data.status == '200'){
+                    $state.go('login');
+                }
                 console.log(response);
             })
         }
-        ////////////////
-
-        // function signupClick() {
-        //     $http({
-        //         method: 'POST',
-        //         url: API_CONFIG.url + 'signup',
-        //         data: $scope.user
-        //     }).
-        //     success(function(data) {
-        //         $mdToast.show(
-        //             $mdToast.simple()
-        //             .content($filter('translate')('SIGNUP.MESSAGES.CONFIRM_SENT') + ' ' + data.email)
-        //             .position('bottom right')
-        //             .action($filter('translate')('SIGNUP.MESSAGES.LOGIN_NOW'))
-        //             .highlightAction(true)
-        //             .hideDelay(0)
-        //         ).then(function() {
-        //             $state.go('public.auth.login');
-        //         });
-        //     }).
-        //     error(function() {
-        //         $mdToast.show(
-        //             $mdToast.simple()
-        //             .content($filter('translate')('SIGNUP.MESSAGES.NO_SIGNUP'))
-        //             .position('bottom right')
-        //             .hideDelay(5000)
-        //         );
-        //     });
-        // }
+       
     }
 })();

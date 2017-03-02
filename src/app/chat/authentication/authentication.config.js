@@ -8,7 +8,14 @@
             templateUrl: 'app/chat/authentication/login/login.tmpl.html',
             controller: 'LoginController',
             controllerAs: 'vm'
-        }),$stateProvider.state('signup', {
+        }),
+        $stateProvider.state('loginactive', {
+            url: '/login/:parameter',
+            templateUrl: 'app/chat/authentication/login/login.tmpl.html',
+            controller: 'LoginController',
+            controllerAs: 'vm'
+        }),
+        $stateProvider.state('signup', {
             url: '/signup',
             templateUrl: 'app/chat/authentication/signup/signup.tmpl.html',
             controller: 'SignupController',

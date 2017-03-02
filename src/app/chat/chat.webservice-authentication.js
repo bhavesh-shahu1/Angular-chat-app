@@ -5,11 +5,12 @@
     function webServiceAuthentication(RestangularProvider) {
         RestangularProvider.setBaseUrl('https://video-playlist.herokuapp.com/');
         RestangularProvider.setDefaultHeaders({
-            'Content-Type': 'application/x-www-form-urlencoded'
+            //'Content-Type': 'application/x-www-form-urlencoded'
+            'Content-Type': 'application/json'
         });
-        RestangularProvider.setDefaultHttpFields({
-            'withCredentials': true
+        // RestangularProvider.setDefaultHttpFields({
+        //     'withCredentials': true
 
-        });
+        // });
     }
 })();
