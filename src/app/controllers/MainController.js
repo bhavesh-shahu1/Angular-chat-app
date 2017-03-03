@@ -11,7 +11,6 @@
     var vm = this;
 
     vm.menuItems = [ ];
-    console.log(vm.menuItems);
     vm.selectItem = selectItem;
     vm.toggleItemsList = toggleItemsList;
     vm.showActions = showActions;
@@ -22,7 +21,6 @@
     navService
       .loadAllItems()
       .then(function(menuItems) {
-        console.log(menuItems);
         vm.menuItems = [].concat(menuItems);
         console.log(vm.menuItems);
       });

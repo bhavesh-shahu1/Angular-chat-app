@@ -1,7 +1,19 @@
 (function() {
     angular.module('app.chat').service('commonService', commonService);
     /* @ngInject */
-    function commonService($mdToast) {
+    function commonService($mdToast,localStorageService) {
+       // var userInfo;
+        var setUserInfo = function(user) {
+            userInfo = user;
+            console.log(userInfo);
+            localStorageService.set('userInfo', user);
+        };
+
+        var getUserInfo = function() {
+            userInfo = localStorageService.get('userInfo');
+            return userInfo;
+        };      
+
         /**
          * Pass a message to show a Toast
          * message: String
@@ -17,7 +29,9 @@
         };
 
         return{
-            showToast : showToast
+            showToast : showToast,
+            setUserInfo: setUserInfo,
+            getUserInfo: getUserInfo
         }
     }
 })();

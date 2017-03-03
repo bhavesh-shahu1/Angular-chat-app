@@ -2,7 +2,7 @@
     'use strict';
     angular.module('app.chat.authentication').controller('LoginController', LoginController);
     /* @ngInject */
-    function LoginController($mdDialog, authenticationService, commonService, $stateParams) {
+    function LoginController($mdDialog, authenticationService, commonService, $stateParams,$state) {
         var vm = this;
         vm.data = {};
         vm.parameter = $stateParams.parameter;
@@ -29,8 +29,9 @@
             authenticationService.postData('login', postParam)
                 .then(function(response) {
                     commonService.showToast(response.data.message);
+                    commonService.setUserInfo(response.data.data);
                     if (response.data.status == '200') {
-                        // $state.go('login');
+                         $state.go('home.profile');
                     }
                     console.log(response);
                 })
