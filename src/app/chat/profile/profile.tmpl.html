@@ -1,15 +1,41 @@
-<div layout="row" layout-align="start center">
-    <!--  <div class="margin-right-20">
-        <img src="assets/images/avatars/avatar-5.png" alt="girl-avatar" class="make-round" width="100"/>
-    </div> -->
+<!-- <div layout="row" layout-align="start center">
     <i class="material-icons md-36 ng-binding">person</i>
     <div class="text-light">
         <h3 class="font-weight-600 margin-bottom-0 text-light">{{vm.user.username}} / Profile</h3>
     </div>
 </div>
-<div layout="row" class="profile" layout-wrap>
+<div layout="row" class="profile">
     <div flex="100" flex-gt-md="100">
        Name:{{vm.user.username}}
        UserName:{{vm.user.email}} 
     </div>
+</div>
+ -->
+<div class="widget md-whiteframe-z2" style="margin-right: 20px;margin-top: 20px;">
+    <div class="widget-title" layout="row" layout-align="space-between center" layout-padding="">
+    <i class="material-icons md-36 ng-binding">person</i>
+        <div flex="" layout="column">
+            <h3>
+                Profile
+            </h3>
+        </div>
+    </div>
+    <div class="widget-content" layout="column" layout-align="start start" layout-padding="">
+        <div>
+            <span>Name:&nbsp;</span><span>{{vm.user.username}}</span>
+        </div>
+        <div>
+            <span>Email:&nbsp;</span><span>{{vm.user.email}}</span>
+        </div>
+        <div>
+            <span>status:&nbsp;</span><span ng-if="vm.user.status == 1">Activate</span>
+            <span ng-if="vm.user.status == 0">Deactivate</span>
+        </div>
+        <div>
+            <span>Role:&nbsp;</span><span ng-if="vm.user.user_role == 0">User</span>
+            <span ng-if="vm.user.user_role == 1">Moderator</span>
+            <span ng-if="vm.user.user_role == 2">Owner</span>
+        </div>
+    </div>
+    <!-- Show Progress chart -->
 </div>

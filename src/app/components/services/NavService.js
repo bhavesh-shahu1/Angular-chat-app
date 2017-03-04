@@ -20,7 +20,7 @@
         sref: '.profile'
       },
       {
-        name: 'Table',
+        name: 'Chat',
         icon: 'view_module',
         sref: '.table'
       },{
