@@ -87,7 +87,7 @@ angular.module('angularMaterialAdmin', ['ngAnimate', 'ngCookies',
     $rootScope.$on('$stateChangeStart', function(e, to) {
         //console.log(e);
         //console.log(to);
-        if (angular.equals(to.name, 'login')) {
+        if (angular.equals(to.name, 'login') || angular.equals(to.name, 'signup') || angular.equals(to.name, 'forgot')) {
         }else{
           if(!commonService.getUserPermission()){
             e.preventDefault();
