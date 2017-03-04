@@ -88,8 +88,10 @@ angular.module('angularMaterialAdmin', ['ngAnimate', 'ngCookies',
         //console.log(e);
         //console.log(to);
         if (angular.equals(to.name, 'login') || angular.equals(to.name, 'signup') || angular.equals(to.name, 'forgot')) {
+          
         }else{
           if(!commonService.getUserPermission()){
+            console.log(commonService.getUserPermission());
             e.preventDefault();
           }
         }

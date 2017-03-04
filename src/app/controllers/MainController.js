@@ -7,7 +7,7 @@
           MainController
        ]);
 
-  function MainController(navService, $mdSidenav, $mdBottomSheet, $log, $q, $state, $mdToast) {
+  function MainController(navService, $mdSidenav, $mdBottomSheet, $log, $q, $state, $mdToast, localStorageService, logoutService) {
     var vm = this;
 
     vm.menuItems = [ ];
@@ -17,12 +17,11 @@
     vm.title = $state.current.data.title;
     vm.showSimpleToast = showSimpleToast;
     vm.toggleRightSidebar = toggleRightSidebar;
-
+    vm.logout = logout;
     navService
       .loadAllItems()
       .then(function(menuItems) {
         vm.menuItems = [].concat(menuItems);
-        console.log(vm.menuItems);
       });
 
     function toggleRightSidebar() {
@@ -43,6 +42,12 @@
       vm.showSimpleToast(vm.title);
     }
 
+    function logout(){
+      //localStorageService.remove('userPermission');
+      //localStorageService.clearAll();
+      //logoutService.logout();
+       $state.go('login');
+    }
     function showActions($event) {
         $mdBottomSheet.show({
           parent: angular.element(document.getElementById('content')),

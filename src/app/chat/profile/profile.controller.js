@@ -7,7 +7,6 @@
   function ProfileController(commonService) {
     var vm = this;
     vm.user = commonService.getUserInfo();
-    console.log(vm.user);
     // vm.user = {
     //   title: 'Admin',
     //   email: 'contact@flatlogic.com',

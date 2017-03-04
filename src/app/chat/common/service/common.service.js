@@ -16,9 +16,11 @@
         
         var setUserPermission = function(permission){
             userPermission = permission;
+            localStorageService.set('userPermission', userPermission);
         }
 
         var getUserPermission = function(){
+            userPermission = localStorageService.get('userPermission');
             return userPermission;
         }
 
@@ -36,12 +38,18 @@
             });
         };
 
+        var logout = function() {
+            localStorageService.clearAll();
+
+        };
+
         return{
             showToast : showToast,
             setUserInfo: setUserInfo,
             getUserInfo: getUserInfo,
             setUserPermission: setUserPermission,
-            getUserPermission: getUserPermission
+            getUserPermission: getUserPermission,
+            logout: logout
         }
     }
 })();
