@@ -19,7 +19,6 @@
         function activateUser() {
             authenticationService.getData('activate_user', vm.parameter).
             then(function(response) {
-                console.log(response);
             })
         }
 
@@ -31,6 +30,7 @@
                     commonService.showToast(response.data.message);
                     commonService.setUserInfo(response.data.data);
                     if (response.data.status == '200') {
+                        commonService.setUserPermission(true);
                          $state.go('home.profile');
                     }
                     console.log(response);

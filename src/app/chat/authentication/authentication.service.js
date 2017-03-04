@@ -60,7 +60,6 @@
         };
 
         var postData = function(action,postParams) {
-            console.log(postParams);
             return Restangular.one('auth', action)
                 .customPOST(postParams)
                 .then(function(response) {

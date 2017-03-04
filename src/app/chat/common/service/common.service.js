@@ -2,10 +2,10 @@
     angular.module('app.chat').service('commonService', commonService);
     /* @ngInject */
     function commonService($mdToast,localStorageService) {
-       // var userInfo;
+        //var userInfo;
+        var userPermission;
         var setUserInfo = function(user) {
             userInfo = user;
-            console.log(userInfo);
             localStorageService.set('userInfo', user);
         };
 
@@ -13,6 +13,14 @@
             userInfo = localStorageService.get('userInfo');
             return userInfo;
         };      
+        
+        var setUserPermission = function(permission){
+            userPermission = permission;
+        }
+
+        var getUserPermission = function(){
+            return userPermission;
+        }
 
         /**
          * Pass a message to show a Toast
@@ -31,7 +39,9 @@
         return{
             showToast : showToast,
             setUserInfo: setUserInfo,
-            getUserInfo: getUserInfo
+            getUserInfo: getUserInfo,
+            setUserPermission: setUserPermission,
+            getUserPermission: getUserPermission
         }
     }
 })();
