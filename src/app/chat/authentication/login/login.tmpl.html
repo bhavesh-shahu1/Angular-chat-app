@@ -23,11 +23,11 @@
                             <div ng-message when="required"><span>Please enter a valid password.</span></div>
                         </div>
                     </md-input-container>
-                    <div layout="row" layout-align="space-between center">
+                    <!-- <div layout="row" layout-align="space-between center">
                         <md-input-container>
                             <md-button flex class="md-primary" href="#!/forgot" aria-label="forgot">Forgot Password ?</md-button>
                         </md-input-container>
-                    </div>
+                    </div> -->
                     <md-button class="md-raised md-primary " ng-click="vm.loginClick()" ng-disabled="login.$invalid" translate="LOGIN" aria-label="login">Login</md-button>
                     <md-button class="md-primary full-width" href="#!/signup" translate="LOGIN.SIGNUP_LINK" aria-label="{{'LOGIN.SIGNUP_LINK' | translate}}"></md-button>
                 </form>

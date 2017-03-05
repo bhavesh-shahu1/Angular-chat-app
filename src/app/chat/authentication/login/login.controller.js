@@ -17,7 +17,7 @@
         }
 
         function activateUser() {
-            authenticationService.getData('activate_user', vm.parameter).
+            authenticationService.getData('api','user','activate_user', vm.parameter).
             then(function(response) {
             })
         }
