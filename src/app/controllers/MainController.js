@@ -7,7 +7,7 @@
           MainController
        ]);
 
-  function MainController(navService, $mdSidenav, $mdBottomSheet, $log, $q, $state, $mdToast, localStorageService, logoutService) {
+  function MainController(navService, $mdSidenav, $mdBottomSheet, $log, $q, $state, $mdToast, logoutService, commonService) {
     var vm = this;
 
     vm.menuItems = [ ];
@@ -45,7 +45,8 @@
     function logout(){
       //localStorageService.remove('userPermission');
       //localStorageService.clearAll();
-      //logoutService.logout();
+      // logoutService.logout();
+      // commonService.logout();
        $state.go('login');
     }
     function showActions($event) {

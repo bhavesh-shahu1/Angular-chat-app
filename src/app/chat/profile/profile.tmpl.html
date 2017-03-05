@@ -22,17 +22,17 @@
     </div>
     <div class="widget-content" layout="column" layout-align="start start" layout-padding="">
         <div>
-            <span>Name:&nbsp;</span><span>{{vm.user.username}}</span>
+            <span>Name:&nbsp;&nbsp;</span><span>{{vm.user.username}}</span>
         </div>
         <div>
-            <span>Email:&nbsp;</span><span>{{vm.user.email}}</span>
+            <span>Email:&nbsp;&nbsp;</span><span>{{vm.user.email}}</span>
         </div>
         <div>
             <span>status:&nbsp;</span><span ng-if="vm.user.status == 1">Activate</span>
             <span ng-if="vm.user.status == 0">Deactivate</span>
         </div>
         <div>
-            <span>Role:&nbsp;</span><span ng-if="vm.user.user_role == 0">User</span>
+            <span>Role:&nbsp;&nbsp;&nbsp;</span><span ng-if="vm.user.user_role == 0">User</span>
             <span ng-if="vm.user.user_role == 1">Moderator</span>
             <span ng-if="vm.user.user_role == 2">Owner</span>
         </div>
