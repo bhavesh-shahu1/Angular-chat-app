@@ -33,7 +33,6 @@
                         commonService.setUserPermission(true);
                          $state.go('home.profile');
                     }
-                    console.log(response);
                 })
         }
 
