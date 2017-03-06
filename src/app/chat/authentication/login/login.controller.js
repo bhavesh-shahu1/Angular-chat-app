@@ -2,7 +2,7 @@
     'use strict';
     angular.module('app.chat.authentication').controller('LoginController', LoginController);
     /* @ngInject */
-    function LoginController($mdDialog, authenticationService, commonService, $stateParams,$state) {
+    function LoginController($mdDialog, authenticationService, commonService, $stateParams, $state) {
         var vm = this;
         vm.data = {};
         vm.parameter = $stateParams.parameter;
@@ -17,9 +17,10 @@
         }
 
         function activateUser() {
-            authenticationService.getData('api','user','activate_user', vm.parameter).
+            authenticationService.getData('api', 'user', 'activate_user', vm.parameter).
             then(function(response) {
-            })
+                commonService.showToast(response.data.message);
+            });
         }
 
         function loginClick() {
@@ -31,7 +32,7 @@
                     commonService.setUserInfo(response.data.data);
                     if (response.data.status == '200') {
                         commonService.setUserPermission(true);
-                         $state.go('home.profile');
+                        $state.go('home.profile');
                     }
                     console.log(response);
                 })
