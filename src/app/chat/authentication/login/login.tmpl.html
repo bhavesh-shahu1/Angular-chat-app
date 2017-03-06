@@ -8,7 +8,7 @@
                 </div>
             </md-toolbar>
             <md-content class="md-padding">
-                <form name="login">
+                <form name="login" ng-submit="vm.loginClick()">
                     <md-input-container class="md-block">
                         <label for="email" translate>Username</label>
                         <input id="email" label="email" name="email" type="text" ng-model="vm.user.name" required/>
@@ -28,7 +28,8 @@
                             <md-button flex class="md-primary" href="#!/forgot" aria-label="forgot">Forgot Password ?</md-button>
                         </md-input-container>
                     </div> -->
-                    <md-button class="md-raised md-primary " ng-click="vm.loginClick()" ng-disabled="login.$invalid" translate="LOGIN" aria-label="login">Login</md-button>
+                    <md-button type="submit" id="submit" value="Submit" class="md-raised md-primary"   translate="LOGIN" aria-label="login">Login</md-button>
+                      <!-- <input type="submit" id="submit" value="Submit" ng-disabled="login.$invalid"/> -->
                     <md-button class="md-primary full-width" href="#!/signup" translate="LOGIN.SIGNUP_LINK" aria-label="{{'LOGIN.SIGNUP_LINK' | translate}}"></md-button>
                 </form>
         </md-card>
