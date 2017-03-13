@@ -15,7 +15,7 @@ var translations = {
     "LOGIN": {
         "TITLE": "Login",
         "EMAIL": {
-            "LABEL": "email",
+            "LABEL": "Email",
             "PLEASE_ENTER": "Please enter your email address.",
             "PLEASE_VALID": "Please enter a valid email address."
         },
