@@ -46,7 +46,7 @@
       //localStorageService.remove('userPermission');
       //localStorageService.clearAll();
       // logoutService.logout();
-      // commonService.logout();
+       commonService.logout();
        $state.go('login');
     }
     function showActions($event) {

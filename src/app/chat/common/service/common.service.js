@@ -1,5 +1,5 @@
 (function() {
-    angular.module('app.chat').service('commonService', commonService);
+    angular.module('app.chat.common').service('commonService', commonService);
     /* @ngInject */
     function commonService($mdToast,localStorageService) {
         //var userInfo;

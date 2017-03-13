@@ -91,7 +91,6 @@ angular.module('angularMaterialAdmin', ['ngAnimate', 'ngCookies',
           
         }else{
           if(!commonService.getUserPermission()){
-            console.log(commonService.getUserPermission());
             e.preventDefault();
           }
         }

@@ -2,7 +2,7 @@
         'use strict';
 
         angular
-            .module('app.chat')
+            .module('app.chat.common')
             .directive('samePasswordCheck', passwordCheck);
 
          function passwordCheck(){

@@ -31,7 +31,10 @@
                     commonService.setUserInfo(response.data.data);
                     if (response.data.status == '200') {
                         commonService.setUserPermission(true);
-                         $state.go('home.profile');
+                        // $state.go('home.profile');
+                        // $state.go('default-layout.admin-layout.user');
+                        $state.go('default-layout.admin-layout.video');
+                        //$state.go('default-layout');
                     }
                 })
         }
