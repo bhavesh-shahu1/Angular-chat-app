@@ -1,0 +1,30 @@
+<md-dialog flex="50">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2 flex>
+                <span style="text-transform: capitalize;"  >
+                    Upload Video
+                </span>
+            </h2>
+            <md-button class="md-icon-button" ng-click="vm.cancelClick()" aria-label="cancel">
+                <md-icon md-font-icon="zmdi zmdi-close">
+                </md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-divider></md-divider>
+    <md-dialog-content class="md-dialog-content">
+        <md-input-container class="md-block" flex class="margin-top-15">
+            <label> Enter url</label>
+            <input type="text" ng-model="vm.uploadVideoUrl" ng-keyup="$event.keyCode == 13 ? vm.getVideo() : null">
+        </md-input-container>
+        <!-- <set-loading status="vm.setLoading"> -->
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+        <md-button class="md-primary md-raised" ng-click="vm.cancelClick()" aria-label="cancel">
+        ok
+        </md-button>
+        <md-button class="md-primary md-raised" ng-click="vm.cancelClick()" aria-label="cancel" translate="GENERAL.CANCEL">
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>

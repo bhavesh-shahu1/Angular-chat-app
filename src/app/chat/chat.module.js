@@ -12,7 +12,8 @@
             'NOT_FOUND': 404,
             'SERVER_ERROR': 500
         })
-        .run(function(chatToken) {
+        .run(function() {
+            // chatToken
             // Call Token
         });
 })();
