@@ -10,12 +10,14 @@
         vm.init = init;
         vm.activateUser = activateUser;
 
+
         function init() {
             if (angular.isDefined(vm.parameter)) {
                 vm.activateUser();
             }
         }
 
+        // Active user when user first time login
         function activateUser() {
             authenticationService.getData('api', 'user', 'activate_user', vm.parameter).
             then(function(response) {
@@ -23,9 +25,9 @@
             });
         }
 
+
         function loginClick() {
             var postParam = vm.user
-                // console.log(postParam);
             authenticationService.postData('login', postParam)
                 .then(function(response) {
                     commonService.showToast(response.data.message);

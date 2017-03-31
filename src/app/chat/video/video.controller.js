@@ -2,17 +2,44 @@
     'use strict';
     angular.module('app.chat.video').controller('VideoController', VideoController);
     /* @ngInject */
-    function VideoController($mdDialog,homeService,commonService) {
+    function VideoController($mdDialog,homeService,commonService,$stateParams, $scope) {
         var vm = this;
         vm.data = {};
         vm.init = init;
+        vm.setUserCurrentVideo = setUserCurrentVideo;
+        vm.addToWaitList = addToWaitList;
+        // vm.parameter = $stateParams.parameter;
         // vm.getUser = getUser;
-
+        
         function init() {
-          // vm.getUser();
+          vm.videoInfo = localStorage.getItem('videoInfo');
+          vm.setUserCurrentVideo(vm.videoInfo);
         }
 
-        vm.anotherGoodOne = 'https://www.youtube.com/watch?v=18-xvIjH8T4';
+        // Add event to get select vedio Info
+        $scope.$on('playUserSelectedVideo', function($event, videoInfo) {
+            // console.log(videoInfo);
+            vm.setUserCurrentVideo(videoInfo);
+        });
+        
+        function setUserCurrentVideo(videoInfo){
+          vm.videoInformation = JSON.parse(videoInfo);
+          console.log(vm.videoInformation);
+          vm.currentVideoUrl = vm.videoInformation.url;  
+        }
+        
+        // Show waitlist
+        function addToWaitList($event) {
+            $mdDialog.show({
+                controller: 'AddWaitListController',
+                controllerAs: 'vm',
+                templateUrl: 'app/chat/video/add-waitlist-dialog.tmpl.html',
+                targetEvent: $event
+            }).then(function() {
+                // Add success code
+            })
+        }
+
         // function getUser() {
         //     homeService.getData('api','user').
         //     then(function(response) {

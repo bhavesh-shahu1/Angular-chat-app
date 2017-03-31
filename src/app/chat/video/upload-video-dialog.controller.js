@@ -2,29 +2,45 @@
     'use strict';
     angular.module('app.chat.video').controller('UploadVideoController', UploadVideoController);
     /* @ngInject */
-    function UploadVideoController($mdDialog,homeService,commonService) {
+    function UploadVideoController($mdDialog, homeService, commonService, Restangular, videoService) {
         var vm = this;
         vm.data = {};
-        vm.init = init; 
+        vm.init = init;
         vm.getVideo = getVideo;
-        // vm.getUser = getUser;
-        
-        
+        vm.cancelClick = cancelClick;
+        vm.okClick = okClick;
+        vm.userInfo = commonService.getUserInfo();
+        console.log(vm.userInfo);
+
+        // init
         function init() {
-          // vm.getUser();
         }
 
-        function getVideo(){
-            console.log('--------------------------------');
+        // Get video information from youtube
+        function getVideo() {
+            if (angular.isDefined(vm.uploadVideoUrl)) {
+                vm.url = 'https://www.youtube.com/oembed?url=' + vm.uploadVideoUrl + '&format=json';
+                // Restangular.oneUrl('youtubeResponse', vm.url).get().then(function(response){
+                //     console.log(response);
+                // });
+            }
         }
-        
-        // function getUser() {
-        //     homeService.getData('api','user').
-        //     then(function(response) {
-        //       vm.userList =  response.data;
-        //       commonService.showToast(response.message);
-        //     })
-        // }
+
+        function cancelClick() {
+            $mdDialog.cancel();
+        }
+
+        function okClick() {
+            // Upload video on server
+            vm.postParam = {
+                'url': vm.uploadVideoUrl,
+                'user_id': vm.userInfo._id
+            }
+            videoService.postData('userplaylist', vm.postParam).then(function(response) {
+                commonService.showToast(response.message);
+            });
+            $mdDialog.hide();
+        }
 
         vm.init();
 

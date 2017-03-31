@@ -1,9 +1,9 @@
 <md-toolbar>
     <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
-        <md-button ng-click="vm.openLeftMenu()">
-            Open Left Menu
+        <md-button ng-click="vm.getWaitListVideo()">
+            Logo
         </md-button>
-        <md-button ng-click="vm.openLeftMenu()">
+        <md-button ng-click="vm.openRightMenu()">
             History
         </md-button>
         <!-- <md-button aria-label="Go Back">
@@ -19,6 +19,58 @@
         </md-button> -->
     </div>
 </md-toolbar>
+<!-- Left Sidebar -->
 <md-sidenav md-component-id="left" class="md-sidenav-left">
-    Left Nav!
+    <div layout="row">
+        <md-button class="md-grid-item-content" ng-click="vm.uploadVideo()">
+            Upload
+        </md-button>
+    </div>
+    <md-content>
+        <md-list flex>
+            <md-subheader class="md-no-sticky">Play List</md-subheader>
+            <md-list-item class="md-3-line" ng-repeat="item in vm.playList" ng-click="vm.playUserVideo(item)">
+                <img ng-src="{{item.thumbnail}}?{{$index}}" class="md-avatar" alt="{{item.title}}" />
+                <div class="md-list-item-text" layout="column">
+                    <h3>{{ item.title }}</h3>
+                    <h4>{{ item.created_at }}
+                      <md-button class="md-icon-button md-primary" aria-label="add waitList" ng-click="vm.addToWaitList(item._id)">
+                             <md-tooltip md-direction="bottom">add waitlist</md-tooltip>
+                                <i class="fa fa-plus-square" aria-hidden="true"></i>
+                            </md-button>
+                    </h4>
+                    <!-- <md-button class="md-grid-item-content" ng-click="vm.addToWaitList(item._id)">
+            Wait List
+        </md-button> -->
+                    <!--  <p>{{ item.notes }}</p> -->
+                </div>
+            </md-list-item>
+        </md-list>
+    </md-content>
+</md-sidenav>
+
+<!-- Right Sidebar -->
+<md-sidenav class="md-sidenav-right md-whiteframe-4dp" md-component-id="right">
+    <div layout="row">
+        <md-button class="md-grid-item-content" ng-click="vm.uploadVideo()">
+            History
+        </md-button>
+    </div>
+    <md-content>
+        <md-list flex>
+            <md-subheader class="md-no-sticky">Play List</md-subheader>
+            <md-list-item class="md-3-line" ng-repeat="item in vm.playList" ng-click="vm.playUserVideo(item)">
+                <img ng-src="{{item.thumbnail}}?{{$index}}" class="md-avatar" alt="{{item.title}}" />
+                <div class="md-list-item-text" layout="column">
+                    <h3>{{ item.title }}</h3>
+                    <h4>{{ item.created_at }}
+                     <!--  <md-button class="md-icon-button md-primary" aria-label="add waitList" ng-click="vm.addToWaitList(item._id)">
+                             <md-tooltip md-direction="bottom">add waitlist</md-tooltip>
+                                <i class="fa fa-plus-square" aria-hidden="true"></i>
+                            </md-button> -->
+                    </h4>
+                </div>
+            </md-list-item>
+        </md-list>
+    </md-content>
 </md-sidenav>

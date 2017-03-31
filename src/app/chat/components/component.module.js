@@ -3,6 +3,5 @@
 
     angular
         .module('app.chat.component', [
-            
         ]);
 })();

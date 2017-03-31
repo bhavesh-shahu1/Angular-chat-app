@@ -2,10 +2,11 @@
     'use strict';
     angular.module('app.chat.component').controller('FooterController', FooterController);
     /* @ngInject */
-    function FooterController($mdBottomSheet) {
+    function FooterController($mdBottomSheet, $rootScope, $mdSidenav) {
         var vm = this;
         vm.init = init;
         vm.showGridBottomSheet = showGridBottomSheet;
+        vm.openBottomLeftMenu = openBottomLeftMenu;
 
         function init() {
 
@@ -17,13 +18,14 @@
                 controller: 'BottomGridSheetController',
                 controllerAs : 'vm'
             }).then(function(clickedItem) {
-                //     $mdToast.show(
-                //         $mdToast.simple()
-                //         .textContent(clickedItem['name'] + ' clicked!')
-                //         .position('top right')
-                //         .hideDelay(1500)
-                //     );
+                // Add success function
             })
+        }
+
+        // Brodcast event show data in left navigation bar
+        function openBottomLeftMenu(){
+            $mdSidenav('left').toggle();
+            $rootScope.$broadcast('VideoListTab', 'vedioList');
         }
     }
 
