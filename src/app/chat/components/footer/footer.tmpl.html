@@ -1,11 +1,14 @@
 <md-toolbar>
-    <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+    <div class="md-toolbar-tools" layout="row" layout-align="start center">
         <!-- <md-button ng-click="vm.showGridBottomSheet()">
             Menu
         </md-button> -->
         <md-button ng-click="vm.openBottomLeftMenu()">
            Menu
         </md-button>
+        <div layout-align="start start">
+        	<span class="md-body-2">{{vm.videoInformation.title}}</span>
+        </div>
 </md-toolbar>
 
 

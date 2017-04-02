@@ -10,7 +10,7 @@
                 User Online
             </md-content>
         </md-tab>
-        <md-tab label="WaitList{{vm.waitlistCount}}">
+        <md-tab label="WaitList ({{vm.waitlistCount}})">
             <md-content class="md-padding">
                 <md-list flex>
                     <md-list-item class="md-3-line" ng-repeat="item in vm.waitList.data">
@@ -19,7 +19,7 @@
                             <h3>{{ item.videoplaylists_id.title }}</h3>
                             <h4>{{ item.videoplaylists_id.created_at }}
                             <md-button class="md-icon-button md-warn" aria-label="remove waitList"
-                            ng-show="item.videoplaylists_id.user_id == vm.userId" ng-click="vm.removeFromWaitList(item._id,tem.videoplaylists_id._id)">
+                            ng-show="item.videoplaylists_id.user_id == vm.userId" ng-click="vm.removeFromWaitList(item._id,item.videoplaylists_id._id)">
                              <md-tooltip md-direction="bottom">Remove waitlist</md-tooltip>
                                 <i class="fa fa-trash" aria-hidden="true"></i>  
                             </md-button>

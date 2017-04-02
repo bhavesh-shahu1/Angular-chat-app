@@ -18,13 +18,11 @@
 
         // Add event to get select vedio Info
         $scope.$on('playUserSelectedVideo', function($event, videoInfo) {
-            // console.log(videoInfo);
             vm.setUserCurrentVideo(videoInfo);
         });
         
         function setUserCurrentVideo(videoInfo){
           vm.videoInformation = JSON.parse(videoInfo);
-          console.log(vm.videoInformation);
           vm.currentVideoUrl = vm.videoInformation.url;  
         }
         

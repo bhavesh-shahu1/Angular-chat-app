@@ -2,7 +2,7 @@
     'use strict';
     angular.module('app.chat.video').controller('UploadVideoController', UploadVideoController);
     /* @ngInject */
-    function UploadVideoController($mdDialog, homeService, commonService, Restangular, videoService) {
+    function UploadVideoController($mdDialog, homeService, commonService, Restangular, videoService, $http) {
         var vm = this;
         vm.data = {};
         vm.init = init;
@@ -10,7 +10,6 @@
         vm.cancelClick = cancelClick;
         vm.okClick = okClick;
         vm.userInfo = commonService.getUserInfo();
-        console.log(vm.userInfo);
 
         // init
         function init() {
@@ -19,10 +18,11 @@
         // Get video information from youtube
         function getVideo() {
             if (angular.isDefined(vm.uploadVideoUrl)) {
-                vm.url = 'https://www.youtube.com/oembed?url=' + vm.uploadVideoUrl + '&format=json';
-                // Restangular.oneUrl('youtubeResponse', vm.url).get().then(function(response){
-                //     console.log(response);
-                // });
+                 vm.url = 'https://www.youtube.com/oembed?url=' + vm.uploadVideoUrl + '&format=json';
+                $http.get(vm.url).then(function(response){
+                    vm.response = response;
+                    // console.log(response);
+                });
             }
         }
 

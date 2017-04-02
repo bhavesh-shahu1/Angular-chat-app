@@ -13,9 +13,14 @@
         vm.playUserVideo = playUserVideo;
         vm.addToWaitList = addToWaitList;
         vm.openRightMenu = openRightMenu;
+        vm.getPlayListHistory = getPlayListHistory;
 
         function init() {
-
+            vm.videoInfo = localStorage.getItem('videoInfo');
+            vm.videoInformation1 = JSON.parse(vm.videoInfo);
+            if(angular.isDefined(vm.videoInformation1)){
+                vm.videoTitle = vm.videoInformation1.title;
+            }
         }
 
         function openLeftMenu() {
@@ -24,6 +29,7 @@
 
         function openRightMenu(){
             $mdSidenav('right').toggle();
+            vm.getPlayListHistory();
         }
 
         // Get user playlist
@@ -35,9 +41,18 @@
             })
         }
 
+        // Get playlist History
+        function getPlayListHistory() {
+            videoService.getData('api', 'waitlist', 'history', '').
+            then(function(response) {
+                vm.playListHistory = response.data;
+                commonService.showToast(response.data.message);
+            })
+        }
+
         // Play User video select from left navigation bar
         function playUserVideo(videoInfo){
-            console.log(videoInfo.title);
+            vm.videoTitle = videoInfo.title;
             vm.videoInformation = angular.toJson(videoInfo);
         	localStorage.setItem('videoInfo', vm.videoInformation);
             $mdSidenav('left').close();
@@ -48,6 +63,10 @@
         // Add event show data in left navigation bar
         $scope.$on('VideoListTab', function($event, message) {
             vm.getUserPlayList();
+        });
+
+        $scope.$on('nextVideoInfo', function($event, nextVideoInfo) {
+            vm.videoTitle = nextVideoInfo.title;
         });
 
         // Upload video
@@ -78,5 +97,7 @@
                 commonService.showToast(response.message);
             })
         }
+
+        vm.init();
     }
 })();

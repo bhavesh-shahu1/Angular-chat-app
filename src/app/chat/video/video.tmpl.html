@@ -1,7 +1,13 @@
-<!-- <youtube-video video-url="vm.currentVideoUrl"></youtube-video> -->
-video
-{{vm.currentVideoUrl}}
-
-    <md-button class="md-grid-item-content" ng-click="vm.addToWaitList(item._id)">
+<div flex>
+    <!-- <div layout="row" layout-align="center center"> -->
+    <div>
+        <youtube-video video-url="vm.currentVideoUrl" player-width="'100%'"></youtube-video>
+    </div>
+    <div>
+        <md-button class="md-raised md-primary" ng-click="vm.addToWaitList(item._id)">
             Wait List
         </md-button>
+    </div>
+</div>
+<!-- video
+{{vm.currentVideoUrl}} -->

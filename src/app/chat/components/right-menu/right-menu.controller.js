@@ -23,12 +23,13 @@
 
         function removeFromWaitList(waitlist_id, video_id){
             vm.postParameter = {
-                'user_id' : vm.user_id,
+                'user_id' : vm.userId,
                 'video_id' : video_id,
                 'waitlist_id': waitlist_id
             }
             videoService.postData('video_remove_from_waitlist',vm.postParameter).then(function(response){
-                commonService.showToast(response.message);
+                commonService.showToast(response.data.message);
+                vm.getWaitList();
             })
         }
 
@@ -36,6 +37,12 @@
         $scope.$on('updateWaitList', function($event, message) {
             vm.getWaitList();
         });
+
+        // Whenever next video load in waitList update waitlist
+         $scope.$on('nextVideoInfo', function($event, nextVideoInfo) {
+            vm.getWaitList(); 
+        });
+
         vm.init();
     }
 })();

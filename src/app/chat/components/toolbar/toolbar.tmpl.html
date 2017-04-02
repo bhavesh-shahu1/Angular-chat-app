@@ -1,11 +1,19 @@
 <md-toolbar>
     <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
-        <md-button ng-click="vm.getWaitListVideo()">
-            Logo
-        </md-button>
-        <md-button ng-click="vm.openRightMenu()">
-            History
-        </md-button>
+        <div layout="row">
+            <md-button ng-click="vm.getWaitListVideo()">
+                Logo
+            </md-button>
+            <div layout="column">
+            <span class="md-body-2">{{vm.videoTitle}}</span>
+            <span class="md-body-2">Playing by:{{vm.userInfo.username}}</span>
+            </div>
+        </div>
+        <div>
+            <md-button ng-click="vm.openRightMenu()">
+                History
+            </md-button>
+        </div>
         <!-- <md-button aria-label="Go Back">
           Go Back
         </md-button> -->
@@ -19,11 +27,12 @@
         </md-button> -->
     </div>
 </md-toolbar>
-<!-- Left Sidebar -->
+<!-- Left Sidebar Show user added video -->
 <md-sidenav md-component-id="left" class="md-sidenav-left">
     <div layout="row">
-        <md-button class="md-grid-item-content" ng-click="vm.uploadVideo()">
-            Upload
+        <md-button class="md-fab md-primary md-mini" ng-click="vm.uploadVideo()">
+            <md-tooltip md-direction="bottom" aria-hidden="true">Upload Video</md-tooltip>
+            <i class="fa fa-cloud-upload" aria-hidden="true"></i>
         </md-button>
     </div>
     <md-content>
@@ -39,36 +48,27 @@
                                 <i class="fa fa-plus-square" aria-hidden="true"></i>
                             </md-button>
                     </h4>
-                    <!-- <md-button class="md-grid-item-content" ng-click="vm.addToWaitList(item._id)">
-            Wait List
-        </md-button> -->
-                    <!--  <p>{{ item.notes }}</p> -->
                 </div>
             </md-list-item>
         </md-list>
     </md-content>
 </md-sidenav>
-
-<!-- Right Sidebar -->
+<!-- Right Sidebar Show History video-->
 <md-sidenav class="md-sidenav-right md-whiteframe-4dp" md-component-id="right">
-    <div layout="row">
-        <md-button class="md-grid-item-content" ng-click="vm.uploadVideo()">
-            History
-        </md-button>
-    </div>
     <md-content>
         <md-list flex>
-            <md-subheader class="md-no-sticky">Play List</md-subheader>
-            <md-list-item class="md-3-line" ng-repeat="item in vm.playList" ng-click="vm.playUserVideo(item)">
-                <img ng-src="{{item.thumbnail}}?{{$index}}" class="md-avatar" alt="{{item.title}}" />
+            <md-subheader class="md-no-sticky">History</md-subheader>
+            <md-list-item class="md-3-line" ng-repeat="item in vm.playListHistory.data">
+                <img ng-src="{{item.videoplaylists_id.thumbnail}}?{{$index}}" class="md-avatar" alt="{{item.title}}" />
                 <div class="md-list-item-text" layout="column">
-                    <h3>{{ item.title }}</h3>
-                    <h4>{{ item.created_at }}
-                     <!--  <md-button class="md-icon-button md-primary" aria-label="add waitList" ng-click="vm.addToWaitList(item._id)">
-                             <md-tooltip md-direction="bottom">add waitlist</md-tooltip>
-                                <i class="fa fa-plus-square" aria-hidden="true"></i>
-                            </md-button> -->
-                    </h4>
+                    <h3>{{ item.videoplaylists_id.title }}</h3>
+                    <h4>{{ item.videoplaylists_id.created_at }}
+                            <md-button class="md-icon-button md-warn" aria-label="remove waitList"
+                            ng-show="item.videoplaylists_id.user_id == vm.userId" ng-click="vm.removeFromWaitList(item._id,tem.videoplaylists_id._id)">
+                             <md-tooltip md-direction="bottom">Remove waitlist</md-tooltip>
+                                <i class="fa fa-trash" aria-hidden="true"></i>  
+                            </md-button>
+                            </h4>
                 </div>
             </md-list-item>
         </md-list>
