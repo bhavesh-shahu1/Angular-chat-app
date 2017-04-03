@@ -78,7 +78,7 @@
                 templateUrl: 'app/chat/video/upload-video-dialog.tmpl.html',
                 targetEvent: $event
             }).then(function() {
-                // Add success code
+                vm.getUserPlayList();
             })
         }
 

@@ -14,14 +14,14 @@
         // init
         function init() {
         }
-
+        // vm.testurl = 'https://youtu.be/g5md_fRk2ZA';
         // Get video information from youtube
         function getVideo() {
             if (angular.isDefined(vm.uploadVideoUrl)) {
                  vm.url = 'https://www.youtube.com/oembed?url=' + vm.uploadVideoUrl + '&format=json';
                 $http.get(vm.url).then(function(response){
                     vm.response = response;
-                    // console.log(response);
+                 console.log(response);
                 });
             }
         }
