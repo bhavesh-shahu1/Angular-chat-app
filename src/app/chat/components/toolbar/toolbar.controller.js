@@ -17,8 +17,9 @@
 
         function init() {
             vm.videoInfo = localStorage.getItem('videoInfo');
-            vm.videoInformation1 = JSON.parse(vm.videoInfo);
-            if(angular.isDefined(vm.videoInformation1)){
+            if (angular.isDefined(localStorage.getItem('videoInfo')) && localStorage.getItem('videoInfo') != null) {
+                vm.videoInfo = localStorage.getItem('videoInfo');
+                vm.videoInformation1 = JSON.parse(vm.videoInfo);
                 vm.videoTitle = vm.videoInformation1.title;
             }
         }
@@ -27,7 +28,7 @@
             $mdSidenav('left').toggle();
         }
 
-        function openRightMenu(){
+        function openRightMenu() {
             $mdSidenav('right').toggle();
             vm.getPlayListHistory();
         }
@@ -51,13 +52,13 @@
         }
 
         // Play User video select from left navigation bar
-        function playUserVideo(videoInfo){
+        function playUserVideo(videoInfo) {
             vm.videoTitle = videoInfo.title;
             vm.videoInformation = angular.toJson(videoInfo);
-        	localStorage.setItem('videoInfo', vm.videoInformation);
+            localStorage.setItem('videoInfo', vm.videoInformation);
             $mdSidenav('left').close();
             $rootScope.$broadcast('playUserSelectedVideo', vm.videoInformation);
-        	$state.go('default-layout.admin-layout.video');
+            $state.go('default-layout.admin-layout.video');
         }
 
         // Add event show data in left navigation bar
@@ -71,7 +72,7 @@
 
         // Upload video
         function uploadVideo($event) {
-          //  $mdBottomSheet.hide();
+            //  $mdBottomSheet.hide();
             $mdDialog.show({
                 controller: 'UploadVideoController',
                 controllerAs: 'vm',
@@ -83,17 +84,17 @@
         }
 
         // Get WaitList video
-        function getWaitListVideo(){
-        	$state.go('default-layout.admin-layout.wait-list-video');
+        function getWaitListVideo() {
+            $state.go('default-layout.admin-layout.wait-list-video');
         }
 
-        function addToWaitList(video_id){
+        function addToWaitList(video_id) {
             vm.postParameter = {
-                'video_id' : video_id
+                'video_id': video_id
             }
-            videoService.postData('waitlist',vm.postParameter).then(function(response){
+            videoService.postData('waitlist', vm.postParameter).then(function(response) {
                 //Update Waitlist in rigth sidebar
-                $rootScope.$broadcast('updateWaitList','updateWaitList');
+                $rootScope.$broadcast('updateWaitList', 'updateWaitList');
                 commonService.showToast(response.message);
             })
         }

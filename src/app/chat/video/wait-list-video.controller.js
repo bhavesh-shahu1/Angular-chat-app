@@ -20,8 +20,13 @@
             videoService.getData('api', 'waitlist', 'current', '').
             then(function(response) {
                 vm.response = response.data.data;
-                vm.setVedioInfo(vm.response.videoplaylists_id);
-                commonService.showToast(response.data.message);
+                if(angular.isDefined(vm.response) && vm.response != null){
+                    vm.setVedioInfo(vm.response.videoplaylists_id);
+                commonService.showToast(response.data.message);    
+                }else{
+                    vm.addWaitlistMessage = 'Please add video in waitlist';
+                }
+                
             })
         }
 
