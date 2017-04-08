@@ -1,6 +1,6 @@
 <div ng-if="!vm.response" layout="row" layout-align="center center">
 <h2>{{vm.addWaitlistMessage}}</h2>
 </div>
-<div flex>
-<youtube-video video-url="vm.response.videoplaylists_id.url" player-width="'100%'"></youtube-video>
+<div flex layout="row" layout-align="center center">
+<youtube-video video-url="vm.response.videoplaylists_id.url" player-vars="vm.playerVars" ></youtube-video>
 </div>

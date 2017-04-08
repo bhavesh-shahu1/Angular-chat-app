@@ -9,6 +9,12 @@
         vm.getCurrentVideo = getCurrentVideo;
         vm.getNextVideo = getNextVideo;
         vm.setVedioInfo = setVedioInfo;
+        vm.playerVars = {
+            controls: 0,
+            autoplay: 1,
+            showinfo: 0,
+            rel:0
+        };
 
         function init() {
             vm.getCurrentVideo();
@@ -20,13 +26,13 @@
             videoService.getData('api', 'waitlist', 'current', '').
             then(function(response) {
                 vm.response = response.data.data;
-                if(angular.isDefined(vm.response) && vm.response != null){
+                if (angular.isDefined(vm.response) && vm.response != null) {
                     vm.setVedioInfo(vm.response.videoplaylists_id);
-                commonService.showToast(response.data.message);    
-                }else{
+                    commonService.showToast(response.data.message);
+                } else {
                     vm.addWaitlistMessage = 'Please add video in waitlist';
                 }
-                
+
             })
         }
 
@@ -41,7 +47,7 @@
             })
         }
 
-        function setVedioInfo(videoInfo){
+        function setVedioInfo(videoInfo) {
             vm.videoInformation = angular.toJson(videoInfo);
             localStorage.setItem('videoInfo', vm.videoInformation);
             $rootScope.$broadcast('playUserSelectedVideo', vm.videoInformation);

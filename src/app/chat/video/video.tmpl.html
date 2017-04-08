@@ -1,13 +1,14 @@
-<div flex>
+<div flex >
     <!-- <div layout="row" layout-align="center center"> -->
-    <div>
-        <youtube-video video-url="vm.currentVideoUrl" player-width="'100%'"></youtube-video>
+    <div flex="100" layout="row" layout-align="center center">
+        <youtube-video video-url="vm.currentVideoUrl" player-vars="vm.playerVars"></youtube-video>
     </div>
-    <div>
+    <div flex-offset="15">
         <md-button class="md-raised md-primary" ng-click="vm.addToWaitList(item._id)">
             Wait List
         </md-button>
     </div>
+    
 </div>
 <!-- video
 {{vm.currentVideoUrl}} -->

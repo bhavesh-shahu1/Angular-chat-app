@@ -8,6 +8,12 @@
         vm.init = init;
         vm.setUserCurrentVideo = setUserCurrentVideo;
         vm.addToWaitList = addToWaitList;
+        vm.playerVars = {
+            controls: 0,
+            autoplay: 1,
+            showinfo: 0,
+            rel:0
+        };
         // vm.parameter = $stateParams.parameter;
         // vm.getUser = getUser;
         
