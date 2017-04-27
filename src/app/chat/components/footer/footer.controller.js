@@ -2,7 +2,7 @@
     'use strict';
     angular.module('app.chat.component').controller('FooterController', FooterController);
     /* @ngInject */
-    function FooterController($mdBottomSheet, $rootScope, $mdSidenav, $scope) {
+    function FooterController($mdBottomSheet, $rootScope, $mdSidenav, $scope, $state) {
         var vm = this;
         vm.init = init;
         vm.showGridBottomSheet = showGridBottomSheet;
@@ -32,8 +32,9 @@
 
         // Brodcast event show data in left navigation bar
         function openBottomLeftMenu() {
-            $mdSidenav('left').toggle();
-            $rootScope.$broadcast('VideoListTab', 'vedioList');
+            $state.go('play-list-video');
+            // $mdSidenav('left').toggle();
+            // $rootScope.$broadcast('VideoListTab', 'vedioList');
         }
 
         vm.init();

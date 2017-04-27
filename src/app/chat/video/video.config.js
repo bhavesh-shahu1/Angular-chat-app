@@ -15,5 +15,11 @@
             controller: 'WaitListVideoController',
             controllerAs: 'vm'
         })
+        .state('play-list-video', {
+            url: '/playlist-video',
+            templateUrl: 'app/chat/video/play-list-video.tmpl.html',
+            controller: 'PlayListVideoController',
+            controllerAs: 'vm'
+        })
     }
 })();

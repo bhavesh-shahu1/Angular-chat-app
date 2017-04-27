@@ -1,0 +1,32 @@
+<div layout="row" flex>
+    <div flex="20">
+        <div>
+            <md-button class="md-fab md-primary md-mini" ng-click="vm.createPlaylist()">
+                <md-tooltip md-direction="bottom" aria-hidden="true">Create Playlist</md-tooltip>
+                <i class="fa fa-plus-circle" aria-hidden="true"></i>
+            </md-button>
+        </div>
+          <md-divider></md-divider>
+        <div>
+            <md-content>
+                <md-list flex>
+                    <span class="md-title">Your Playlists</span>
+                    <md-list-item class="md-2-line" ng-repeat="item in vm.playlist" ng-click="vm.playUserVideo(item)">
+                       <!--  <img ng-src="{{item.thumbnail}}?{{$index}}" class="md-avatar" alt="{{item.title}}" /> -->
+                        <div class="md-list-item-text" layout="row" layout-align="space-between">
+                            <h3>{{ item.name }}</h3>
+                            <h4>{{ item.total_video }}</h4>
+                        </div>
+                         <!-- <md-button class="md-icon-button md-primary" aria-label="add waitList" ng-click="vm.addToWaitList(item._id)">
+                             <md-tooltip md-direction="bottom">add waitlist</md-tooltip>
+                                <i class="fa fa-plus-square" aria-hidden="true"></i>
+                            </md-button> -->
+                    </md-list-item>
+                </md-list>
+            </md-content>
+        </div>
+    </div>
+    <div flex>
+        Playlist
+    </div>
+</div>
