@@ -14,6 +14,7 @@
         function init() {
         }
 
+        // Create user playlist name
         function createPlayList(){
             var postParam = {
                 user_id : vm.userInfo._id,
@@ -21,7 +22,7 @@
             }
             videoService.postData('uservideoplaylist',postParam).then(function(response){
                 commonService.showToast(response.message);
-                vm.cancelClick();
+                vm.okClick();
             })
         }
 

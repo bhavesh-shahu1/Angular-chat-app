@@ -1,32 +1,60 @@
 <div layout="row" flex>
     <div flex="20">
         <div>
-            <md-button class="md-fab md-primary md-mini" ng-click="vm.createPlaylist()">
+            <md-button class="md-primary" ng-click="vm.createPlaylist()">
+                Create
                 <md-tooltip md-direction="bottom" aria-hidden="true">Create Playlist</md-tooltip>
-                <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                <!-- <i class="fa fa-plus-circle" aria-hidden="true"></i> -->
             </md-button>
         </div>
-          <md-divider></md-divider>
+        <md-divider></md-divider>
         <div>
             <md-content>
                 <md-list flex>
                     <span class="md-title">Your Playlists</span>
-                    <md-list-item class="md-2-line" ng-repeat="item in vm.playlist" ng-click="vm.playUserVideo(item)">
-                       <!--  <img ng-src="{{item.thumbnail}}?{{$index}}" class="md-avatar" alt="{{item.title}}" /> -->
+                    <md-list-item class="md-2-line" ng-repeat="item in vm.playlist" ng-click="vm.getVideoListByName(item)">
                         <div class="md-list-item-text" layout="row" layout-align="space-between">
                             <h3>{{ item.name }}</h3>
                             <h4>{{ item.total_video }}</h4>
                         </div>
-                         <!-- <md-button class="md-icon-button md-primary" aria-label="add waitList" ng-click="vm.addToWaitList(item._id)">
-                             <md-tooltip md-direction="bottom">add waitlist</md-tooltip>
-                                <i class="fa fa-plus-square" aria-hidden="true"></i>
-                            </md-button> -->
                     </md-list-item>
                 </md-list>
             </md-content>
         </div>
     </div>
     <div flex>
-        Playlist
+        <!-- <div layout-align="center center">
+        <md-button class="md-fab md-mini md-primary" aria-label="add waitList" ng-click="vm.addToWaitList(item._id)">
+            <md-tooltip md-direction="bottom">add waitlist</md-tooltip>
+            <i class="fa fa-plus-square" aria-hidden="true"></i>
+        </md-button>
+        </div> -->
+        <md-content>
+            <md-list flex>
+                <div layout="row" layout-align="space-between center">
+                    <div>
+                        <md-subheader class="md-no-sticky">Play List</md-subheader>
+                    </div>
+                    <div>
+                        <md-button class="md-fab md-mini md-primary" aria-label="Active" ng-click="vm.activePlaylist()">
+                            <md-tooltip md-direction="bottom">Active Playlist</md-tooltip>
+                            <i class="fa fa fa-check" aria-hidden="true"></i>
+                        </md-button>
+                    </div>
+                </div>
+                <md-list-item class="md-3-line" ng-repeat="item in vm.videoList">
+                    <img ng-src="{{item.thumbnail}}?{{$index}}" class="md-avatar" alt="{{item.title}}" />
+                    <div class="md-list-item-text" layout="column">
+                        <h3>{{ item.title }}</h3>
+                        <h4>{{ item.created_at }}
+                     <!--  <md-button class="md-icon-button md-primary" aria-label="add waitList" ng-click="vm.addToWaitList(item._id)">
+                             <md-tooltip md-direction="bottom">add waitlist</md-tooltip>
+                                <i class="fa fa-plus-square" aria-hidden="true"></i>
+                            </md-button> -->
+                    </h4>
+                    </div>
+                </md-list-item>
+            </md-list>
+        </md-content>
     </div>
 </div>
