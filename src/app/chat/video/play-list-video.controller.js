@@ -24,12 +24,21 @@
 
         $scope.treeOptions = {
             dragMove : function(event) {
-                console.log(event);
+              //  console.log(event);
                 // console.log(sourceNodeScope);
                 // console.log(destNodesScope);
                 // console.log(destIndex);
                 return true;
             },
+            dropped: function(event){
+                vm.newPos=event.dest.index;
+                console.log(vm.newPos);
+                console.log(vm.oldPos);
+                console.log(vm.videoList[vm.newPos]);
+            },
+            dragStart: function(event){
+                vm.oldPos=event.dest.index;
+            }
         };
 
         // Get user playlist 
