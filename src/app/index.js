@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('angularMaterialAdmin', ['ngAnimate', 'ngCookies',
-    'ngSanitize', 'ui.router', 'ngMaterial', 'nvd3', 'app'
+    'ngSanitize', 'ui.router', 'ngMaterial', 'nvd3','app'
 ])
 
 .config(function($stateProvider, $urlRouterProvider, $mdThemingProvider,

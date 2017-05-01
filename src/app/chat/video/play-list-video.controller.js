@@ -11,10 +11,26 @@
         vm.createPlaylist = createPlaylist;
         vm.getVideoListByName = getVideoListByName;
         vm.activePlaylist = activePlaylist;
+        vm.addToWaitList = addToWaitList;
+        vm.videoList = {};
+        $scope.models = {
+            selected: null,
+            lists: vm.videoList
+        };
 
         function init() {
             vm.getPlayListName();
-        }
+        };
+
+        $scope.treeOptions = {
+            dragMove : function(event) {
+                console.log(event);
+                // console.log(sourceNodeScope);
+                // console.log(destNodesScope);
+                // console.log(destIndex);
+                return true;
+            },
+        };
 
         // Get user playlist 
         function getPlayListName() {
@@ -25,7 +41,7 @@
                     commonService.showToast(response.data.message);
                 }
                 angular.forEach(vm.playlist, function(value, key) {
-                    if(value.isactive){
+                    if (value.isactive) {
                         vm.getVideoListByName(value);
                     }
                 });
@@ -54,16 +70,26 @@
         }
 
         // Active user playlist
-        function activePlaylist(){
-            console.log(vm.userInfo._id);
-            console.log(vm.activeListDetail._id);
-            videoService.getCustomData('api','uservideoplaylist','active', vm.userInfo._id, vm.activeListDetail._id, '').then(function(response){
+        function activePlaylist() {
+            videoService.getCustomData('api', 'uservideoplaylist', 'active', vm.userInfo._id, vm.activeListDetail._id, '').then(function(response) {
                 console.log(response);
-                if(angular.isDefined(response.data)){
-                    commonService.showToast(response.data.message);    
+                if (angular.isDefined(response.data)) {
+                    commonService.showToast(response.data.message);
                 }
-                
+
             });
+        }
+
+        // Add to waitlist
+        function addToWaitList() {
+            vm.postParameter = {
+                'user_id': vm.userInfo._id
+            }
+            videoService.postData('waitlist', vm.postParameter).then(function(response) {
+                //Update Waitlist in rigth sidebar
+                $rootScope.$broadcast('updateWaitList', 'updateWaitList');
+                commonService.showToast(response.message);
+            })
         }
 
         vm.init();

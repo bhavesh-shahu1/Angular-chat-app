@@ -14,7 +14,9 @@
                     <span class="md-title">Your Playlists</span>
                     <md-list-item class="md-2-line" ng-repeat="item in vm.playlist" ng-click="vm.getVideoListByName(item)">
                         <div class="md-list-item-text" layout="row" layout-align="space-between">
-                            <h3>{{ item.name }}</h3>
+                            <h3>
+                            <i class="fa fa-check" aria-hidden="true" ng-if="item.isactive"></i>
+                            {{ item.name }}</h3>
                             <h4>{{ item.total_video }}</h4>
                         </div>
                     </md-list-item>
@@ -33,27 +35,38 @@
             <md-list flex>
                 <div layout="row" layout-align="space-between center">
                     <div>
-                        <md-subheader class="md-no-sticky">Play List</md-subheader>
+                        <!-- Add Search button -->
                     </div>
                     <div>
-                        <md-button class="md-fab md-mini md-primary" aria-label="Active" ng-click="vm.activePlaylist()">
+                        <md-button class="md-fab md-mini md-primary" aria-label="Active" ng-click="vm.activePlaylist()" ng-if="!vm.activeListDetail.isactive">
                             <md-tooltip md-direction="bottom">Active Playlist</md-tooltip>
                             <i class="fa fa fa-check" aria-hidden="true"></i>
                         </md-button>
+                        <md-button class="md-fab md-mini md-primary" aria-label="add waitList" ng-click="vm.addToWaitList()">
+                            <md-tooltip md-direction="bottom">add waitlist</md-tooltip>
+                            <i class="fa fa-plus-square" aria-hidden="true"></i>
+                        </md-button>
                     </div>
                 </div>
-                <md-list-item class="md-3-line" ng-repeat="item in vm.videoList">
-                    <img ng-src="{{item.thumbnail}}?{{$index}}" class="md-avatar" alt="{{item.title}}" />
-                    <div class="md-list-item-text" layout="column">
-                        <h3>{{ item.title }}</h3>
-                        <h4>{{ item.created_at }}
+                <div>
+                    <!-- <md-subheader class="md-no-sticky">{{vm.activeListDetail.name}} Play List</md-subheader> -->
+                    <div ui-tree="treeOptions" id="tree-root" class="table table-responsive">
+                    <div ui-tree-nodes ng-model="vm.videoList">
+                    <md-list-item class="md-3-line" ng-repeat="item in vm.videoList" ui-tree-node>
+                        <img ng-src="{{item.thumbnail}}?{{$index}}" class="md-avatar" alt="{{item.title}}" />
+                        <div class="md-list-item-text" layout="column" ui-tree-handle>
+                            <h3>{{ item.title }}</h3>
+                            <h4>{{ item.created_at }}
                      <!--  <md-button class="md-icon-button md-primary" aria-label="add waitList" ng-click="vm.addToWaitList(item._id)">
                              <md-tooltip md-direction="bottom">add waitlist</md-tooltip>
                                 <i class="fa fa-plus-square" aria-hidden="true"></i>
                             </md-button> -->
                     </h4>
+                        </div>
+                        </div>
+                    </md-list-item>
                     </div>
-                </md-list-item>
+                </div>
             </md-list>
         </md-content>
     </div>
