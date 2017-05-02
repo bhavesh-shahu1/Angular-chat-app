@@ -2,7 +2,7 @@
     'use strict';
     angular.module('app.chat.video').controller('PlayListVideoController', PlayListVideoController);
     /* @ngInject */
-    function PlayListVideoController($mdDialog, videoService, commonService, $scope, $rootScope) {
+    function PlayListVideoController($mdDialog, videoService, commonService, $scope, $rootScope, $http, $state) {
         var vm = this;
         vm.data = {};
         vm.init = init;
@@ -13,33 +13,41 @@
         vm.activePlaylist = activePlaylist;
         vm.addToWaitList = addToWaitList;
         vm.videoList = {};
-        $scope.models = {
-            selected: null,
-            lists: vm.videoList
-        };
+        vm.saveOrder = saveOrder;
+        vm.saveSearchVideo = saveSearchVideo;
+        vm.playUserVideo = playUserVideo;
 
         function init() {
             vm.getPlayListName();
         };
 
         $scope.treeOptions = {
-            dragMove : function(event) {
-              //  console.log(event);
-                // console.log(sourceNodeScope);
-                // console.log(destNodesScope);
-                // console.log(destIndex);
+            dragMove: function(event) {
                 return true;
             },
-            dropped: function(event){
-                vm.newPos=event.dest.index;
-                console.log(vm.newPos);
-                console.log(vm.oldPos);
-                console.log(vm.videoList[vm.newPos]);
+            dropped: function(event) {
+                vm.newPos = event.dest.index;
+                vm.selectedList = vm.videoList[vm.newPos]
+                if(vm.newPos != vm.oldPos){
+                    vm.saveOrder();    
+                }
             },
-            dragStart: function(event){
-                vm.oldPos=event.dest.index;
+            dragStart: function(event) {
+                vm.oldPos = event.dest.index;
             }
         };
+
+        function saveOrder() {
+            var postParameter = {
+                videoplaylists_id: vm.selectedList._id,
+                userplaylist_id: vm.selectedList.userplaylist_id,
+                old_order_id: vm.oldPos,
+                new_order_id: vm.newPos
+            }
+            videoService.postCustomData('api', 'video', 'reorder', null, null, null, postParameter).then(function(response) {
+                commonService.showToast(response.message);
+            })
+        }
 
         // Get user playlist 
         function getPlayListName() {
@@ -99,6 +107,45 @@
                 $rootScope.$broadcast('updateWaitList', 'updateWaitList');
                 commonService.showToast(response.message);
             })
+        }
+
+        vm.selectedItem = null;
+        vm.searchText = null;
+        vm.querySearch = querySearch;
+
+        // Search youtube video
+        function querySearch() {
+            vm.youtubeVideoKey = 'AIzaSyArYZ6rnkeDpxLWlDCQ3eJ-DC9j6Eb409w';
+            vm.url = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' + vm.searchText + '&key=' + vm.youtubeVideoKey + '&type=video';
+            return $http.get(vm.url).then(function(response) {
+                console.log(response.data.items);
+                return response.data.items;
+            });
+        }
+
+        // Add Selected video on server
+        function saveSearchVideo() {
+            vm.youtubeUrl  = 'https://youtu.be/' + vm.selectedItem.id.videoId;
+            var postParameter = {
+                url: vm.youtubeUrl, 
+                user_id: vm.userInfo._id,
+                userplaylist_id: vm.activeListDetail._id
+            }
+            videoService.postData('userplaylist', postParameter).then(function(response) {
+                commonService.showToast(response.message);
+                vm.getPlayListName();
+
+            })
+        }
+        
+        // Play User video
+        function playUserVideo(videoInfo) {
+            // vm.videoTitle = videoInfo.title;
+            vm.videoInformation = angular.toJson(videoInfo);
+            localStorage.setItem('videoInfo', vm.videoInformation);
+            // $mdSidenav('left').close();
+            $rootScope.$broadcast('playUserSelectedVideo', vm.videoInformation);
+            $state.go('default-layout.admin-layout.video');
         }
 
         vm.init();
