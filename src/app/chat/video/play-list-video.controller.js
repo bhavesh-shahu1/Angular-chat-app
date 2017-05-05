@@ -11,11 +11,12 @@
         vm.createPlaylist = createPlaylist;
         vm.getVideoListByName = getVideoListByName;
         vm.activePlaylist = activePlaylist;
-        vm.addToWaitList = addToWaitList;
+        // vm.addToWaitList = addToWaitList;
         vm.videoList = {};
         vm.saveOrder = saveOrder;
         vm.saveSearchVideo = saveSearchVideo;
         vm.playUserVideo = playUserVideo;
+        vm.backToWaitList = backToWaitList;
 
         function init() {
             vm.getPlayListName();
@@ -28,8 +29,8 @@
             dropped: function(event) {
                 vm.newPos = event.dest.index;
                 vm.selectedList = vm.videoList[vm.newPos]
-                if(vm.newPos != vm.oldPos){
-                    vm.saveOrder();    
+                if (vm.newPos != vm.oldPos) {
+                    vm.saveOrder();
                 }
             },
             dragStart: function(event) {
@@ -79,7 +80,14 @@
         }
 
         // Get list of video by name
-        function getVideoListByName(playlistInfo) {
+        function getVideoListByName(playlistInfo, index) {
+            if (vm.selectedIndex === null) {
+                vm.selectedIndex = index;
+            } else if (vm.selectedIndex === index) {
+                vm.selectedIndex = null;
+            } else {
+                vm.selectedIndex = index;
+            }
             vm.activeListDetail = playlistInfo;
             videoService.getData('api', 'video', vm.activeListDetail._id, '').then(function(response) {
                 vm.videoList = response.data;
@@ -98,16 +106,16 @@
         }
 
         // Add to waitlist
-        function addToWaitList() {
-            vm.postParameter = {
-                'user_id': vm.userInfo._id
-            }
-            videoService.postData('waitlist', vm.postParameter).then(function(response) {
-                //Update Waitlist in rigth sidebar
-                $rootScope.$broadcast('updateWaitList', 'updateWaitList');
-                commonService.showToast(response.message);
-            })
-        }
+        // function addToWaitList() {
+        //     vm.postParameter = {
+        //         'user_id': vm.userInfo._id
+        //     }
+        //     videoService.postData('waitlist', vm.postParameter).then(function(response) {
+        //         //Update Waitlist in rigth sidebar
+        //         $rootScope.$broadcast('updateWaitList', 'updateWaitList');
+        //         commonService.showToast(response.message);
+        //     })
+        // }
 
         vm.selectedItem = null;
         vm.searchText = null;
@@ -125,9 +133,9 @@
 
         // Add Selected video on server
         function saveSearchVideo() {
-            vm.youtubeUrl  = 'https://youtu.be/' + vm.selectedItem.id.videoId;
+            vm.youtubeUrl = 'https://youtu.be/' + vm.selectedItem.id.videoId;
             var postParameter = {
-                url: vm.youtubeUrl, 
+                url: vm.youtubeUrl,
                 user_id: vm.userInfo._id,
                 userplaylist_id: vm.activeListDetail._id
             }
@@ -137,7 +145,7 @@
 
             })
         }
-        
+
         // Play User video
         function playUserVideo(videoInfo) {
             // vm.videoTitle = videoInfo.title;
@@ -147,8 +155,11 @@
             $rootScope.$broadcast('playUserSelectedVideo', vm.videoInformation);
             $state.go('default-layout.admin-layout.video');
         }
-
         vm.init();
+
+        function backToWaitList() {
+            $state.go('default-layout.admin-layout.wait-list-video');
+        }
 
     }
 })();

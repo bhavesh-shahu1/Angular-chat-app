@@ -6,14 +6,16 @@
         var vm = this;
         vm.data = {};
         vm.init = init;
+        vm.userInfo = commonService.getUserInfo();
         vm.getCurrentVideo = getCurrentVideo;
         vm.getNextVideo = getNextVideo;
         vm.setVedioInfo = setVedioInfo;
+        vm.addToWaitList = addToWaitList;
         vm.playerVars = {
             controls: 0,
             autoplay: 1,
             showinfo: 0,
-            rel:0
+            rel: 0
         };
 
         function init() {
@@ -51,6 +53,17 @@
             vm.videoInformation = angular.toJson(videoInfo);
             localStorage.setItem('videoInfo', vm.videoInformation);
             $rootScope.$broadcast('playUserSelectedVideo', vm.videoInformation);
+        }
+
+        function addToWaitList() {
+            vm.postParameter = {
+                'user_id': vm.userInfo._id
+            }
+            videoService.postData('waitlist', vm.postParameter).then(function(response) {
+                //Update Waitlist in rigth sidebar
+                $rootScope.$broadcast('updateWaitList', 'updateWaitList');
+                commonService.showToast(response.message);
+            })
         }
 
         $scope.$on('youtube.player.ended', function($event, player) {

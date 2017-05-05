@@ -1,18 +1,18 @@
 <div layout="row" flex>
     <div flex="20">
-        <div style="margin-top: 9px;">
-            <md-button class="md-primary" ng-click="vm.createPlaylist()">
-                Create
-                <md-tooltip md-direction="bottom" aria-hidden="true">Create Playlist</md-tooltip>
-                <!-- <i class="fa fa-plus-circle" aria-hidden="true"></i> -->
-            </md-button>
-        </div>
-        <md-divider></md-divider>
+        <md-toolbar>
+            <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+                <div>
+                    <md-button aria-label="create playlist" ng-click="vm.createPlaylist()">Create
+                    </md-button>
+                </div>
+            </div>
+        </md-toolbar>
         <div>
             <md-content>
                 <md-list flex>
                     <span class="md-title">Your Playlists</span>
-                    <md-list-item class="md-2-line" ng-repeat="item in vm.playlist" ng-click="vm.getVideoListByName(item)">
+                    <md-list-item class="md-2-line" ng-repeat="item in vm.playlist" ng-click="vm.getVideoListByName(item,$index)"  ng-class="{selectedIndex: vm.selectedIndex===$index}">
                         <div class="md-list-item-text" layout="row" layout-align="space-between">
                             <h3>
                             <i class="fa fa-check" aria-hidden="true" ng-if="item.isactive"></i>
@@ -25,18 +25,20 @@
         </div>
     </div>
     <div flex>
-        <!-- <div layout-align="center center">
-        <md-button class="md-fab md-mini md-primary" aria-label="add waitList" ng-click="vm.addToWaitList(item._id)">
-            <md-tooltip md-direction="bottom">add waitlist</md-tooltip>
-            <i class="fa fa-plus-square" aria-hidden="true"></i>
-        </md-button>
-        </div> -->
+        <md-toolbar>
+            <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+                <div layout="row">
+                    <span class="md-title">{{vm.activeListDetail.name}}</span>
+                </div>
+                <div>
+                    <md-button aria-label="Active" ng-click="vm.activePlaylist()" ng-if="!vm.activeListDetail.isactive">Active Playlist
+                    </md-button>
+                </div>
+            </div>
+        </md-toolbar>
         <md-content>
             <md-list flex>
                 <div layout="row">
-                    <!--   <div>
-                        Add Search button
-                    </div> -->
                     <form name="searchForm" flex>
                         <div layout-gt-sm="row">
                             <md-autocomplete flex md-input-name="autocompleteField" md-no-cache="true" md-selected-item="vm.selectedItem" md-search-text="vm.searchText" md-items="item in vm.querySearch(vm.searchText)" md-item-text="item.snippet.title" md-floating-label="Search YouTube">
@@ -55,34 +57,18 @@
                         </div>
                     </form>
                     <div style="margin-top: 9px;">
-                         <md-button class="md-primary" aria-label="Active" ng-click="vm.saveSearchVideo()">Add To Playlist
-                            </md-button>
-                    </div>
-                    <div style="margin-top: 9px;">
-                    <md-button class="md-fab md-mini md-primary" aria-label="Active" ng-click="vm.activePlaylist()" ng-if="!vm.activeListDetail.isactive">
-                        <md-tooltip md-direction="bottom">Active Playlist</md-tooltip>
-                        <i class="fa fa fa-check" aria-hidden="true"></i>
-                    </md-button>
-                    <md-button class="md-fab md-mini md-primary" aria-label="add waitList" ng-click="vm.addToWaitList()">
-                        <md-tooltip md-direction="bottom">add waitlist</md-tooltip>
-                        <i class="fa fa-plus-square" aria-hidden="true"></i>
-                    </md-button>
+                        <md-button class="md-primary" aria-label="Active" ng-click="vm.saveSearchVideo()">Add To Playlist
+                        </md-button>
                     </div>
                 </div>
                 <div>
-                    <!-- <md-subheader class="md-no-sticky">{{vm.activeListDetail.name}} Play List</md-subheader> -->
-                    <!-- <h3>{{vm.activeListDetail.name}}</h3> -->
-                    <div ui-tree="treeOptions" id="tree-root" class="table table-responsive">
+                    <div ui-tree="treeOptions" id="tree-root" class="table table-responsive" ng-if="vm.videoList.length > 0">
                         <div ui-tree-nodes ng-model="vm.videoList">
                             <md-list-item class="md-3-line" ng-repeat="item in vm.videoList" ui-tree-node>
                                 <img ng-src="{{item.thumbnail}}?{{$index}}" class="md-avatar" alt="{{item.title}}" />
                                 <div class="md-list-item-text" layout="column" ui-tree-handle>
                                     <h3>{{ item.title }}</h3>
                                     <h4>{{ item.created_at }}
-                     <!--  <md-button class="md-icon-button md-primary" aria-label="add waitList" ng-click="vm.playUserVideo(item)">
-                             <md-tooltip md-direction="bottom">add waitlist</md-tooltip>
-                                <i class="fa fa-plus-square" aria-hidden="true"></i>
-                            </md-button> -->
                     </h4>
                                 </div>
                         </div>
@@ -91,5 +77,15 @@
                 </div>
             </md-list>
         </md-content>
+        <div flex ng-cloak style="position: fixed; right: 25px; bottom: 25px; z-index: 999;">
+            <md-fab-speed-dial md-direction="up" md-open="false" class="md-fab-bottom-right md-scale">
+                <md-fab-trigger>
+                    <md-button aria-label="action" class="md-fab md-primary" ng-click="vm.backToWaitList()">
+                        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                        <md-tooltip>Back</md-tooltip>
+                    </md-button>
+                </md-fab-trigger>
+            </md-fab-speed-dial>
+        </div>
     </div>
 </div>
