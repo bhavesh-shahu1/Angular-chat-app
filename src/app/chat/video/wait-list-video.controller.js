@@ -11,6 +11,8 @@
         vm.getNextVideo = getNextVideo;
         vm.setVedioInfo = setVedioInfo;
         vm.addToWaitList = addToWaitList;
+        vm.getWaitListStatus = getWaitListStatus;
+        vm.removeFromWaitList = removeFromWaitList;
         vm.playerVars = {
             controls: 0,
             autoplay: 1,
@@ -19,6 +21,7 @@
         };
 
         function init() {
+            vm.getWaitListStatus();
             vm.getCurrentVideo();
         }
 
@@ -36,6 +39,13 @@
                 }
 
             })
+        }
+
+        function getWaitListStatus() {
+            videoService.getData('api', 'get_waitlist_status', vm.userInfo._id, '')
+                .then(function(response) {
+                    vm.waitlistStatus = response.data.data.already_in_waitlist;
+                })
         }
 
         function getNextVideo() {
@@ -66,9 +76,26 @@
             })
         }
 
+        function removeFromWaitList($event) {
+            $mdDialog.show(
+                    $mdDialog.confirm()
+                    .title('Delete Waitlist')
+                    .content('Are you sure you want to remove from waitlist.')
+                    .ok('ok')
+                    .cancel('cancel')
+                    .targetEvent($event)
+                )
+                .then(function() {
+                    videoService.getData('api', 'removevideofromplaylistbyuserid', vm.userInfo._id, '')
+                        .then(function(response) {
+                            $rootScope.$broadcast('updateWaitList', 'updateWaitList');
+                            commonService.showToast(response.data.message);
+                        })
+                });
+        }
+
         $scope.$on('youtube.player.ended', function($event, player) {
             vm.getNextVideo();
-            console.log('video over');
             // play it again
             // player.playVideo();
         });
