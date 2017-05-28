@@ -70,6 +70,7 @@
                 'user_id': vm.userInfo._id
             }
             videoService.postData('waitlist', vm.postParameter).then(function(response) {
+                vm.getWaitListStatus();
                 //Update Waitlist in rigth sidebar
                 $rootScope.$broadcast('updateWaitList', 'updateWaitList');
                 commonService.showToast(response.message);
@@ -88,6 +89,7 @@
                 .then(function() {
                     videoService.getData('api', 'removevideofromplaylistbyuserid', vm.userInfo._id, '')
                         .then(function(response) {
+                            vm.getWaitListStatus();
                             $rootScope.$broadcast('updateWaitList', 'updateWaitList');
                             commonService.showToast(response.data.message);
                         })
@@ -98,6 +100,11 @@
             vm.getNextVideo();
             // play it again
             // player.playVideo();
+        });
+
+        // Whenever video remove from waitList update button status
+        $scope.$on('updateWaitListButton', function($event, message) {
+            vm.getWaitListStatus();
         });
 
         vm.init();

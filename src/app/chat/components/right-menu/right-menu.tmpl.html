@@ -1,8 +1,35 @@
 <md-content flex style="padding-top: 15px">
-    <md-tabs md-dynamic-height md-border-bottom>
+    <md-tabs md-dynamic-height>
         <md-tab label="Chat">
-            <md-content class="md-padding">
-                Chat
+            <md-content md-padding>
+                <div ng-repeat="chat in vm.userChat.data">
+                    <span class="md-subhead">{{chat.user_id.username}}</span>&nbsp;&nbsp;
+                    <span class="md-body-1">{{chat.msg}}</span>
+                </div>
+                <form name="chatForm" ng-submit="vm.postChat()">
+                <div layout="row">
+                    <md-input-container>
+                        <input ng-model="vm.data.message">
+                    </md-input-container>
+                    <md-button ng-click="vm.postChat()">submit</md-button>
+                    <md-button ng-click="vm.deleteChat()">Delete</md-button>
+                    </div>
+                </form>
+                <!-- <div layout="column" layout-align="space-between">
+                    <div>
+                    {{vm.userChat}} 
+                    </div>
+                    <div flex>
+                    <form name="chatForm" ng-submit="vm.postChat()">
+                        <md-input-container>
+                            
+                            <input ng-model="vm.data.message" >
+                        </md-input-container>
+                        <md-button ng-click="vm.postChat()">submit</md-button>         
+                        </form>
+                    </div>
+
+                </div> -->
             </md-content>
         </md-tab>
         <md-tab label="User Online">

@@ -97,7 +97,7 @@
         // Active user playlist
         function activePlaylist() {
             videoService.getCustomData('api', 'uservideoplaylist', 'active', vm.userInfo._id, vm.activeListDetail._id, '').then(function(response) {
-                console.log(response);
+                vm.getPlayListName();
                 if (angular.isDefined(response.data)) {
                     commonService.showToast(response.data.message);
                 }
@@ -141,7 +141,9 @@
             }
             videoService.postData('userplaylist', postParameter).then(function(response) {
                 commonService.showToast(response.message);
-                vm.getPlayListName();
+                // vm.getPlayListName();
+                vm.getVideoListByName(vm.activeListDetail);
+                vm.selectedItem = null;
 
             })
         }
