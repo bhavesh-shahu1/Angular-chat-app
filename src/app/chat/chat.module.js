@@ -3,7 +3,7 @@
 
     angular.module('app.chat', [
             'app.chat.common', 'app.chat.authentication', 'app.chat.layout', 'app.chat.component', 'ngAnimate', 'ngCookies',
-            'ngSanitize', 'ui.router', 'ngMaterial', 'nvd3', 'pascalprecht.translate','youtube-embed','app.chat.video','ui.tree'
+            'ngSanitize', 'ui.router', 'ngMaterial', 'nvd3', 'pascalprecht.translate','youtube-embed','app.chat.video','ui.tree','luegg.directives'
         ]).constant('HTTP_STATUS', {
             'OK': 200,
             'PARTIAL_CONTENT': 206,

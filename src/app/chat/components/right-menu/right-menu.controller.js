@@ -1,20 +1,21 @@
 (function() {
     'use strict';
     angular.module('app.chat.component').controller('RightMenuController', RightMenuController)
-        .directive('schrollBottom', function() {
-            return {
-                scope: {
-                    schrollBottom: "="
-                },
-                link: function(scope, element) {
-                    scope.$watchCollection('schrollBottom', function(newValue) {
-                        if (newValue) {
-                            $(element).scrollTop($(element)[0].scrollHeight);
-                        }
-                    });
-                }
-            }
-        });
+        // .directive('schrollBottom', function() {
+        //     return {
+        //         scope: {
+        //             schrollBottom: "="
+        //         },
+        //         link: function(scope, element) {
+        //             console.log(element);
+        //             scope.$watchCollection('schrollBottom', function(newValue) {
+        //                 if (newValue) {
+        //                     $(element).scrollTop($(element)[0].scrollHeight);
+        //                 }
+        //             });
+        //         }
+        //     }
+        // });
 
     /* @ngInject */
     function RightMenuController(videoService, $scope, commonService, $rootScope, socketService, $window) {
@@ -65,7 +66,7 @@
 
         // Get to server
         socketService.on('broadcast', function(data) {
-            // console.log(data);
+             console.log(data);
             $scope.$apply(function() {
                 vm.userChat.data.push(data);
             });
