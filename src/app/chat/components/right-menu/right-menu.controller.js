@@ -2,7 +2,7 @@
     'use strict';
     angular.module('app.chat.component').controller('RightMenuController', RightMenuController);
     /* @ngInject */
-    function RightMenuController(videoService, $scope, commonService, $rootScope, socketService) {
+    function RightMenuController(videoService, $scope, commonService, $rootScope, socketService, $window) {
         var vm = this;
         vm.init = init;
         vm.getWaitList = getWaitList;
@@ -15,6 +15,21 @@
         vm.data = {};
         vm.userChat = {};
         vm.userChat.data = [];
+
+        vm.ChatStyle = {
+            'max-height': $window.innerHeight - 150 + "px",
+            'min-height': $window.innerHeight - 150 + "px",
+            'overflow-y': 'scroll'
+        }
+
+        var w = angular.element($window);
+        w.bind('resize', function() {
+            vm.ChatStyle = {
+                'max-height': $window.innerHeight - 150 + "px",
+                'min-height': $window.innerHeight - 150 + "px",
+                'overflow-y': 'scroll'
+            }
+        });
 
         function init() {
             vm.getWaitList();
@@ -29,27 +44,33 @@
                 msg: vm.data.message
             };
             socketService.emit('send_msg', msg);
+            vm.data.message = null;
         }
 
         // Get to server
         socketService.on('broadcast', function(data) {
-            // console.log(data);
+            console.log(data);
+            
+            $scope.$apply(function () {
             vm.userChat.data.push(data);
+        });
             // console.log(vm.userChat);
         });
 
         // Get user chat history
         function getUserChat() {
-            videoService.getData('api', 'groupchat','1', '').then(function(response) {
+            videoService.getData('api', 'groupchat', '1', '').then(function(response) {
                 vm.userChat = response.data;
             })
         }
-        vm.deleteChat  = deleteChat;
-        function deleteChat() {
-            videoService.getData('api', 'groupchat','delete', vm.userId).then(function(response) {
-                commonService.showToast(response.data.message);
+        vm.deleteChatMessage = deleteChatMessage;
+
+        function deleteChatMessage(id) {
+            videoService.getData('api', 'groupchat', 'delete', id).then(function(response) {
+                // commonService.showToast(response.data.message);
+                vm.getUserChat();
                 // console.log(response);
-            })   
+            })
         }
 
         // Get video wait List

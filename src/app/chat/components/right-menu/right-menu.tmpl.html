@@ -2,19 +2,47 @@
     <md-tabs md-dynamic-height>
         <md-tab label="Chat">
             <md-content md-padding>
-                <div ng-repeat="chat in vm.userChat.data">
-                    <span class="md-subhead">{{chat.user_id.username}}</span>&nbsp;&nbsp;
-                    <span class="md-body-1">{{chat.msg}}</span>
+                <div ng-style="vm.ChatStyle">
+                    <!-- <div ng-repeat="chat in vm.userChat.data">
+                    <div class="md-whiteframe-1dp">
+                        <span class="md-subhead">{{chat.user_id.username}}</span>&nbsp;&nbsp;
+                        <span class="md-body-1">{{chat.msg}}</span>
+                    </div>
+                    </div> -->
+                    <ol class="chat">
+                    <div ng-repeat="chat in vm.userChat.data">
+                        <li class="other" ng-if="vm.userId != chat.user_id._id">
+                            <div class="msg">
+                                <p>{{chat.user_id.username}}</p>
+                                <p>{{chat.msg}}</p>
+                            </div>
+                        </li>
+                        <li class="self" ng-if="vm.userId == chat.user_id._id">
+                           <!--  <div class="avatar"><img src="https://i.imgur.com/HYcn9xO.png" draggable="false" /></div> -->
+                            <div class="msg">
+                                <p>{{chat.user_id.username}}</p>
+                                <p>{{chat.msg}}
+                                <md-button class="md-icon-button md-warn" aria-label="remove message"
+                            ng-show="true" ng-click="vm.deleteChatMessage(chat._id)">
+                             <md-tooltip md-direction="bottom">Remove waitlist</md-tooltip>
+                                <i class="fa fa-trash" aria-hidden="true"></i>  
+                            </md-button></p>
+                            </div>
+                        </li>
+                        </div>
+                    </ol>
                 </div>
-                <form name="chatForm" ng-submit="vm.postChat()">
-                <div layout="row">
-                    <md-input-container>
-                        <input ng-model="vm.data.message">
-                    </md-input-container>
-                    <md-button ng-click="vm.postChat()">submit</md-button>
-                    <md-button ng-click="vm.deleteChat()">Delete</md-button>
+                <div flex>
+                <form name="chatForm" ng-submit="vm.postChat()" flex>
+                    <div layout="row" flex>
+                        <md-input-container flex>
+                        <label>Message</label>
+                            <input ng-model="vm.data.message" placeholder="Enter here message">
+                        </md-input-container>
+                        <md-button class="md-fab md-primary md-mini" ng-click="vm.postChat()"> <i class="fa fa-send" aria-hidden="true"></i> </md-button>
                     </div>
                 </form>
+                </div>
                 <!-- <div layout="column" layout-align="space-between">
                     <div>
                     {{vm.userChat}} 
