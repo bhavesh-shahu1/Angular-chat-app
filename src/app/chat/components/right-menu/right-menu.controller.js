@@ -1,6 +1,21 @@
 (function() {
     'use strict';
-    angular.module('app.chat.component').controller('RightMenuController', RightMenuController);
+    angular.module('app.chat.component').controller('RightMenuController', RightMenuController)
+        .directive('schrollBottom', function() {
+            return {
+                scope: {
+                    schrollBottom: "="
+                },
+                link: function(scope, element) {
+                    scope.$watchCollection('schrollBottom', function(newValue) {
+                        if (newValue) {
+                            $(element).scrollTop($(element)[0].scrollHeight);
+                        }
+                    });
+                }
+            }
+        });
+
     /* @ngInject */
     function RightMenuController(videoService, $scope, commonService, $rootScope, socketService, $window) {
         var vm = this;
@@ -9,6 +24,7 @@
         vm.userInfo = commonService.getUserInfo();
         vm.userId = vm.userInfo._id;
         vm.username = vm.userInfo.username;
+        vm.status = vm.userInfo.status;
         vm.removeFromWaitList = removeFromWaitList;
         vm.postChat = postChat;
         vm.getUserChat = getUserChat;
@@ -49,11 +65,10 @@
 
         // Get to server
         socketService.on('broadcast', function(data) {
-            console.log(data);
-            
-            $scope.$apply(function () {
-            vm.userChat.data.push(data);
-        });
+            // console.log(data);
+            $scope.$apply(function() {
+                vm.userChat.data.push(data);
+            });
             // console.log(vm.userChat);
         });
 
