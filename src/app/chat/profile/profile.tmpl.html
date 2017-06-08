@@ -1,16 +1,4 @@
-<!-- <div layout="row" layout-align="start center">
-    <i class="material-icons md-36 ng-binding">person</i>
-    <div class="text-light">
-        <h3 class="font-weight-600 margin-bottom-0 text-light">{{vm.user.username}} / Profile</h3>
-    </div>
-</div>
-<div layout="row" class="profile">
-    <div flex="100" flex-gt-md="100">
-       Name:{{vm.user.username}}
-       UserName:{{vm.user.email}} 
-    </div>
-</div>
- -->
+<!-- 
 <div class="widget md-whiteframe-z2" style="margin-right: 20px;margin-top: 20px;">
     <div class="widget-title" layout="row" layout-align="space-between center" layout-padding="">
     <i class="material-icons md-36 ng-binding">person</i>
@@ -37,5 +25,89 @@
             <span ng-if="vm.user.user_role == 2">Owner</span>
         </div>
     </div>
-    <!-- Show Progress chart -->
+</div>
+ -->
+<div class="full-image-background mb-bg-01 padding-20 padding-top-200 overlay-gradient-30" layout="row" layout-align="start center">
+    <div class="margin-right-20">
+        <img src="http://video-playlist.herokuapp.com/images/user_avtar/{{vm.userData.avtar}}" alt="girl-avatar" class="make-round" width="100" />
+    </div>
+    <div class="text-light">
+        <h3 class="font-weight-600 margin-bottom-0 text-light">{{vm.user.username}} / Profile</h3>
+        <p class="font-weight-300 margin-top-0">Edit your name, avatar etc</p>
+    </div>
+</div>
+<div layout="row" class="profile" layout-wrap>
+    <div flex="100" flex-gt-md="100">
+        <md-content class="md-padding">
+            <form name="usersForm">
+                <div layout layout-sm="column" flex>
+                    <md-input-container flex="50">
+                        <label >UserName</label>
+                        <input ng-model="vm.userData.username" name="username" required>
+                        <div ng-messages="usersForm.username.$error">
+                            <div ng-message when="required">
+                                <span translate>This is mandatory field</span>
+                            </div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container flex="50">
+                        <label >Email</label>
+                        <input type="email" ng-model="vm.userData.email" name="email" required>
+                        <div ng-messages="usersForm.email.$error">
+                            <div ng-message when="required">
+                                <span translate>This is mandatory field</span>
+                            </div>
+                            <div ng-message when="email">
+                                <span translate>Enter vaild Email</span>
+                            </div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <div layout layout-sm="column" flex ng-if="vm.user.user_role == 2">
+                     <md-input-container flex="50">
+                        <label >User Role</label>
+                        <md-select ng-model="vm.userData.user_role" name="user_role" required>
+                           <md-option value="0">Normal</md-option>
+                           <md-option value="1">Moderator</md-option>
+                           <md-option value="2">Admin</md-option>
+                        </md-select>
+                        <div ng-messages="usersForm.user_role.$error">
+                            <div ng-message when="required">
+                                <span translate>This is mandatory field</span>
+                            </div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container flex="50">
+                        <label >Status</label>
+                        <md-select ng-model="vm.userData.status" name="status" required>
+                           <md-option value="1">Active</md-option>
+                           <md-option value="0">Deactive</md-option>
+                        </md-select>
+                        <div ng-messages="usersForm.status.$error">
+                            <div ng-message when="required">
+                                <span translate>This is mandatory field</span>
+                            </div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <div>
+                <md-input-container>
+                    <label for="old-password" translate>PROFILE.PASSWORD.CURRENT</label>
+                    <input id="old-password" label="old-password" name="old-password" type="password" ng-model="vm.user.old_password" />
+                </md-input-container>
+                <md-input-container>
+                    <label for="password" translate>PROFILE.PASSWORD.LABEL</label>
+                    <input id="password" label="password" name="password" type="password" ng-model="vm.user.new_password" tri-same-password="password.confirm" ng-minlength="8" required/>
+                    <ng-messages for="password.password.$error" ng-include="'app/sopact/authentication/signup/password.messages.html'"></ng-messages>
+                </md-input-container>
+                <md-input-container>
+                    <label for="confirm" translate>PROFILE.PASSWORD_CONFIRM.LABEL</label>
+                    <input id="confirm" label="confirm" name="confirm" type="password" ng-model="vm.user.conform_password" tri-same-password="password.password" ng-minlength="8" required/>
+                    <ng-messages for="password.confirm.$error" ng-include="'app/sopact/authentication/signup/password.messages.html'"></ng-messages>
+                </md-input-container>
+                </div>
+            </form>
+            <md-button class="md-raised md-primary margin-left-0" ng-disabled="usersForm.$invalid" ng-click="vm.updateUserProfile()" translate="PROFILE.BUTTON" aria-label="Update User"></md-button>
+        </md-content>
+    </div>
 </div>

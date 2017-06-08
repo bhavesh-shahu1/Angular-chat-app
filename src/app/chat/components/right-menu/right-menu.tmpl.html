@@ -2,7 +2,7 @@
     <md-tabs md-dynamic-height>
         <md-tab label="Chat">
             <md-content md-padding>
-                <div ng-style="vm.ChatStyle" scroll-glue>
+                <div ng-style="vm.ChatStyle" schroll-bottom="vm.userChat.data" id="messageDiv">
                     <!-- <div ng-repeat="chat in vm.userChat.data">
                     <div class="md-whiteframe-1dp">
                         <span class="md-subhead">{{chat.user_id.username}}</span>&nbsp;&nbsp;

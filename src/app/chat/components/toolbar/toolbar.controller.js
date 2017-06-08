@@ -8,15 +8,19 @@
         vm.openLeftMenu = openLeftMenu;
         vm.getUserPlayList = getUserPlayList;
         vm.userInfo = commonService.getUserInfo();
+        console.log(vm.userInfo);
         vm.uploadVideo = uploadVideo;
         vm.getWaitListVideo = getWaitListVideo;
         vm.playUserVideo = playUserVideo;
         vm.addToWaitList = addToWaitList;
         vm.openRightMenu = openRightMenu;
         vm.getPlayListHistory = getPlayListHistory;
-
+        vm.showUserList = showUserList;
+        vm.showUserProfile = showUserProfile;
+        
         function init() {
-            vm.videoInfo = localStorage.getItem('videoInfo');
+            console.log(localStorage.getItem('videoInfo'));
+            // vm.videoInfo = localStorage.getItem('videoInfo');
             if (angular.isDefined(localStorage.getItem('videoInfo')) && localStorage.getItem('videoInfo') != null) {
                 vm.videoInfo = localStorage.getItem('videoInfo');
                 vm.videoInformation1 = JSON.parse(vm.videoInfo);
@@ -61,6 +65,13 @@
             $state.go('default-layout.admin-layout.video');
         }
 
+        function showUserList(){
+            $state.go('default-layout.admin-layout.user');
+        }
+
+        function showUserProfile(){
+            $state.go('default-layout.admin-layout.profile');
+        }
         // Add event show data in left navigation bar
         $scope.$on('VideoListTab', function($event, message) {
             vm.getUserPlayList();

@@ -17,6 +17,7 @@
         vm.saveSearchVideo = saveSearchVideo;
         vm.playUserVideo = playUserVideo;
         vm.backToWaitList = backToWaitList;
+        vm.getActivePlayListName = getActivePlayListName;
 
         function init() {
             vm.getPlayListName();
@@ -63,6 +64,23 @@
                         vm.getVideoListByName(value);
                     }
                 });
+            })
+        }
+
+        // Get active user playlist second time
+        function getActivePlayListName() {
+            videoService.getData('api', 'uservideoplaylist', vm.userInfo._id, '').
+            then(function(response) {
+                vm.playlist = response.data.data;
+                if (angular.isDefined(vm.response) && vm.response != null) {
+                    commonService.showToast(response.data.message);
+                }
+                vm.getVideoListByName(vm.activeListDetail);
+                // angular.forEach(vm.playlist, function(value, key) {
+                //     if (value.isactive) {
+                //         vm.getVideoListByName(value);
+                //     }
+                // });
             })
         }
 
@@ -141,7 +159,7 @@
             }
             videoService.postData('userplaylist', postParameter).then(function(response) {
                 commonService.showToast(response.message);
-                // vm.getPlayListName();
+                vm.getActivePlayListName();
                 vm.getVideoListByName(vm.activeListDetail);
                 vm.selectedItem = null;
 

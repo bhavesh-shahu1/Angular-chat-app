@@ -5,14 +5,48 @@
                 Logo
             </md-button>
             <div layout="column">
-            <span class="md-body-2">{{vm.videoTitle}}</span>
-            <span class="md-body-2">Playing by:{{vm.userInfo.username}}</span>
+                <span class="md-body-2">{{vm.videoTitle}}</span>
+                <span class="md-body-2">Playing by:{{vm.userInfo.username}}</span>
             </div>
         </div>
         <div>
+            <!--    <md-button ng-click="vm.showUserList()">
+                User
+            </md-button>
             <md-button ng-click="vm.openRightMenu()">
                 History
-            </md-button>
+            </md-button> -->
+            <md-menu>
+                <md-button class="md-icon-button" aria-label="open menu" ng-click="$mdOpenMenu()">
+                    <md-icon md-font-icon="fa fa-cog"></md-icon>
+                </md-button>
+                <md-menu-content width="3">
+                    <md-menu-item>
+                        <md-button ng-click="vm.openRightMenu()">
+                            <md-icon md-font-icon="zmdi zmdi-settings"></md-icon>
+                            History
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button ng-click="vm.showUserProfile()">
+                            <md-icon md-font-icon="zmdi zmdi-account"></md-icon>
+                            Profile
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button ng-click="vm.showUserList()">
+                            <md-icon md-font-icon="zmdi zmdi-account"></md-icon>
+                            Users
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button ng-click="$mdCloseMenu">
+                            <md-icon md-font-icon="zmdi zmdi-sign-in"></md-icon>
+                            Log out
+                        </md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
         </div>
         <!-- <md-button aria-label="Go Back">
           Go Back

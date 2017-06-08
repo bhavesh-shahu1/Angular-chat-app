@@ -14,10 +14,11 @@
         vm.getWaitListStatus = getWaitListStatus;
         vm.removeFromWaitList = removeFromWaitList;
         vm.playerVars = {
-            controls: 0,
+            // controls: 0,
             autoplay: 1,
-            showinfo: 0,
-            rel: 0
+            // showinfo: 0,
+            // rel: 0
+            start: 0
         };
 
         function init() {
@@ -30,9 +31,15 @@
         function getCurrentVideo() {
             videoService.getData('api', 'waitlist', 'current', '').
             then(function(response) {
-                vm.response = response.data.data;
-                if (angular.isDefined(vm.response) && vm.response != null) {
-                    vm.setVedioInfo(vm.response.videoplaylists_id);
+
+                if (angular.isDefined(response.data.data) && response.data.data != null) {
+                    vm.playerVars.start = response.data.start_time;
+                    console.log(vm.playerVars);
+                    vm.response = response.data.data;
+                    if (angular.isDefined(vm.response.videoplaylists_id)) {
+                        vm.setVedioInfo(vm.response.videoplaylists_id);
+                    }
+
                     commonService.showToast(response.data.message);
                 } else {
                     vm.addWaitlistMessage = 'Please add video in waitlist';
@@ -52,9 +59,12 @@
             videoService.getData('api', 'waitlist', 'next', vm.response._id).
             then(function(response) {
                 vm.response = response.data.data;
-                vm.setVedioInfo(vm.response.videoplaylists_id);
-                // Update video info on toolbar
-                $rootScope.$broadcast('nextVideoInfo', vm.response.videoplaylists_id);
+                if (angular.isDefined(vm.response.videoplaylists_id)) {
+                    vm.setVedioInfo(vm.response.videoplaylists_id);
+                    // Update video info on toolbar
+                    $rootScope.$broadcast('nextVideoInfo', vm.response.videoplaylists_id);
+                }
+
                 commonService.showToast(response.data.message);
             })
         }

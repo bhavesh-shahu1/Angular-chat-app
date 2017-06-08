@@ -1,24 +1,23 @@
 (function() {
     'use strict';
     angular.module('app.chat.component').controller('RightMenuController', RightMenuController)
-        // .directive('schrollBottom', function() {
-        //     return {
-        //         scope: {
-        //             schrollBottom: "="
-        //         },
-        //         link: function(scope, element) {
-        //             console.log(element);
-        //             scope.$watchCollection('schrollBottom', function(newValue) {
-        //                 if (newValue) {
-        //                     $(element).scrollTop($(element)[0].scrollHeight);
-        //                 }
-        //             });
-        //         }
-        //     }
-        // });
+        .directive('schrollBottom', function() {
+            return {
+                scope: {
+                    schrollBottom: "="
+                },
+                link: function(scope, element) {
+                    scope.$watchCollection('schrollBottom', function(newValue) {
+                        if (newValue) {
+                            $(element).scrollTop($(element)[0].scrollHeight);
+                        }
+                    });
+                }
+            }
+        });
 
     /* @ngInject */
-    function RightMenuController(videoService, $scope, commonService, $rootScope, socketService, $window) {
+    function RightMenuController(videoService, $scope, commonService, $rootScope, socketService, $window, $timeout) {
         var vm = this;
         vm.init = init;
         vm.getWaitList = getWaitList;
@@ -32,13 +31,16 @@
         vm.data = {};
         vm.userChat = {};
         vm.userChat.data = [];
-
+        vm.scrollDown = scrollDown;
         vm.ChatStyle = {
             'max-height': $window.innerHeight - 150 + "px",
             'min-height': $window.innerHeight - 150 + "px",
             'overflow-y': 'scroll'
         }
 
+        function scrollDown($element) {
+            // $timeout(function() { $("#messageDiv").scrollTop($("#messageDiv")[0].scrollHeight); }, 10);
+        }
         var w = angular.element($window);
         w.bind('resize', function() {
             vm.ChatStyle = {
@@ -66,7 +68,7 @@
 
         // Get to server
         socketService.on('broadcast', function(data) {
-             console.log(data);
+            // console.log(data);
             $scope.$apply(function() {
                 vm.userChat.data.push(data);
             });
@@ -77,6 +79,7 @@
         function getUserChat() {
             videoService.getData('api', 'groupchat', '1', '').then(function(response) {
                 vm.userChat = response.data;
+                vm.scrollDown();
             })
         }
         vm.deleteChatMessage = deleteChatMessage;
