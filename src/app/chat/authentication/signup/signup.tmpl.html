@@ -38,19 +38,19 @@
                             <div ng-message when="required">
                                 <span translate>SIGNUP.PASSWORD.PLEASE_ENTER</span>
                             </div>
-                            <div ng-message when="pwmatch">
+                            <!-- <div ng-message when="compareTo">
                                 <span translate>SIGNUP.PASSWORD.SAME_PASSWORD</span>
-                            </div>
+                            </div> -->
                         </ng-messages>
                     </md-input-container>
                     <md-input-container class="md-block">
                         <label for="password" translate>SIGNUP.PASSWORD_CONFIRM.LABEL</label>
-                        <input id="confirm" label="confirm" name="confirm" type="password" ng-model="vm.user.confirm" same-password-check="password" required/>
+                        <input id="confirm" label="confirm" name="confirm" type="password" ng-model="vm.user.confirm" compare-to="vm.user.password" required/>
                         <ng-messages for="signup.confirm.$error">
                             <div ng-message when="required">
                                 <span translate>SIGNUP.PASSWORD.PLEASE_ENTER</span>
                             </div>
-                            <div ng-message when="pwmatch">
+                            <div ng-message when="compareTo">
                                 <span translate>SIGNUP.PASSWORD.SAME_PASSWORD</span>
                             </div>
                         </ng-messages>

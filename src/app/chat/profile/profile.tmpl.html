@@ -1,57 +1,40 @@
-<!-- 
-<div class="widget md-whiteframe-z2" style="margin-right: 20px;margin-top: 20px;">
-    <div class="widget-title" layout="row" layout-align="space-between center" layout-padding="">
-    <i class="material-icons md-36 ng-binding">person</i>
-        <div flex="" layout="column">
-            <h3>
-                Profile
-            </h3>
-        </div>
-    </div>
-    <div class="widget-content" layout="column" layout-align="start start" layout-padding="">
-        <div>
-            <span>Name:&nbsp;&nbsp;</span><span>{{vm.user.username}}</span>
-        </div>
-        <div>
-            <span>Email:&nbsp;&nbsp;</span><span>{{vm.user.email}}</span>
-        </div>
-        <div>
-            <span>status:&nbsp;</span><span ng-if="vm.user.status == 1">Activate</span>
-            <span ng-if="vm.user.status == 0">Deactivate</span>
-        </div>
-        <div>
-            <span>Role:&nbsp;&nbsp;&nbsp;</span><span ng-if="vm.user.user_role == 0">User</span>
-            <span ng-if="vm.user.user_role == 1">Moderator</span>
-            <span ng-if="vm.user.user_role == 2">Owner</span>
-        </div>
-    </div>
-</div>
- -->
 <div class="full-image-background mb-bg-01 padding-20 padding-top-200 overlay-gradient-30" layout="row" layout-align="start center">
     <div class="margin-right-20">
-        <img src="http://video-playlist.herokuapp.com/images/user_avtar/{{vm.userData.avtar}}" alt="girl-avatar" class="make-round" width="100" />
+        <img src="{{vm.userData.profilePic}}" alt="girl-avatar" class="make-round" width="100" />
     </div>
     <div class="text-light">
-        <h3 class="font-weight-600 margin-bottom-0 text-light">{{vm.user.username}} / Profile</h3>
+        <h3 class="font-weight-600 margin-bottom-0 text-light">{{vm.userData.username}} / Profile</h3>
         <p class="font-weight-300 margin-top-0">Edit your name, avatar etc</p>
     </div>
 </div>
+<!-- <form name="myForm">
+    <input type="file" ngf-select ng-model="picFile" name="file"    
+             accept="image/*" ngf-max-size="2MB" required
+             ngf-model-invalid="errorFile">
+    <button ng-disabled="!myForm.$valid" 
+              ng-click="vm.uploadPic(picFile)">Submit</button>
+</form> -->
+<md-button class="md-primary md-icon-button margin-left-20" ngf-select="vm.uploadPic($file,$invalidFiles)" accept="image/*" ngf-max-size="2MB" aria-label="upload">
+    <i class="fa fa-edit" aria-hidden="true"><md-tooltip>Upload File</md-tooltip></i>
+</md-button>
 <div layout="row" class="profile" layout-wrap>
     <div flex="100" flex-gt-md="100">
         <md-content class="md-padding">
             <form name="usersForm">
                 <div layout layout-sm="column" flex>
                     <md-input-container flex="50">
-                        <label >UserName</label>
-                        <input ng-model="vm.userData.username" name="username" required>
+                        <label>UserName</label>
+                        <input ng-model="vm.userData.username" name="username" 
+                        ng-blur="vm.isUsernameAvaliable()" required>
                         <div ng-messages="usersForm.username.$error">
                             <div ng-message when="required">
                                 <span translate>This is mandatory field</span>
                             </div>
                         </div>
+                        <span ng-if="vm.isUserAvail" style="color: red;">User is alerady avaliable</span>
                     </md-input-container>
                     <md-input-container flex="50">
-                        <label >Email</label>
+                        <label>Email</label>
                         <input type="email" ng-model="vm.userData.email" name="email" required>
                         <div ng-messages="usersForm.email.$error">
                             <div ng-message when="required">
@@ -64,12 +47,12 @@
                     </md-input-container>
                 </div>
                 <div layout layout-sm="column" flex ng-if="vm.user.user_role == 2">
-                     <md-input-container flex="50">
-                        <label >User Role</label>
+                    <md-input-container flex="50">
+                        <label>User Role</label>
                         <md-select ng-model="vm.userData.user_role" name="user_role" required>
-                           <md-option value="0">Normal</md-option>
-                           <md-option value="1">Moderator</md-option>
-                           <md-option value="2">Admin</md-option>
+                            <md-option value="0">Normal</md-option>
+                            <md-option value="1">Moderator</md-option>
+                            <md-option value="2">Admin</md-option>
                         </md-select>
                         <div ng-messages="usersForm.user_role.$error">
                             <div ng-message when="required">
@@ -78,10 +61,10 @@
                         </div>
                     </md-input-container>
                     <md-input-container flex="50">
-                        <label >Status</label>
+                        <label>Status</label>
                         <md-select ng-model="vm.userData.status" name="status" required>
-                           <md-option value="1">Active</md-option>
-                           <md-option value="0">Deactive</md-option>
+                            <md-option value="1">Active</md-option>
+                            <md-option value="0">Deactive</md-option>
                         </md-select>
                         <div ng-messages="usersForm.status.$error">
                             <div ng-message when="required">
@@ -91,23 +74,38 @@
                     </md-input-container>
                 </div>
                 <div>
-                <md-input-container>
-                    <label for="old-password" translate>PROFILE.PASSWORD.CURRENT</label>
-                    <input id="old-password" label="old-password" name="old-password" type="password" ng-model="vm.user.old_password" />
-                </md-input-container>
-                <md-input-container>
-                    <label for="password" translate>PROFILE.PASSWORD.LABEL</label>
-                    <input id="password" label="password" name="password" type="password" ng-model="vm.user.new_password" tri-same-password="password.confirm" ng-minlength="8" required/>
-                    <ng-messages for="password.password.$error" ng-include="'app/sopact/authentication/signup/password.messages.html'"></ng-messages>
-                </md-input-container>
-                <md-input-container>
-                    <label for="confirm" translate>PROFILE.PASSWORD_CONFIRM.LABEL</label>
-                    <input id="confirm" label="confirm" name="confirm" type="password" ng-model="vm.user.conform_password" tri-same-password="password.password" ng-minlength="8" required/>
-                    <ng-messages for="password.confirm.$error" ng-include="'app/sopact/authentication/signup/password.messages.html'"></ng-messages>
-                </md-input-container>
+                    <md-input-container>
+                        <label for="old-password" translate>PROFILE.PASSWORD.CURRENT</label>
+                        <input id="old-password" label="old-password" name="old-password" type="password" ng-model="vm.userData.old_password" />
+                    </md-input-container>
+                    <md-input-container>
+                        <label for="password" translate>PROFILE.PASSWORD.LABEL</label>
+                       <input id="password" label="password" name="password" type="password" ng-model="vm.userData.password" />
+                        <ng-messages for="usersForm.password.$error">
+                            <div ng-message when="required">
+                                <span translate>SIGNUP.PASSWORD.PLEASE_ENTER</span>
+                            </div>
+                            <!-- <div ng-message when="compareTo">
+                                <span translate>SIGNUP.PASSWORD.SAME_PASSWORD</span>
+                            </div> -->
+                        </ng-messages>
+                    </md-input-container>
+                    <md-input-container>
+                        <label for="confirm" translate>PROFILE.PASSWORD_CONFIRM.LABEL</label>
+                         <input id="confirm" label="confirm" name="confirm" type="password" ng-model="vm.userData.confirm" compare-to="vm.userData.password" />
+                        <ng-messages for="usersForm.confirm.$error">
+                            <div ng-message when="required">
+                                <span translate>SIGNUP.PASSWORD.PLEASE_ENTER</span>
+                            </div>
+                            <div ng-message when="compareTo">
+                                <span translate>SIGNUP.PASSWORD.SAME_PASSWORD</span>
+                            </div>
+                        </ng-messages>
+                    </md-input-container>
                 </div>
             </form>
-            <md-button class="md-raised md-primary margin-left-0" ng-disabled="usersForm.$invalid" ng-click="vm.updateUserProfile()" translate="PROFILE.BUTTON" aria-label="Update User"></md-button>
+            <md-button class="md-raised md-primary margin-left-0" ng-disabled="usersForm.$invalid && vm.isUserAvail" ng-click="vm.updateUserProfile()" translate="PROFILE.BUTTON" aria-label="Update User"></md-button>
+            <!-- <md-button class="md-raised md-primary margin-left-0"  ng-click="vm.goToWaitList()" aria-label="back">Back</md-button> -->
         </md-content>
     </div>
-</div>
+    

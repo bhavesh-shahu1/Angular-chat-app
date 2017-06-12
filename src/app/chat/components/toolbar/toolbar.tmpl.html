@@ -22,26 +22,32 @@
                 </md-button>
                 <md-menu-content width="3">
                     <md-menu-item>
-                        <md-button ng-click="vm.openRightMenu()">
-                            <md-icon md-font-icon="zmdi zmdi-settings"></md-icon>
+                        <md-button ng-click="vm.getWaitListVideo()" class="md-primary">
+                            <md-icon md-font-icon="fa fa-youtube-play"></md-icon>
+                            Wait List
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button ng-click="vm.openRightMenu()" class="md-primary">
+                            <md-icon md-font-icon="fa fa-history"></md-icon>
                             History
                         </md-button>
                     </md-menu-item>
                     <md-menu-item>
-                        <md-button ng-click="vm.showUserProfile()">
-                            <md-icon md-font-icon="zmdi zmdi-account"></md-icon>
+                        <md-button ng-click="vm.showUserProfile()" class="md-primary">
+                            <md-icon md-font-icon="fa fa-users"></md-icon>
                             Profile
                         </md-button>
                     </md-menu-item>
-                    <md-menu-item>
-                        <md-button ng-click="vm.showUserList()">
-                            <md-icon md-font-icon="zmdi zmdi-account"></md-icon>
+                    <md-menu-item ng-if="vm.userInfo.user_role == 2"> 
+                        <md-button ng-click="vm.showUserList()" class="md-primary">
+                            <md-icon md-font-icon="fa fa-user"></md-icon>
                             Users
                         </md-button>
                     </md-menu-item>
                     <md-menu-item>
-                        <md-button ng-click="$mdCloseMenu">
-                            <md-icon md-font-icon="zmdi zmdi-sign-in"></md-icon>
+                        <md-button ng-click="vm.logout()" class="md-primary">
+                            <md-icon md-font-icon="fa fa-sign-out"></md-icon>
                             Log out
                         </md-button>
                     </md-menu-item>

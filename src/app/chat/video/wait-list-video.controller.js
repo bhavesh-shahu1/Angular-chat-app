@@ -14,10 +14,10 @@
         vm.getWaitListStatus = getWaitListStatus;
         vm.removeFromWaitList = removeFromWaitList;
         vm.playerVars = {
-            // controls: 0,
+            controls: 0,
             autoplay: 1,
-            // showinfo: 0,
-            // rel: 0
+            showinfo: 0,
+            rel: 0,
             start: 0
         };
 
@@ -31,10 +31,8 @@
         function getCurrentVideo() {
             videoService.getData('api', 'waitlist', 'current', '').
             then(function(response) {
-
                 if (angular.isDefined(response.data.data) && response.data.data != null) {
-                    vm.playerVars.start = response.data.start_time;
-                    console.log(vm.playerVars);
+                    vm.playerVars.start = Math.round(response.data.start_time);
                     vm.response = response.data.data;
                     if (angular.isDefined(vm.response.videoplaylists_id)) {
                         vm.setVedioInfo(vm.response.videoplaylists_id);

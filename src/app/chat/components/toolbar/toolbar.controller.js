@@ -8,7 +8,7 @@
         vm.openLeftMenu = openLeftMenu;
         vm.getUserPlayList = getUserPlayList;
         vm.userInfo = commonService.getUserInfo();
-        console.log(vm.userInfo);
+        // console.log(vm.userInfo);
         vm.uploadVideo = uploadVideo;
         vm.getWaitListVideo = getWaitListVideo;
         vm.playUserVideo = playUserVideo;
@@ -17,15 +17,20 @@
         vm.getPlayListHistory = getPlayListHistory;
         vm.showUserList = showUserList;
         vm.showUserProfile = showUserProfile;
-        
+        vm.logout = logout;
+
         function init() {
-            console.log(localStorage.getItem('videoInfo'));
             // vm.videoInfo = localStorage.getItem('videoInfo');
             if (angular.isDefined(localStorage.getItem('videoInfo')) && localStorage.getItem('videoInfo') != null) {
                 vm.videoInfo = localStorage.getItem('videoInfo');
                 vm.videoInformation1 = JSON.parse(vm.videoInfo);
                 vm.videoTitle = vm.videoInformation1.title;
             }
+        }
+
+        function logout(){
+            commonService.logout();
+            $state.go('authentication.login');
         }
 
         function openLeftMenu() {
@@ -70,7 +75,14 @@
         }
 
         function showUserProfile(){
-            $state.go('default-layout.admin-layout.profile');
+            var userInfo = {
+                'userInfo': vm.userInfo
+            };
+            var encode = commonService.encodeObject(userInfo);
+            $state.go('default-layout.admin-layout.profile', {
+                parameter: encode
+            });
+            // $state.go('default-layout.admin-layout.profile');
         }
         // Add event show data in left navigation bar
         $scope.$on('VideoListTab', function($event, message) {
@@ -81,7 +93,7 @@
             vm.videoTitle = nextVideoInfo.title;
         });
 
-        // Upload video
+        // Upload videoTitle
         function uploadVideo($event) {
             //  $mdBottomSheet.hide();
             $mdDialog.show({

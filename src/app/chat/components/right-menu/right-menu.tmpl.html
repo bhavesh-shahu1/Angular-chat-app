@@ -12,6 +12,7 @@
                     <ol class="chat" >
                     <div ng-repeat="chat in vm.userChat.data">
                         <li class="other" ng-if="vm.userId != chat.user_id._id">
+                        <div class="avatar"><img src="http://video-playlist.herokuapp.com/images/user_avtar/{{chat.user_id.avtar}}" draggable="false" /></div>
                             <div class="msg">
                                 <p class="md-body-2">{{chat.user_id.username}}</p>
                                 <p>{{chat.msg}}
@@ -24,7 +25,7 @@
                             </div>
                         </li>
                         <li class="self" ng-if="vm.userId == chat.user_id._id">
-                           <!--  <div class="avatar"><img src="https://i.imgur.com/HYcn9xO.png" draggable="false" /></div> -->
+                            <div class="avatar"><img src="http://video-playlist.herokuapp.com/images/user_avtar/{{chat.user_id.avtar}}" draggable="false" /></div>
                             <div class="msg">
                                 <p>You</p>
                                 <p>{{chat.msg}}

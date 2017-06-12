@@ -10,7 +10,7 @@
             controllerAs: 'vm'
         })
         .state('default-layout.admin-layout.profile', {
-            url: '/profile',
+            url: '/profile/:parameter',
             templateUrl: 'app/chat/profile/profile.tmpl.html',
             controller: 'ProfileController',
             controllerAs: 'vm'

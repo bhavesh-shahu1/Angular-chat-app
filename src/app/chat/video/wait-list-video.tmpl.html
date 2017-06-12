@@ -1,15 +1,16 @@
-{{vm.playerVars}}
 <div ng-if="!vm.response" layout="row" layout-align="center center">
-<h2>{{vm.addWaitlistMessage}}</h2>
+    <!-- <h2>{{vm.addWaitlistMessage}}</h2> -->
+    <img src="../assets/images/no-video.gif"/>
 </div>
+
 <div flex layout="row" layout-align="center center">
-<!-- <youtube-video video-url="vm.response.videoplaylists_id.url" player-vars="vm.playerVars" ></youtube-video> -->
+    <youtube-video video-url="vm.response.videoplaylists_id.url" player-vars="vm.playerVars"></youtube-video>
 </div>
-  <div flex-offset="15">
-        <md-button class="md-raised md-primary" ng-click="vm.addToWaitList(item._id)" ng-if="!vm.waitlistStatus">
-           Join Wait List
-        </md-button>
-        <md-button class="md-raised md-primary" ng-click="vm.removeFromWaitList(item._id)" ng-if="vm.waitlistStatus">
-            Leave Wait List
-        </md-button>
-    </div>
+<div flex-offset="15">
+    <md-button class="md-raised md-primary" ng-click="vm.addToWaitList(item._id)" ng-if="!vm.waitlistStatus">
+        Join Wait List
+    </md-button>
+    <md-button class="md-raised md-primary" ng-click="vm.removeFromWaitList(item._id)" ng-if="vm.waitlistStatus">
+        Leave Wait List
+    </md-button>
+</div>

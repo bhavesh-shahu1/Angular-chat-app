@@ -12,7 +12,7 @@
                     <thead md-head md-order="query.order">
                         <tr md-row>
                             <!--  <th md-column md-order-by="nameToLower"><span>Dessert (100g serving)</span></th>
-        <th md-column md-numeric md-order-by="calories.value"><span>Calories</span></th> -->
+        <th md-column md-numeric md-order-by="calories.value"><span>Calories</span></th> -->                 <th md-column></th> 
                             <th md-column>Username</th>
                             <th md-column>Email</th>
                             <th md-column>Status</th>
@@ -21,6 +21,7 @@
                     </thead>
                     <tbody md-body>
                         <tr md-row md-select="dessert" md-select-id="name" md-auto-select ng-repeat="user in vm.userList">
+                            <td md-cell> <md-icon md-font-icon="fa fa-edit" ng-click="vm.editUserProfile(user)" class="md-primary"></md-icon></td>
                             <td md-cell>{{user.username}}</td>
                             <td md-cell>{{user.email}}</td>
                             <td md-cell>
