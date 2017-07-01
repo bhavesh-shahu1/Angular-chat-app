@@ -6,7 +6,8 @@
             </md-button>
             <div layout="column">
                 <span class="md-body-2">{{vm.videoTitle}}</span>
-                <span class="md-body-2">Playing by:{{vm.userInfo.username}}</span>
+                <!-- <span class="md-body-2">Playing by:{{vm.userInfo.username}}</span> -->
+                <span class="md-body-2" ng-if="vm.playingBy">Playing by:{{vm.playingBy}}</span>
             </div>
         </div>
         <div>
@@ -68,7 +69,7 @@
     </div>
 </md-toolbar>
 <!-- Left Sidebar Show user added video -->
-<md-sidenav md-component-id="left" class="md-sidenav-left">
+<!-- <md-sidenav md-component-id="left" class="md-sidenav-left">
     <div layout="row">
         <md-button class="md-fab md-primary md-mini" ng-click="vm.uploadVideo()">
             <md-tooltip md-direction="bottom" aria-hidden="true">Upload Video</md-tooltip>
@@ -92,7 +93,7 @@
             </md-list-item>
         </md-list>
     </md-content>
-</md-sidenav>
+</md-sidenav> -->
 <!-- Right Sidebar Show History video-->
 <md-sidenav class="md-sidenav-right md-whiteframe-4dp" md-component-id="right">
     <md-content>

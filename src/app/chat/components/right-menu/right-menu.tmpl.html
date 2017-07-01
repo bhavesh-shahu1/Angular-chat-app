@@ -17,7 +17,7 @@
                                 <p class="md-body-2">{{chat.user_id.username}}</p>
                                 <p>{{chat.msg}}
                                 <md-button class="md-icon-button md-warn" aria-label="remove message"
-                            ng-show="true" ng-click="vm.deleteChatMessage(chat._id)" ng-if="vm.status == 1 || vm.status == 2">
+                            ng-show="true" ng-click="vm.deleteChatMessage(chat._id)" ng-if="vm.status == 2 || vm.status == 1">
                              <md-tooltip md-direction="bottom">Remove waitlist</md-tooltip>
                                 <i class="fa fa-trash" aria-hidden="true"></i>  
                             </md-button>

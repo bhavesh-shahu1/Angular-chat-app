@@ -13,6 +13,7 @@
         vm.addToWaitList = addToWaitList;
         vm.getWaitListStatus = getWaitListStatus;
         vm.removeFromWaitList = removeFromWaitList;
+        vm.setCurrnetVedioInfo = setCurrnetVedioInfo;
         vm.playerVars = {
             controls: 0,
             autoplay: 1,
@@ -29,13 +30,16 @@
         vm.anotherGoodOne = 'https://www.youtube.com/watch?v=18-xvIjH8T4';
 
         function getCurrentVideo() {
+            vm.activated = true;
             videoService.getData('api', 'waitlist', 'current', '').
             then(function(response) {
+                vm.activated = false;
                 if (angular.isDefined(response.data.data) && response.data.data != null) {
                     vm.playerVars.start = Math.round(response.data.start_time);
                     vm.response = response.data.data;
                     if (angular.isDefined(vm.response.videoplaylists_id)) {
                         vm.setVedioInfo(vm.response.videoplaylists_id);
+                        vm.setCurrnetVedioInfo(response.data);
                     }
 
                     commonService.showToast(response.data.message);
@@ -47,18 +51,23 @@
         }
 
         function getWaitListStatus() {
+            vm.activated = true;
             videoService.getData('api', 'get_waitlist_status', vm.userInfo._id, '')
                 .then(function(response) {
+                    vm.activated = false;
                     vm.waitlistStatus = response.data.data.already_in_waitlist;
                 })
         }
 
         function getNextVideo() {
+            vm.activated = true;
             videoService.getData('api', 'waitlist', 'next', vm.response._id).
             then(function(response) {
+                vm.activated = false;
                 vm.response = response.data.data;
                 if (angular.isDefined(vm.response.videoplaylists_id)) {
                     vm.setVedioInfo(vm.response.videoplaylists_id);
+                    vm.setCurrnetVedioInfo(response.data);
                     // Update video info on toolbar
                     $rootScope.$broadcast('nextVideoInfo', vm.response.videoplaylists_id);
                 }
@@ -69,16 +78,24 @@
 
         function setVedioInfo(videoInfo) {
             vm.videoInformation = angular.toJson(videoInfo);
-            localStorage.setItem('videoInfo', vm.videoInformation);
+            // localStorage.setItem('videoInfo', vm.videoInformation);
             $rootScope.$broadcast('playUserSelectedVideo', vm.videoInformation);
         }
 
+        function setCurrnetVedioInfo(videoInfo) {
+            vm.videoCurrentInformation = angular.toJson(videoInfo);
+            $rootScope.$broadcast('playCurrentUserSelectedVideo', vm.videoCurrentInformation);
+        }
+
         function addToWaitList() {
+            vm.activated = true;
             vm.postParameter = {
                 'user_id': vm.userInfo._id
             }
             videoService.postData('waitlist', vm.postParameter).then(function(response) {
+                vm.activated = false;
                 vm.getWaitListStatus();
+                vm.getCurrentVideo();
                 //Update Waitlist in rigth sidebar
                 $rootScope.$broadcast('updateWaitList', 'updateWaitList');
                 commonService.showToast(response.message);
@@ -98,6 +115,7 @@
                     videoService.getData('api', 'removevideofromplaylistbyuserid', vm.userInfo._id, '')
                         .then(function(response) {
                             vm.getWaitListStatus();
+                            // vm.getNextVideo();
                             $rootScope.$broadcast('updateWaitList', 'updateWaitList');
                             commonService.showToast(response.data.message);
                         })

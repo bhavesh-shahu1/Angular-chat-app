@@ -29,9 +29,9 @@
                                 <span ng-if="user.status == 0">Deactivate</span>
                             </td>
                             <td md-cell>
-                                <span ng-if="user.status == 0">User</span>
-                                <span ng-if="user.status == 1">Moderator</span>
-                                <span ng-if="user.status == 2">Owner</span>
+                                <span ng-if="user.user_role == 0">User</span>
+                                <span ng-if="user.user_role == 1">Moderator</span>
+                                <span ng-if="user.user_role == 2">Owner</span>
                             </td>
                         </tr>
                     </tbody>

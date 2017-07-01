@@ -1,3 +1,6 @@
+<div layout-align="center center" layout="row" ng-if="vm.activated">
+                    <md-progress-circular ng-disabled="!vm.activated" class="md-hue-2" md-diameter="20px"></md-progress-circular>
+                </div>
 <div class="full-image-background mb-bg-01 padding-20 padding-top-200 overlay-gradient-30" layout="row" layout-align="start center">
     <div class="margin-right-20">
         <img src="{{vm.userData.profilePic}}" alt="girl-avatar" class="make-round" width="100" />
@@ -14,7 +17,7 @@
     <button ng-disabled="!myForm.$valid" 
               ng-click="vm.uploadPic(picFile)">Submit</button>
 </form> -->
-<md-button class="md-primary md-icon-button margin-left-20" ngf-select="vm.uploadPic($file,$invalidFiles)" accept="image/*" ngf-max-size="2MB" aria-label="upload">
+<md-button class="md-primary md-icon-button margin-left-20" ngf-select="vm.uploadPic($file,$invalidFiles)" accept="image/*" multiple aria-label="upload">
     <i class="fa fa-edit" aria-hidden="true"><md-tooltip>Upload File</md-tooltip></i>
 </md-button>
 <div layout="row" class="profile" layout-wrap>
@@ -104,7 +107,7 @@
                     </md-input-container>
                 </div>
             </form>
-            <md-button class="md-raised md-primary margin-left-0" ng-disabled="usersForm.$invalid && vm.isUserAvail" ng-click="vm.updateUserProfile()" translate="PROFILE.BUTTON" aria-label="Update User"></md-button>
+            <md-button class="md-raised md-primary margin-left-0" ng-disabled="usersForm.$invalid || vm.isUserAvail" ng-click="vm.updateUserProfile()" translate="PROFILE.BUTTON" aria-label="Update User"></md-button>
             <!-- <md-button class="md-raised md-primary margin-left-0"  ng-click="vm.goToWaitList()" aria-label="back">Back</md-button> -->
         </md-content>
     </div>

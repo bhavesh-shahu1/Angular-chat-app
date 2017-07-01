@@ -9,9 +9,9 @@
         vm.getUserPlayList = getUserPlayList;
         vm.userInfo = commonService.getUserInfo();
         // console.log(vm.userInfo);
-        vm.uploadVideo = uploadVideo;
+        // vm.uploadVideo = uploadVideo;
         vm.getWaitListVideo = getWaitListVideo;
-        vm.playUserVideo = playUserVideo;
+        // vm.playUserVideo = playUserVideo;
         vm.addToWaitList = addToWaitList;
         vm.openRightMenu = openRightMenu;
         vm.getPlayListHistory = getPlayListHistory;
@@ -21,14 +21,20 @@
 
         function init() {
             // vm.videoInfo = localStorage.getItem('videoInfo');
-            if (angular.isDefined(localStorage.getItem('videoInfo')) && localStorage.getItem('videoInfo') != null) {
-                vm.videoInfo = localStorage.getItem('videoInfo');
-                vm.videoInformation1 = JSON.parse(vm.videoInfo);
-                vm.videoTitle = vm.videoInformation1.title;
-            }
+            // if (angular.isDefined(localStorage.getItem('videoInfo')) && localStorage.getItem('videoInfo') != null) {
+            //     vm.videoInfo = localStorage.getItem('videoInfo');
+            //     vm.videoInformation1 = JSON.parse(vm.videoInfo);
+            //     vm.videoTitle = vm.videoInformation1.title;
+            // }
         }
 
-        function logout(){
+        $scope.$on('playUserSelectedVideo', function($event, videoInfo) {
+            vm.videoInformation = JSON.parse(videoInfo);
+            vm.videoTitle = vm.videoInformation.title;
+            // vm.init();
+        });
+        
+        function logout() {
             commonService.logout();
             $state.go('authentication.login');
         }
@@ -61,20 +67,20 @@
         }
 
         // Play User video select from left navigation bar
-        function playUserVideo(videoInfo) {
-            vm.videoTitle = videoInfo.title;
-            vm.videoInformation = angular.toJson(videoInfo);
-            localStorage.setItem('videoInfo', vm.videoInformation);
-            $mdSidenav('left').close();
-            $rootScope.$broadcast('playUserSelectedVideo', vm.videoInformation);
-            $state.go('default-layout.admin-layout.video');
-        }
+        // function playUserVideo(videoInfo) {
+        //     vm.videoTitle = videoInfo.title;
+        //     vm.videoInformation = angular.toJson(videoInfo);
+        //     localStorage.setItem('videoInfo', vm.videoInformation);
+        //     $mdSidenav('left').close();
+        //     $rootScope.$broadcast('playUserSelectedVideo', vm.videoInformation);
+        //     $state.go('default-layout.admin-layout.video');
+        // }
 
-        function showUserList(){
+        function showUserList() {
             $state.go('default-layout.admin-layout.user');
         }
 
-        function showUserProfile(){
+        function showUserProfile() {
             var userInfo = {
                 'userInfo': vm.userInfo
             };
@@ -93,18 +99,26 @@
             vm.videoTitle = nextVideoInfo.title;
         });
 
+        // Add event to get select vedio Info
+        $scope.$on('playCurrentUserSelectedVideo', function($event, videoInfo) {
+            if (angular.isDefined(videoInfo)) {
+                vm.currentvideoInformation = JSON.parse(videoInfo);
+                vm.playingBy = vm.currentvideoInformation.user.username;
+            }
+        });
+
         // Upload videoTitle
-        function uploadVideo($event) {
-            //  $mdBottomSheet.hide();
-            $mdDialog.show({
-                controller: 'UploadVideoController',
-                controllerAs: 'vm',
-                templateUrl: 'app/chat/video/upload-video-dialog.tmpl.html',
-                targetEvent: $event
-            }).then(function() {
-                vm.getUserPlayList();
-            })
-        }
+        // function uploadVideo($event) {
+        //     //  $mdBottomSheet.hide();
+        //     $mdDialog.show({
+        //         controller: 'UploadVideoController',
+        //         controllerAs: 'vm',
+        //         templateUrl: 'app/chat/video/upload-video-dialog.tmpl.html',
+        //         targetEvent: $event
+        //     }).then(function() {
+        //         vm.getUserPlayList();
+        //     })
+        // }
 
         // Get WaitList video
         function getWaitListVideo() {

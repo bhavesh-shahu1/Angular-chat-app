@@ -12,7 +12,7 @@
             <md-content>
                 <md-list flex>
                     <span class="md-title">Your Playlists</span>
-                    <md-list-item class="md-2-line" ng-repeat="item in vm.playlist" ng-click="vm.getVideoListByName(item,$index)"  ng-class="{selectedIndex: vm.selectedIndex===$index}">
+                    <md-list-item class="md-2-line" ng-repeat="item in vm.playlist" ng-click="vm.getVideoListByName(item,$index)" ng-class="{selectedIndex: vm.selectedIndex===$index}">
                         <div class="md-list-item-text" layout="row" layout-align="space-between">
                             <h3>
                             <i class="fa fa-check" aria-hidden="true" ng-if="item.isactive"></i>
@@ -60,6 +60,9 @@
                         <md-button class="md-primary" aria-label="Active" ng-click="vm.saveSearchVideo()">Add To Playlist
                         </md-button>
                     </div>
+                </div>
+                <div layout-align="center center" layout="row" ng-if="vm.activated">
+                    <md-progress-circular ng-disabled="!vm.activated" class="md-hue-2" md-diameter="20px"></md-progress-circular>
                 </div>
                 <div>
                     <div ui-tree="treeOptions" id="tree-root" class="table table-responsive" ng-if="vm.videoList.length > 0">

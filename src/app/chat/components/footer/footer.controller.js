@@ -9,8 +9,9 @@
         vm.openBottomLeftMenu = openBottomLeftMenu;
 
         function init() {
-            vm.videoInfo = localStorage.getItem('videoInfo');
-            vm.videoInformation = JSON.parse(vm.videoInfo);
+            // vm.videoInfo = localStorage.getItem('videoInfo');
+            // vm.videoInformation = JSON.parse(vm.videoInfo);
+            // console.log(vm.videoInformation);
         }
 
         function showGridBottomSheet() {
@@ -25,6 +26,9 @@
 
         // Add event to get select vedio Info
         $scope.$on('playUserSelectedVideo', function($event, videoInfo) {
+            vm.videoInformation = JSON.parse(videoInfo);
+            // vm.videoInformation = videoInfo;
+            // console.log(videoInfo);
             vm.init();
         });
 

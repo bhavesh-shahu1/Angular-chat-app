@@ -85,9 +85,9 @@ angular.module('angularMaterialAdmin', ['ngAnimate', 'ngCookies',
     $mdIconProvider.icon('user', 'assets/images/user.svg', 64);
 }).run(function($rootScope,commonService,$state) {
     $rootScope.$on('$stateChangeStart', function(e, to) {
-        //console.log(e);
-        //console.log(to);
-        if(angular.equals(to.name, 'login') || angular.equals(to.name, 'signup') || angular.equals(to.name, 'forgot') || angular.equals(to.name),'loginactive') {
+        // console.log(e);
+        // console.log(to);
+        if(angular.equals(to.name, 'authentication.login') || angular.equals(to.name, 'authentication.signup') || angular.equals(to.name, 'authentication.forgot') || angular.equals(to.name,'authentication.loginactive')) {
           
         }else{
           if(!commonService.getUserPermission()){
