@@ -154,7 +154,7 @@
             vm.youtubeVideoKey = 'AIzaSyArYZ6rnkeDpxLWlDCQ3eJ-DC9j6Eb409w';
             vm.url = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' + vm.searchText + '&key=' + vm.youtubeVideoKey + '&type=video';
             return $http.get(vm.url).then(function(response) {
-                console.log(response.data.items);
+                // console.log(response.data.items);
                 return response.data.items;
             });
         }

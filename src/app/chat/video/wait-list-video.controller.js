@@ -21,6 +21,8 @@
             rel: 0,
             start: 0
         };
+        vm.upvote = upvote;
+        vm.downvote = downvote;
 
         function init() {
             vm.getWaitListStatus();
@@ -41,7 +43,19 @@
                         vm.setVedioInfo(vm.response.videoplaylists_id);
                         vm.setCurrnetVedioInfo(response.data);
                     }
-
+                    vm.upvoteCount = vm.response.videoplaylists_id.upvote.split(',');
+                    vm.downvoteCount = vm.response.videoplaylists_id.downvote.split(',');
+                     // Set vote button color
+                        if(vm.response.videoplaylists_id.upvote.includes(vm.userInfo._id)){
+                            vm.upvoteColor['color'] = 'rgb(63,81,181)';
+                        }else{
+                            vm.upvoteColor['color'] = 'rgba(0,0,0,0.54)';
+                        }
+                        if(vm.response.videoplaylists_id.downvote.includes(vm.userInfo._id)){
+                            vm.downvoteColor['color'] = 'rgb(63,81,181)';
+                        }else{
+                            vm.downvoteColor['color'] = 'rgba(0,0,0,0.54)';
+                        }
                     commonService.showToast(response.data.message);
                 } else {
                     vm.addWaitlistMessage = 'Please add video in waitlist';
@@ -112,14 +126,60 @@
                     .targetEvent($event)
                 )
                 .then(function() {
+                    vm.activated = true;
                     videoService.getData('api', 'removevideofromplaylistbyuserid', vm.userInfo._id, '')
                         .then(function(response) {
+                            vm.activated = false;
                             vm.getWaitListStatus();
-                            // vm.getNextVideo();
+                            vm.getNextVideo();
                             $rootScope.$broadcast('updateWaitList', 'updateWaitList');
                             commonService.showToast(response.data.message);
                         })
                 });
+        }
+
+        vm.upvoteColor = {};
+        vm.downvoteColor = {};
+        function upvote(id) {
+            videoService.getData('api', 'upvote', id.toString(), vm.userInfo._id)
+                .then(function(response) {
+                    if (angular.isDefined(response.data.data)) {
+                        vm.upvoteCount = response.data.data.upvote.split(',');
+                        vm.downvoteCount = response.data.data.downvote.split(',');
+                        if(response.data.data.upvote.includes(vm.userInfo._id)){
+                            vm.upvoteColor['color'] = 'rgb(63,81,181)';
+                        }else{
+                            vm.upvoteColor['color'] = 'rgba(0,0,0,0.54)';
+                        }
+                        if(response.data.data.downvote.includes(vm.userInfo._id)){
+                            vm.downvoteColor['color'] = 'rgb(63,81,181)';
+                        }else{
+                            vm.downvoteColor['color'] = 'rgba(0,0,0,0.54)';
+                        }
+                    }
+
+                })
+        }
+
+        function downvote(id) {
+            videoService.getData('api', 'downvote', id.toString(), vm.userInfo._id)
+                .then(function(response) {
+                    if (angular.isDefined(response.data.data)) {
+                        vm.upvoteCount = response.data.data.upvote.split(',');
+                        vm.downvoteCount = response.data.data.downvote.split(',');
+                        // Set vote button color
+                        if(response.data.data.upvote.includes(vm.userInfo._id)){
+                            vm.upvoteColor['color'] = 'rgb(63,81,181)';
+                        }else{
+                            vm.upvoteColor['color'] = 'rgba(0,0,0,0.54)';
+                        }
+                        if(response.data.data.downvote.includes(vm.userInfo._id)){
+                            vm.downvoteColor['color'] = 'rgb(63,81,181)';
+                        }else{
+                            vm.downvoteColor['color'] = 'rgba(0,0,0,0.54)';
+                        }
+                    }
+                })
         }
 
         $scope.$on('youtube.player.ended', function($event, player) {
