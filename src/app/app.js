@@ -6,6 +6,7 @@
         ])
         .constant('API_CONFIG', {
             'url': 'https://video-playlist.herokuapp.com/',
+            // 'url': 'http://localhost:9000/',
             'api_key': 'local_key',
             'client_secret': '100010134',
             'client_password': 'admin@123'

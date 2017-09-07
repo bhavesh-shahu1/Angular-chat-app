@@ -1,6 +1,39 @@
 (function() {
     'use strict';
-    angular.module('app.chat.component').controller('ToolbarController', ToolbarController);
+    angular.module('app.chat.component').controller('ToolbarController', ToolbarController)
+        .filter('time', function() {
+
+            var conversions = {
+                'ss': angular.identity,
+                'mm': function(value) { return value * 60; },
+                'hh': function(value) { return value * 3600; }
+            };
+
+            var padding = function(value, length) {
+                var zeroes = length - ('' + (value)).length,
+                    pad = '';
+                while (zeroes-- > 0) pad += '0';
+                return pad + value;
+            };
+
+            return function(value, unit, format, isPadded) {
+                var totalSeconds = conversions[unit || 'ss'](value),
+                    hh = Math.floor(totalSeconds / 3600),
+                    mm = Math.floor((totalSeconds % 3600) / 60),
+                    ss = totalSeconds % 60;
+
+                format = format || 'hh:mm:ss';
+                isPadded = angular.isDefined(isPadded) ? isPadded : true;
+                hh = isPadded ? padding(hh, 2) : hh;
+                mm = isPadded ? padding(mm, 2) : mm;
+                ss = isPadded ? padding(ss, 2) : ss;
+                console.log(hh, mm, ss);
+                if (hh != 'NaN' && mm != 'NaN' && ss != 'NaN')
+                    return format.replace(/hh/, hh).replace(/mm/, mm).replace(/ss/, ss);
+                else
+                    return '';
+            };
+        });
     /* @ngInject */
     function ToolbarController($mdSidenav, $scope, videoService, commonService, $mdDialog, $state, $rootScope) {
         var vm = this;
@@ -19,7 +52,7 @@
         vm.showUserProfile = showUserProfile;
         vm.logout = logout;
 
-        vm.openHistory = openHistory;         
+        vm.openHistory = openHistory;
 
         function init() {
             // vm.videoInfo = localStorage.getItem('videoInfo');
@@ -30,16 +63,16 @@
             // }
         }
 
-        function openHistory(){
+        function openHistory() {
             $state.go('default-layout.admin-layout.history');
-        }    
+        }
 
         $scope.$on('playUserSelectedVideo', function($event, videoInfo) {
             vm.videoInformation = JSON.parse(videoInfo);
             vm.videoTitle = vm.videoInformation.title;
             // vm.init();
         });
-        
+
         function logout() {
             commonService.logout();
             $state.go('authentication.login');

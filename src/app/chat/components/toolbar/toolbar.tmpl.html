@@ -1,25 +1,33 @@
 <md-toolbar>
-    <div id="top-bar" class="md-toolbar-tools" layout="row" layout-align="space-between center">
-        <div layout="row">
+    <div id="top-bar" layout="column" layout-align="start start" class="md-toolbar-tools" style="padding: 0px">
+        <div layout="row" flex="100" layout-fill>
             <!-- <md-button ng-click="vm.getWaitListVideo()">
                 Logo
             </md-button> -->
-            <div class="logo menulinks" onclick="openMenu(event, 'room-info')">
-                <img src="assets/images/logo.png" />
+            <div class="logo menulinks" flex="15"  onclick="openMenu(event, 'room-info')">
+                <img src="assets/images/logo.png"  />
             </div>
-            <div layout="column" class="current-song">
-                <div class="disc"><img src="assets/images/disc.png" alt="Logo" /></div>
+            <div layout="row" class="current-song" layout-align="center center" flex>
+                <div class="disc" flex="5" >
+                <img src="assets/images/disc.png" alt="Logo" /></div>
                 <!--  <span class="md-body-2">{{vm.videoTitle}}</span>
                 <span class="md-body-2" ng-if="vm.playingBy">Playing by:{{vm.playingBy}}</span> -->
-                <div class="song-info">
-                    <div id="currentSong">{{vm.videoTitle}}</div>
+                <div class="song-info "  layout="column" flex>
+                    <div id="currentSong" class="md-body-3"><h5>{{vm.videoTitle}}</h5></div>
                     <div class="current-dj" ng-if="vm.playingBy">Current DJ:
                         <font id="currentDj">{{vm.playingBy}}</font>
                     </div>
                 </div>
+                <div id="timeProgress" layout="column" layout-align="center center" flex="20">
+                    {{vm.videoInformation.duration | time:'mm'}}
+                </div>
+                <div class="history-button menulinks" layout="column" layout-align="center center"  ng-click="vm.openHistory()" layout-fill flex="10">
+                    <!-- history -->
+                    <i class="mdi mdi-history" style="font-size: 30px;"></i>
+                </div>
             </div>
         </div>
-       <!--  <div>
+        <!--  <div>
             <md-menu>
                 <md-button class="md-icon-button" aria-label="open menu" ng-click="$mdOpenMenu()">
                     <md-icon md-font-icon="fa fa-cog"></md-icon>
@@ -80,7 +88,7 @@
         </md-list>
     </md-content>
 </md-sidenav>
-<div id="top-bar">
+<!-- <div id="top-bar">
     <div class="logo menulinks" onclick="openMenu(event, 'room-info')">
         <img src="assets/images/logo.png" />
     </div>
@@ -103,4 +111,4 @@
     <div id="timeProgress">
         03:13
     </div>
-</div>
+</div> -->

@@ -82,6 +82,50 @@ angular.module('angularMaterialAdmin', ['ngAnimate', 'ngCookies',
         'A700': '#E75753'
     });
 
+    var customAccent = {
+    '50': '#d7294f',
+    '100': '#d7294f',
+    '200': '#d7294f',
+    '300': '#d7294f',
+    '400': '#d7294f',
+    '500': '#d7294f',
+    '600': '#d7294f',
+    '700': '#d7294f',
+    '800': '#d7294f',
+    '900': '#d7294f',
+    'A100': '#d7294f',
+    'A200': '#d7294f',
+    'A400': '#d7294f',
+    'A700': '#d7294f',
+    'contrastDefaultColor': 'light'
+};
+var  blackAccent ={
+     '50': '#fff',
+    '100': '#000000',
+    '200': '#000000',
+    '300': '#000000',
+    '400': '#000000',
+    '500': '#000',
+    '600': '#fff',
+    '700': '#000000',
+    '800': '#000000',
+    '900': '#000000',
+    'A100': '#000000',
+    'A200': '#000000',
+    'A400': '#000000',
+    'A700': '#000000',
+    'contrastDefaultColor': 'light'
+}
+$mdThemingProvider
+.definePalette('whiteAccent', customAccent);
+
+$mdThemingProvider
+.definePalette('blackAccent', blackAccent);
+
+$mdThemingProvider.theme('whiteAccentTheme')
+    .primaryPalette('blackAccent')
+    .accentPalette('whiteAccent');
+
     $mdIconProvider.icon('user', 'assets/images/user.svg', 64);
 }).run(function($rootScope,commonService,$state) {
     $rootScope.$on('$stateChangeStart', function(e, to) {

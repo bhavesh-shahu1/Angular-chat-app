@@ -45,6 +45,24 @@ body {
 	font-family: Arial,Helvetica,sans-serif;
 }
 
+md-tabs.md-default-theme md-ink-bar, md-tabs md-ink-bar {
+    color: #d7294f !important;
+    /*background-color:#d7294f !important;*/
+}
+.white-color{
+	color: white;
+}
+
+.pink-color{
+	color:  #d7294f !important;
+}
+
+md-tabs-wrapper{
+	padding: 8px;
+}
+.grey-color{
+	color: #7b7b7b;
+}
 /* BIG CONTENT */
 #app {
 	display: inline-block;
@@ -54,8 +72,8 @@ body {
 }
 
 #top-bar {
-	height: 60px;
-	border-bottom: 3px solid #111111;
+	/*height: 60px;*/
+	/*border-bottom: 3px solid #111111;*/
 	background: #1F1F1F;
 	color: #FFF;
 }
@@ -86,7 +104,7 @@ body {
 
 #top-bar .current-song {
 	float: left;
-	padding: 13px;
+	/*padding: 13px;*/
 }
 
 #top-bar .current-song .disc {
@@ -124,8 +142,8 @@ body {
 
 #top-bar .history-button {
     width: 52px;
-    height: 46px;
-    padding: 14px 0px 0px 20px;
+    /*height: 46px;*/
+    /*padding: 14px 0px 0px 20px;*/
 	float: right;
 	cursor: pointer;
 	background: #ac1234;
@@ -143,7 +161,7 @@ body {
 #top-bar #timeProgress {
 	width: 52px;
 	height: 46px;
-	padding: 21px 0px 0px 20px;
+	/*padding: 21px 0px 0px 20px;*/
 	float: right;
 	font-size: 14px;
 	color: #7b7b7b;

@@ -32,11 +32,16 @@
         vm.userChat = {};
         vm.userChat.data = [];
         vm.scrollDown = scrollDown;
+        vm.onTabChanges = onTabChanges;
+        vm.getRandomColor = getRandomColor;
         vm.ChatStyle = {
             'max-height': $window.innerHeight - 150 + "px",
             'min-height': $window.innerHeight - 150 + "px",
             'overflow-y': 'scroll'
-        }
+        };
+        vm.color=['#F44336','#FFEB3B','#E91E63','#9C27B0','#FFC107','#673AB7','#FF9800','#3F51B5','#2196F3','#FF5722','#03A9F4','#795548','#00BCD4','#009688','#607D8B','#4CAF50','#8BC34A','#CDDC39'];
+    
+        vm.selectedTab = 'chat';
 
         function scrollDown($element) {
             // $timeout(function() { $("#messageDiv").scrollTop($("#messageDiv")[0].scrollHeight); }, 10);
@@ -112,6 +117,19 @@
                 $rootScope.$broadcast('updateWaitListButton', 'updateWaitListButtonStatus');
                 vm.getWaitList();
             })
+        }
+
+        function onTabChanges(tab) {
+            vm.selectedTab = tab;
+        }
+
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF'.split('');
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
         }
 
         // Whenever video add in waitList update waitlist

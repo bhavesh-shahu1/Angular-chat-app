@@ -1,56 +1,78 @@
-<md-content flex style="padding-top: 15px">
-    <md-tabs md-dynamic-height>
-        <md-tab label="Chat">
-            <md-content md-padding>
-                <div ng-style="vm.ChatStyle" schroll-bottom="vm.userChat.data" id="messageDiv">
-                    <!-- <div ng-repeat="chat in vm.userChat.data">
+<md-content>
+    <div md-theme="whiteAccentTheme">
+        <md-tabs md-dynamic-height class="md-primary">
+            <md-tab md-on-select="vm.onTabChanges('chat')">
+                <md-tab-label>
+                    <i class="mdi mdi-24px mdi-message " ng-class="vm.selectedTab == 'chat' ? 'pink-color':'white-color'"></i>
+                </md-tab-label>
+                <md-tab-body >
+                    <md-content >
+                        <div md-padding style="background: #000" ng-style="vm.ChatStyle" schroll-bottom="vm.userChat.data" id="messageDiv">
+                            <!-- <div ng-repeat="chat in vm.userChat.data">
                     <div class="md-whiteframe-1dp">
                         <span class="md-subhead">{{chat.user_id.username}}</span>&nbsp;&nbsp;
                         <span class="md-body-1">{{chat.msg}}</span>
                     </div>
                     </div> -->
-                    <ol class="chat" >
-                    <div ng-repeat="chat in vm.userChat.data">
-                        <li class="other" ng-if="vm.userId != chat.user_id._id">
-                        <div class="avatar"><img src="http://video-playlist.herokuapp.com/images/user_avtar/{{chat.user_id.avtar}}" draggable="false" /></div>
-                            <div class="msg">
-                                <p class="md-body-2">{{chat.user_id.username}}</p>
-                                <p>{{chat.msg}}
-                                <md-button class="md-icon-button md-warn" aria-label="remove message"
-                            ng-show="true" ng-click="vm.deleteChatMessage(chat._id)" ng-if="vm.status == 2 || vm.status == 1">
-                             <md-tooltip md-direction="bottom">Remove</md-tooltip>
-                                <i class="fa fa-trash" aria-hidden="true"></i>  
-                            </md-button>
-                            </p>
+                            <div >
+                                <div ng-repeat="chat in vm.userChat.data track by $index" flex>
+                                    <div layout="row">
+                                        <div>
+
+                                            <img style="width: 30px; height: 30px;border-radius: 50%" src="http://video-playlist.herokuapp.com/images/user_avtar/{{chat.user_id.avtar}}" draggable="false" />
+                                        </div>
+                                        <div class="md-body-2 white-color" layout="column" flex="75">
+                                            <div ng-style="{color:vm.color[$index%vm.color.length]}"><b>{{chat.user_id.username}}</b></div>
+                                            <div class="grey-color"><h5>{{chat.msg}}</h5></div>
+                                        </div>
+                                        <span flex></span>
+                                        <div class="grey-color">
+                                            <i><h6>{{chat.created_at | date:'HH:mm a'}}</h6></i>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </li>
-                        <li class="self" ng-if="vm.userId == chat.user_id._id">
-                            <div class="avatar"><img src="http://video-playlist.herokuapp.com/images/user_avtar/{{chat.user_id.avtar}}" draggable="false" /></div>
-                            <div class="msg">
-                                <p>You</p>
-                                <p>{{chat.msg}}
-                                <md-button class="md-icon-button md-warn" aria-label="remove message"
-                            ng-show="true" ng-click="vm.deleteChatMessage(chat._id)">
-                             <md-tooltip md-direction="bottom">Remove</md-tooltip>
-                                <i class="fa fa-trash" aria-hidden="true"></i>  
-                            </md-button></p>
-                            </div>
-                        </li>
+                            <!--  <ol class="chat" flex>
+                                <div ng-repeat="chat in vm.userChat.data" flex>
+                                    <li class="other" flex>
+                                        <div class="avatar"><img src="http://video-playlist.herokuapp.com/images/user_avtar/{{chat.user_id.avtar}}" draggable="false" /></div>
+                                        <div class="msg">
+                                            <p class="md-body-2">{{chat.user_id.username}}</p>
+                                            <p>{{chat.msg}}
+                                                <md-button class="md-icon-button md-warn" aria-label="remove message" ng-show="true" ng-click="vm.deleteChatMessage(chat._id)" ng-if="vm.status == 2 || vm.status == 1">
+                                                    <md-tooltip md-direction="bottom">Remove</md-tooltip>
+                                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                                </md-button>
+                                            </p>
+                                        </div>
+                                    </li>
+                                    <!-- <li class="self" ng-if="vm.userId == chat.user_id._id">
+                                        <div class="avatar"><img src="http://video-playlist.herokuapp.com/images/user_avtar/{{chat.user_id.avtar}}" draggable="false" /></div>
+                                        <div class="msg">
+                                            <p>You</p>
+                                            <p>{{chat.msg}}
+                                                <md-button class="md-icon-button md-warn" aria-label="remove message" ng-show="true" ng-click="vm.deleteChatMessage(chat._id)">
+                                                    <md-tooltip md-direction="bottom">Remove</md-tooltip>
+                                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                                </md-button>
+                                            </p>
+                                        </div>
+                                    </li> 
                         </div>
-                    </ol>
-                </div>
-                <div flex>
-                <form name="chatForm" ng-submit="vm.postChat()" flex>
-                    <div layout="row" flex>
-                        <md-input-container flex>
-                        <label>Message</label>
-                            <input ng-model="vm.data.message" placeholder="Enter here message">
-                        </md-input-container>
-                        <md-button class="md-fab md-primary md-mini" ng-click="vm.postChat()"> <i class="fa fa-send" aria-hidden="true"></i> </md-button>
-                    </div>
-                </form>
-                </div>
-                <!-- <div layout="column" layout-align="space-between">
+                        </ol> -->
+                        </div>
+                        <div flex>
+                            <form name="chatForm" ng-submit="vm.postChat()" flex>
+                                <div layout="row" flex>
+                                    <md-input-container flex>
+                                        <label>Message</label>
+                                        <input ng-model="vm.data.message" placeholder="Enter here message">
+                                    </md-input-container>
+                                    <md-button class="md-fab md-primary md-mini" ng-click="vm.postChat()"> <i class="fa fa-send" aria-hidden="true"></i> </md-button>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- <div layout="column" layout-align="space-between">
                     <div>
                     {{vm.userChat}} 
                     </div>
@@ -65,36 +87,67 @@
                     </div>
 
                 </div> -->
-            </md-content>
-        </md-tab>
-        <md-tab label="User Online">
-            <md-content class="md-padding">
-                User Online
-            </md-content>
-        </md-tab>
-        <md-tab label="WaitList ({{vm.waitlistCount}})">
-            <md-content class="md-padding">
-                <md-list flex>
-                    <md-list-item class="md-3-line" ng-repeat="item in vm.waitList.data">
-                        <img ng-src="{{item.videoplaylists_id.thumbnail}}?{{$index}}" class="md-avatar" alt="{{item.title}}" />
-                        <div class="md-list-item-text" layout="column">
-                            <h3>{{ item.videoplaylists_id.title }}</h3>
-                            <h4>{{ item.videoplaylists_id.created_at }}
+                    </md-content>
+                    <md-tab-body>
+            </md-tab>
+            <md-tab md-on-select="vm.onTabChanges('user_list')">
+                <md-tab-label>
+                    <i class="mdi mdi-24px mdi-account-multiple  " ng-class="vm.selectedTab == 'user_list' ? 'pink-color':'white-color'"></i> <span class="badge" ng-class="vm.selectedTab == 'user_list' ? 'pink-color':'white-color'">50</span>
+                </md-tab-label>
+                <md-tab-body>
+                    <md-content class="md-padding">
+                        User Online
+                    </md-content>
+                    <md-tab-body>
+            </md-tab>
+            <md-tab label="WaitList ({{vm.waitlistCount}})" md-on-select="vm.onTabChanges('waitlist_list')">
+                <md-tab-label>
+                    <i class="mdi mdi-24px mdi-playlist-play  " ng-class="vm.selectedTab == 'waitlist_list' ? 'pink-color':'white-color'"></i> <span class="badge  " ng-class="vm.selectedTab == 'waitlist_list' ? 'pink-color':'white-color'">3/10</span>
+                </md-tab-label>
+                <md-tab-body>
+                    <md-content class="md-padding">
+                        <md-list flex>
+                            <md-list-item class="md-3-line" ng-repeat="item in vm.waitList.data">
+                                <img ng-src="{{item.videoplaylists_id.thumbnail}}?{{$index}}" class="md-avatar" alt="{{item.title}}" />
+                                <div class="md-list-item-text" layout="column">
+                                    <h3>{{ item.videoplaylists_id.title }}</h3>
+                                    <h4>{{ item.videoplaylists_id.created_at }}
                             <md-button class="md-icon-button md-warn" aria-label="remove waitList"
                             ng-show="item.videoplaylists_id.user_id == vm.userId" ng-click="vm.removeFromWaitList(item._id,item.videoplaylists_id._id)">
                              <md-tooltip md-direction="bottom">Remove waitlist</md-tooltip>
                                 <i class="fa fa-trash" aria-hidden="true"></i>  
                             </md-button>
                             </h4>
+                                </div>
+                            </md-list-item>
+                        </md-list>
+                    </md-content>
+                </md-tab-body>
+            </md-tab>
+            <md-tab md-on-select="vm.onTabChanges('user_profile')">
+                <md-tab-label>
+                    <ol class="chat">
+                        <div class="avatar">
+                            <img src="assets/images/profipic.png" class="avatar" alt="Avatar" ng-class="vm.selectedTab == 'user_profile' ? 'pink-color':'white-color'">
                         </div>
-                    </md-list-item>
-                </md-list>
-            </md-content>
-        </md-tab>
-        <md-tab label="Private Msg">
-            <md-content class="md-padding">
-                Private Msg
-            </md-content>
-        </md-tab>
-    </md-tabs>
+                    </ol>
+                </md-tab-label>
+                <md-tab-body>
+                    <md-content class="md-padding">
+                        Private Msg
+                    </md-content>
+                </md-tab-body>
+            </md-tab>
+            <md-tab label="Private Msg" md-on-select="vm.onTabChanges('staff')">
+                <md-tab-label>
+                    <i class="mdi mdi-24px mdi-security " ng-class="vm.selectedTab == 'staff' ? 'pink-color':'white-color'"></i>
+                </md-tab-label>
+                <md-tab-body>
+                    <md-content class="md-padding">
+                        Private Msg
+                    </md-content>
+                </md-tab-body>
+            </md-tab>
+        </md-tabs>
+    </div>
 </md-content>
