@@ -1,22 +1,25 @@
 <md-toolbar>
-    <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+    <div id="top-bar" class="md-toolbar-tools" layout="row" layout-align="space-between center">
         <div layout="row">
-            <md-button ng-click="vm.getWaitListVideo()">
+            <!-- <md-button ng-click="vm.getWaitListVideo()">
                 Logo
-            </md-button>
-            <div layout="column">
-                <span class="md-body-2">{{vm.videoTitle}}</span>
-                <!-- <span class="md-body-2">Playing by:{{vm.userInfo.username}}</span> -->
-                <span class="md-body-2" ng-if="vm.playingBy">Playing by:{{vm.playingBy}}</span>
+            </md-button> -->
+            <div class="logo menulinks" onclick="openMenu(event, 'room-info')">
+                <img src="assets/images/logo.png" />
+            </div>
+            <div layout="column" class="current-song">
+                <div class="disc"><img src="assets/images/disc.png" alt="Logo" /></div>
+                <!--  <span class="md-body-2">{{vm.videoTitle}}</span>
+                <span class="md-body-2" ng-if="vm.playingBy">Playing by:{{vm.playingBy}}</span> -->
+                <div class="song-info">
+                    <div id="currentSong">{{vm.videoTitle}}</div>
+                    <div class="current-dj" ng-if="vm.playingBy">Current DJ:
+                        <font id="currentDj">{{vm.playingBy}}</font>
+                    </div>
+                </div>
             </div>
         </div>
-        <div>
-            <!--    <md-button ng-click="vm.showUserList()">
-                User
-            </md-button>
-            <md-button ng-click="vm.openRightMenu()">
-                History
-            </md-button> -->
+       <!--  <div>
             <md-menu>
                 <md-button class="md-icon-button" aria-label="open menu" ng-click="$mdOpenMenu()">
                     <md-icon md-font-icon="fa fa-cog"></md-icon>
@@ -40,7 +43,7 @@
                             Profile
                         </md-button>
                     </md-menu-item>
-                    <md-menu-item ng-if="vm.userInfo.user_role == 2"> 
+                    <md-menu-item ng-if="vm.userInfo.user_role == 2">
                         <md-button ng-click="vm.showUserList()" class="md-primary">
                             <md-icon md-font-icon="fa fa-user"></md-icon>
                             Users
@@ -54,47 +57,9 @@
                     </md-menu-item>
                 </md-menu-content>
             </md-menu>
-        </div>
-        <!-- <md-button aria-label="Go Back">
-          Go Back
-        </md-button> -->
-        <!-- <md-truncate style="position: absolute; left: 90px; right: 170px; top: 13px; bottom: 13px;">Toolbar with Standard Buttons</md-truncate> -->
-        <!--  <span flex></span>
-        <md-button class="md-raised" aria-label="Learn More">
-          Learn More
-        </md-button>
-        <md-button class="md-fab md-mini" aria-label="Favorite">
-          <md-icon md-svg-icon="img/icons/favorite.svg"></md-icon>
-        </md-button> -->
+        </div> -->
     </div>
 </md-toolbar>
-<!-- Left Sidebar Show user added video -->
-<!-- <md-sidenav md-component-id="left" class="md-sidenav-left">
-    <div layout="row">
-        <md-button class="md-fab md-primary md-mini" ng-click="vm.uploadVideo()">
-            <md-tooltip md-direction="bottom" aria-hidden="true">Upload Video</md-tooltip>
-            <i class="fa fa-cloud-upload" aria-hidden="true"></i>
-        </md-button>
-    </div>
-    <md-content>
-        <md-list flex>
-            <md-subheader class="md-no-sticky">Play List</md-subheader>
-            <md-list-item class="md-3-line" ng-repeat="item in vm.playList" ng-click="vm.playUserVideo(item)">
-                <img ng-src="{{item.thumbnail}}?{{$index}}" class="md-avatar" alt="{{item.title}}" />
-                <div class="md-list-item-text" layout="column">
-                    <h3>{{ item.title }}</h3>
-                    <h4>{{ item.created_at }}
-                      <md-button class="md-icon-button md-primary" aria-label="add waitList" ng-click="vm.addToWaitList(item._id)">
-                             <md-tooltip md-direction="bottom">add waitlist</md-tooltip>
-                                <i class="fa fa-plus-square" aria-hidden="true"></i>
-                            </md-button>
-                    </h4>
-                </div>
-            </md-list-item>
-        </md-list>
-    </md-content>
-</md-sidenav> -->
-<!-- Right Sidebar Show History video-->
 <md-sidenav class="md-sidenav-right md-whiteframe-4dp" md-component-id="right">
     <md-content>
         <md-list flex>
@@ -115,3 +80,27 @@
         </md-list>
     </md-content>
 </md-sidenav>
+<div id="top-bar">
+    <div class="logo menulinks" onclick="openMenu(event, 'room-info')">
+        <img src="assets/images/logo.png" />
+    </div>
+    <div class="current-song">
+        <div class="disc"><img src="assets/images/disc.png" alt="Logo" /></div>
+        <div class="song-info">
+            <div id="currentSong">FRENSHIP - Capsize (Ashton Love Remix)</div>
+            <div class="current-dj">Current DJ:
+                <font id="currentDj">RubyChan</font>
+            </div>
+        </div>
+    </div>
+    <div class="history-button menulinks" ng-click="vm.openHistory()">
+        history
+        <i class="mdi mdi-history" style="font-size: 30px;"></i>
+    </div>
+    <div class="skip-button" onclick="confirmSkip()">
+        <i class="mdi mdi-skip-next" style="font-size: 30px;"></i>
+    </div>
+    <div id="timeProgress">
+        03:13
+    </div>
+</div>

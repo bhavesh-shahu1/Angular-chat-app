@@ -19,6 +19,8 @@
         vm.showUserProfile = showUserProfile;
         vm.logout = logout;
 
+        vm.openHistory = openHistory;         
+
         function init() {
             // vm.videoInfo = localStorage.getItem('videoInfo');
             // if (angular.isDefined(localStorage.getItem('videoInfo')) && localStorage.getItem('videoInfo') != null) {
@@ -27,6 +29,10 @@
             //     vm.videoTitle = vm.videoInformation1.title;
             // }
         }
+
+        function openHistory(){
+            $state.go('default-layout.admin-layout.history');
+        }    
 
         $scope.$on('playUserSelectedVideo', function($event, videoInfo) {
             vm.videoInformation = JSON.parse(videoInfo);

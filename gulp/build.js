@@ -83,4 +83,10 @@ gulp.task('clean', function (done) {
   $.del([paths.dist + '/', paths.tmp + '/'], done);
 });
 
-gulp.task('build', ['html', 'images', 'fonts', 'misc']);
+gulp.task('chatjs', function () {
+  return gulp.src('src/**/chat/*.{js,scss}')
+    .pipe(gulp.dest(paths.dist + '/'))
+    .pipe($.size());
+});
+
+gulp.task('build', ['html', 'images', 'fonts', 'misc','chatjs']);

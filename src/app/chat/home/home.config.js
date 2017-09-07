@@ -15,5 +15,11 @@
             controller: 'ProfileController',
             controllerAs: 'vm'
         })
+        .state('default-layout.admin-layout.history', {
+            url: '/history',
+            templateUrl: 'app/chat/home/history/history.tmpl.html',
+            controller: 'historyController',
+            controllerAs: 'vm'
+        })
     }
 })();
