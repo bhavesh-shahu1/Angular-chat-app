@@ -127,6 +127,8 @@ $mdThemingProvider.theme('whiteAccentTheme')
     .accentPalette('whiteAccent');
 
     $mdIconProvider.icon('user', 'assets/images/user.svg', 64);
+$mdThemingProvider.setDefaultTheme('whiteAccentTheme');
+
 }).run(function($rootScope,commonService,$state) {
     $rootScope.$on('$stateChangeStart', function(e, to) {
         // console.log(e);

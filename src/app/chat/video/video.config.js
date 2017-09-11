@@ -21,5 +21,11 @@
             controller: 'PlayListVideoController',
             controllerAs: 'vm'
         })
+        .state('default-layout.admin-layout.play-list-video1', {
+            url: '/playlist-video1',
+            templateUrl: 'app/chat/video/play-list-video1.tmpl.html',
+            controller: 'PlayListVideoController1',
+            controllerAs: 'vm'
+        })
     }
 })();

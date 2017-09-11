@@ -1,4 +1,4 @@
-<md-toolbar>
+<!-- <md-toolbar>
     <div class="md-toolbar-tools" layout="row" layout-align="start center">
         <md-button ng-click="vm.openBottomLeftMenu()">
            Playlist
@@ -6,16 +6,19 @@
         <div layout-align="start start">
         	<span class="md-body-2">{{vm.videoInformation.title}}</span>
         </div>
-</md-toolbar>
+</md-toolbar> -->
 <!-- <md-button ng-click="vm.showGridBottomSheet()">
             Menu
         </md-button> -->
-<!-- <div id="bottom-bar">
-                <div class="playlists-button menulinks" onclick="openMenu(event, 'playlists')" >
+<div id="bottom-bar">
+                <div class="playlists-button menulinks" ng-click="vm.openBottomLeftMenu()">
+                    <i class="mdi mdi-36px mdi-format-list-bulleted"></i>
+                </div>
+                <div class="playlists-button menulinks" ng-click="vm.openBottomLeftMenu1()">
                     <i class="mdi mdi-36px mdi-format-list-bulleted"></i>
                 </div>
                 <div class="selected-song">
-                    FRENSHIP - Capsize (Ashton Love Remix)
+                    {{vm.videoInformation.title}}
                 </div>
-            </div>      -->   
+            </div>        
 

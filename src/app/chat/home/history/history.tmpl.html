@@ -1,4 +1,4 @@
-<div class="history-item">
+<!-- <div class="history-item" layout="row">
     <div class="thumbnail">
         <img src="file:///E:/Users/robin/Documenten/Design/Delevery%201/MusicPlayerHTML/img/won-playlist-thumbnail.png" style="height:60px;" />
     </div>
@@ -13,4 +13,41 @@
         <div class="downvotes"><i class="mdi mdi-24px mdi-thumb-down-outline"></i><span class="number-votes">2</span></div>
         <div class="add-to-playlist"><i class="mdi mdi-24px mdi-plus-box-outline"></i></div>
     </div>
+</div> -->
+<!-- <div id="middle">
+    <div id="history" class="maincontent">
+        <div id="history-content">
+            <div class="history-item">
+                <div class="details">
+                    <div class="title">Song Title</div>
+                    <div class="item-info">3 minutes ago
+                        <font class="playedByTxt">Played By: </font>RubyChan</div>
+                </div>
+                <div class="votes">
+                    <div class="upvotes"><i class="mdi mdi-24px mdi-thumb-up-outline"></i><span class="number-votes">2</span></div>
+                    <div class="grabs"><i class="mdi mdi-24px mdi-star-outline"></i><span class="number-votes">2</span></div>
+                    <div class="downvotes"><i class="mdi mdi-24px mdi-thumb-down-outline"></i><span class="number-votes">2</span></div>
+                    <div class="add-to-playlist"><i class="mdi mdi-24px mdi-plus-box-outline"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+<div layout-align="center center" layout="row" ng-if="vm.activated">
+    <md-progress-circular ng-disabled="!vm.activated" class="md-hue-2" md-diameter="20px"></md-progress-circular>
+</div>
+<div  ng-repeat="item in vm.response">
+<div class="md-padding" style="background-color: rgba(27, 27, 27, 0.6)" layout="row" layout-align="space-between center">
+    <div class="details">
+        <div style="color: #FFFFFF;">{{ item.title }}</div>
+        <div style="font-size: 14px;color: #7b7b7b;margin-top: 8px;">{{ item.created_at}} minutes ago
+            <font style="margin-left:15px;color:rgb(215,41,79);">Played By: </font>RubyChan</div>
+    </div>
+    <div class="votes" layout="row">
+        <div class="upvotes" style="padding-right: 30px;color: #90AD2F;"><i class="mdi mdi-24px mdi-thumb-up-outline"></i><span class="number-votes">2</span></div>
+        <div class="grabs" style="padding-right: 30px; color: #A771FB;"><i class="mdi mdi-24px mdi-star-outline"></i><span class="number-votes">2</span></div>
+        <div class="downvotes" style="padding-right: 30px;color: #C42E3B;"><i class="mdi mdi-24px mdi-thumb-down-outline"></i><span class="number-votes">2</span></div>
+        <div class="add-to-playlist" style="padding-right: 30px;cursor: pointer;color: #FFFFFF;"><i class="mdi mdi-24px mdi-plus-box-outline"></i></div>
+    </div>
+</div>
 </div>

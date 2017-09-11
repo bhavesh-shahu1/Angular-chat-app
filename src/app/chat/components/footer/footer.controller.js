@@ -7,6 +7,7 @@
         vm.init = init;
         vm.showGridBottomSheet = showGridBottomSheet;
         vm.openBottomLeftMenu = openBottomLeftMenu;
+        vm.openBottomLeftMenu1 = openBottomLeftMenu1;
 
         function init() {
             // vm.videoInfo = localStorage.getItem('videoInfo');
@@ -41,6 +42,13 @@
             // $rootScope.$broadcast('VideoListTab', 'vedioList');
         }
 
+
+        function openBottomLeftMenu1() {
+            $state.go('default-layout.admin-layout.play-list-video1');
+            // $mdSidenav('left').toggle();
+            // $rootScope.$broadcast('VideoListTab', 'vedioList');
+        }
+        
         vm.init();
 
     }

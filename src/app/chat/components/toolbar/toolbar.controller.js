@@ -51,7 +51,6 @@
         vm.showUserList = showUserList;
         vm.showUserProfile = showUserProfile;
         vm.logout = logout;
-
         vm.openHistory = openHistory;
 
         function init() {
@@ -63,8 +62,14 @@
             // }
         }
 
-        function openHistory() {
-            $state.go('default-layout.admin-layout.history');
+        function openHistory(action) {
+            vm.isHistoryButton = action;
+            console.log(vm.isHistoryButton);
+            if(vm.isHistoryButton){
+                $state.go('default-layout.admin-layout.history');
+            }else{
+                $state.go('default-layout.admin-layout.wait-list-video');
+            }
         }
 
         $scope.$on('playUserSelectedVideo', function($event, videoInfo) {

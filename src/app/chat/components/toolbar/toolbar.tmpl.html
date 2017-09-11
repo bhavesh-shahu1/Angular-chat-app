@@ -8,7 +8,7 @@
                 <img src="assets/images/logo.png"  />
             </div>
             <div layout="row" class="current-song" layout-align="center center" flex>
-                <div class="disc" flex="5" >
+                <div class="disc" flex="5">
                 <img src="assets/images/disc.png" alt="Logo" /></div>
                 <!--  <span class="md-body-2">{{vm.videoTitle}}</span>
                 <span class="md-body-2" ng-if="vm.playingBy">Playing by:{{vm.playingBy}}</span> -->
@@ -21,9 +21,13 @@
                 <div id="timeProgress" layout="column" layout-align="center center" flex="20">
                     {{vm.videoInformation.duration | time:'mm'}}
                 </div>
-                <div class="history-button menulinks" layout="column" layout-align="center center"  ng-click="vm.openHistory()" layout-fill flex="10">
+                <div class="history-button menulinks" layout="column" layout-align="center center"  ng-click="vm.openHistory(true)" layout-fill flex="10" ng-if="!vm.isHistoryButton">
                     <!-- history -->
-                    <i class="mdi mdi-history" style="font-size: 30px;"></i>
+                    <i class="mdi mdi-history" style="font-size: 30px;" ></i>
+                </div>
+                <div class="history-button menulinks" layout="column" layout-align="center center"  ng-click="vm.openHistory(false)" layout-fill flex="10" ng-if="vm.isHistoryButton">
+                    <!-- history -->
+                    <i class="mdi mdi-chevron-up" style="font-size: 30px;"></i>
                 </div>
             </div>
         </div>
