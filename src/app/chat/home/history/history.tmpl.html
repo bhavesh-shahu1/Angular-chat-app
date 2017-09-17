@@ -36,7 +36,7 @@
 <div layout-align="center center" layout="row" ng-if="vm.activated">
     <md-progress-circular ng-disabled="!vm.activated" class="md-hue-2" md-diameter="20px"></md-progress-circular>
 </div>
-<div  ng-repeat="item in vm.response">
+<div  ng-repeat="item in vm.historyResponse">
 <div class="md-padding" style="background-color: rgba(27, 27, 27, 0.6)" layout="row" layout-align="space-between center">
     <div class="details">
         <div style="color: #FFFFFF;">{{ item.title }}</div>

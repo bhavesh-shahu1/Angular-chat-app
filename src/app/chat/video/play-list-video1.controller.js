@@ -5,10 +5,11 @@
     function PlayListVideoController1($mdDialog, videoService, commonService, $scope, $rootScope, $http, $state) {
         var vm = this;
         vm.data = {};
+        vm.createPlaylistData = {};
         vm.init = init;
         vm.userInfo = commonService.getUserInfo();
         vm.getPlayListName = getPlayListName;
-        vm.createPlaylist = createPlaylist;
+        vm.createPlayList = createPlayList;
         vm.getVideoListByName = getVideoListByName;
         vm.activePlaylist = activePlaylist;
         // vm.addToWaitList = addToWaitList;
@@ -18,6 +19,10 @@
         // vm.playUserVideo = playUserVideo;
         vm.backToWaitList = backToWaitList;
         vm.getActivePlayListName = getActivePlayListName;
+        vm.selectedItem = null;
+        vm.searchText = null;
+        vm.querySearch = querySearch;
+
 
         function init() {
             vm.getPlayListName();
@@ -40,7 +45,7 @@
         };
 
         function saveOrder() {
-            vm.activated = true;
+            vm.activatedPlaylistVedio = true;
             var postParameter = {
                 videoplaylists_id: vm.selectedList._id,
                 userplaylist_id: vm.selectedList.userplaylist_id,
@@ -48,17 +53,17 @@
                 new_order_id: vm.newPos
             }
             videoService.postCustomData('api', 'video', 'reorder', null, null, null, postParameter).then(function(response) {
-                vm.activated = false;
+                vm.activatedPlaylistVedio = false;
                 commonService.showToast(response.message);
             })
         }
 
         // Get user playlist 
         function getPlayListName() {
-            vm.activated = true;
+            vm.activatedPlaylistVedio = true;
             videoService.getData('api', 'uservideoplaylist', vm.userInfo._id, '').
             then(function(response) {
-                vm.activated = false;
+                vm.activatedPlaylistVedio = false;
                 vm.playlist = response.data.data;
                 if (angular.isDefined(vm.response) && vm.response != null) {
                     commonService.showToast(response.data.message);
@@ -73,10 +78,10 @@
 
         // Get active user playlist second time
         function getActivePlayListName() {
-            vm.activated = true;
+            vm.activatedPlaylistVedio = true;
             videoService.getData('api', 'uservideoplaylist', vm.userInfo._id, '').
             then(function(response) {
-                vm.activated = false;
+                vm.activatedPlaylistVedio = false;
                 vm.playlist = response.data.data;
                 if (angular.isDefined(vm.response) && vm.response != null) {
                     commonService.showToast(response.data.message);
@@ -90,22 +95,34 @@
             })
         }
 
-        // Show waitlist
-        function createPlaylist($event) {
-            $mdDialog.show({
-                controller: 'CreatePlaylistController',
-                controllerAs: 'vm',
-                templateUrl: 'app/chat/video/create-playlist.dialog.tmpl.html',
-                targetEvent: $event
-            }).then(function() {
+        //  Show playlist dialog
+        // function createPlayList($event) {
+        //     $mdDialog.show({
+        //         controller: 'CreatePlaylistController',
+        //         controllerAs: 'vm',
+        //         templateUrl: 'app/chat/video/create-playlist.dialog.tmpl.html',
+        //         targetEvent: $event
+        //     }).then(function() {
+        //         vm.getPlayListName();
+        //         // Add success code
+        //     })
+        // }
+
+        // Create user playlist name
+        function createPlayList(){
+            var postParam = {
+                user_id : vm.userInfo._id,
+                name: vm.createPlaylistData.name
+            }
+            videoService.postData('uservideoplaylist',postParam).then(function(response){
+                commonService.showToast(response.message);
                 vm.getPlayListName();
-                // Add success code
             })
         }
 
         // Get list of video by name
         function getVideoListByName(playlistInfo, index) {
-            vm.activated = true;
+            vm.activatedPlaylistVedio = true;
             if (vm.selectedIndex === null) {
                 vm.selectedIndex = index;
             } else if (vm.selectedIndex === index) {
@@ -115,16 +132,16 @@
             }
             vm.activeListDetail = playlistInfo;
             videoService.getData('api', 'video', vm.activeListDetail._id, '').then(function(response) {
-                vm.activated = false;
+                vm.activatedPlaylistVedio = false;
                 vm.videoList = response.data;
             })
         }
 
         // Active user playlist
         function activePlaylist() {
-            vm.activated = true;
+            vm.activatedPlaylistVedio = true;
             videoService.getCustomData('api', 'uservideoplaylist', 'active', vm.userInfo._id, vm.activeListDetail._id, '').then(function(response) {
-                vm.activated = false;
+                vm.activatedPlaylistVedio = false;
                 vm.getPlayListName();
                 if (angular.isDefined(response.data)) {
                     commonService.showToast(response.data.message);
@@ -144,11 +161,6 @@
         //         commonService.showToast(response.message);
         //     })
         // }
-
-        vm.selectedItem = null;
-        vm.searchText = null;
-        vm.querySearch = querySearch;
-
         // Search youtube video
         function querySearch() {
             vm.youtubeVideoKey = 'AIzaSyArYZ6rnkeDpxLWlDCQ3eJ-DC9j6Eb409w';
@@ -161,7 +173,7 @@
 
         // Add Selected video on server
         function saveSearchVideo() {
-            vm.activated = true;
+            vm.activatedPlaylistVedio = true;
             vm.youtubeUrl = 'https://youtu.be/' + vm.selectedItem.id.videoId;
             var postParameter = {
                 url: vm.youtubeUrl,
@@ -169,7 +181,7 @@
                 userplaylist_id: vm.activeListDetail._id
             }
             videoService.postData('userplaylist', postParameter).then(function(response) {
-                vm.activated = false;
+                vm.activatedPlaylistVedio = false;
                 commonService.showToast(response.message);
                 vm.getActivePlayListName();
                 vm.getVideoListByName(vm.activeListDetail);

@@ -5,8 +5,12 @@
 
             var conversions = {
                 'ss': angular.identity,
-                'mm': function(value) { return value * 60; },
-                'hh': function(value) { return value * 3600; }
+                'mm': function(value) {
+                    return value * 60;
+                },
+                'hh': function(value) {
+                    return value * 3600;
+                }
             };
 
             var padding = function(value, length) {
@@ -65,10 +69,23 @@
         function openHistory(action) {
             vm.isHistoryButton = action;
             console.log(vm.isHistoryButton);
-            if(vm.isHistoryButton){
-                $state.go('default-layout.admin-layout.history');
-            }else{
-                $state.go('default-layout.admin-layout.wait-list-video');
+            if (vm.isHistoryButton) {
+                var screenType = {
+                    screenType: 'history'
+                }
+                var encode = commonService.encodeObject(screenType);
+                $state.go('default-layout.admin-layout.wait-list-video', {
+                    parameter: encode
+                });
+                // $state.go('default-layout.admin-layout.history');
+            } else {
+                var screenType = {
+                    screenType: 'waitlistVedio'
+                }
+                var encode = commonService.encodeObject(screenType);
+                $state.go('default-layout.admin-layout.wait-list-video', {
+                    parameter: encode
+                });
             }
         }
 

@@ -2,7 +2,7 @@
     'use strict';
     angular.module('app.chat.component').controller('FooterController', FooterController);
     /* @ngInject */
-    function FooterController($mdBottomSheet, $rootScope, $mdSidenav, $scope, $state) {
+    function FooterController($mdBottomSheet, $rootScope, $mdSidenav, $scope, $state, commonService) {
         var vm = this;
         vm.init = init;
         vm.showGridBottomSheet = showGridBottomSheet;
@@ -49,6 +49,30 @@
             // $rootScope.$broadcast('VideoListTab', 'vedioList');
         }
         
+        vm.openCreatedPlayList = openCreatedPlayList;            
+        function openCreatedPlayList(action) {
+            vm.isCreatedPlayList = action;
+            console.log(vm.isCreatedPlayList);
+            if (vm.isCreatedPlayList) {
+                var screenType = {
+                    screenType: 'createdPlayList'
+                }
+                var encode = commonService.encodeObject(screenType);
+                $state.go('default-layout.admin-layout.wait-list-video', {
+                    parameter: encode
+                });
+                // $state.go('default-layout.admin-layout.play-list-video1');
+            } else {
+                var screenType = {
+                    screenType: 'waitlistVedio'
+                }
+                var encode = commonService.encodeObject(screenType);
+                $state.go('default-layout.admin-layout.wait-list-video', {
+                    parameter: encode
+                });
+            }
+        }
+
         vm.init();
 
     }

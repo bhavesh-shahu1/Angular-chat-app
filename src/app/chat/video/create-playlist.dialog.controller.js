@@ -4,7 +4,7 @@
     /* @ngInject */
     function CreatePlaylistController($mdDialog, homeService, commonService, Restangular, videoService) {
         var vm = this;
-        vm.data = {};
+        vm.createPlaylistData = {};
         vm.init = init;
         vm.cancelClick = cancelClick;
         vm.okClick = okClick;
@@ -18,7 +18,7 @@
         function createPlayList(){
             var postParam = {
                 user_id : vm.userInfo._id,
-                name: vm.data.name
+                name: vm.createPlaylistData.name
             }
             videoService.postData('uservideoplaylist',postParam).then(function(response){
                 commonService.showToast(response.message);

@@ -1,40 +1,14 @@
 <div layout="row" flex>
-    <div flex="30">
-        <!--  <md-toolbar>
-        <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
-            <div>
-                <md-button aria-label="create playlist" ng-click="vm.createPlaylist()">Create
-                </md-button>
-            </div>
-        </div>
-        </md-toolbar> -->
-        <div style="border-bottom: 3px solid #cf274e;" layout="row" flex>
+    <div flex="30" style="border-right: 3px solid #d7294f;">
+        <div style="border-bottom: 3px solid #cf274e; background-color: #111111;" layout="row" flex>
             <div flex="80">
-                <input style="height: 100%;width: 80%;background: none;padding: 11px;border: none;color: #FFFFFF;outline: 0;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;" type="text" placeholder="Create a new playlist" maxlength="256">
-                <!--  <md-input-container flex>
-                <input type="text" ng-model="vm.data.name">
-                </md-input-container> -->
+                <input style="height: 100%;width: 80%;background: none;padding: 11px;border: none;color: #FFFFFF;outline: 0;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;" type="text" placeholder="Create new playlist" maxlength="256" ng-model="vm.createPlaylistData.name">
             </div>
-            <!-- <md-input-container class="md-block" flex>
-            <input type="text" ng-model="vm.data.name" placeholder="Create a new playlist">
-            </md-input-container> -->
-            <div style="float: right;background-color: #c4254a;width: 121px;height: 40px;padding-top: 5px;cursor: pointer;" flex="20">
-                <i class="mdi mdi-24px mdi-playlist-plus" style="padding: 16px; color: #FFFFFF;"></i>
+            <div style="float: right;background-color: #c4254a;width: 121px;height: 40px;padding-top: 5px;cursor: pointer;" flex="20" ng-click="vm.createPlayList()">
+                <i class="mdi mdi-24px mdi-playlist-plus" style="padding: 16px; color: #FFFFFF;" ></i>
             </div>
         </div>
-        <div>
-            <!-- <md-content>
-            <md-list flex>
-            <md-list-item class="md-2-line" ng-repeat="item in vm.playlist" ng-click="vm.getVideoListByName(item,$index)" ng-class="{selectedIndex: vm.selectedIndex===$index}">
-            <div class="md-list-item-text" layout="row" layout-align="space-between">
-                <h3>
-                <i class="fa fa-check" aria-hidden="true" ng-if="item.isactive"></i>
-                {{ item.name }}</h3>
-                <h4>{{ item.total_video }}</h4>
-            </div>
-            </md-list-item>
-            </md-list>
-            </md-content> -->
+        <div style="background-color: #111111;">
             <div style="height: 18px;
                 padding: 15px; cursor: pointer; color: #FFFFFF" ng-repeat="item in vm.playlist" ng-click="vm.getVideoListByName(item,$index)" layout="row" layout-align="space-between center">
                 <div style="float: left;font-size: 15px;font-weight: 700;">{{ item.name }}</div>
@@ -43,17 +17,6 @@
         </div>
     </div>
     <div flex>
-        <!--  <md-toolbar>
-        <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
-            <div layout="row">
-                <span class="md-title">{{vm.activeListDetail.name}}</span>
-            </div>
-            <div>
-                <md-button aria-label="Active" ng-click="vm.activePlaylist()" ng-if="!vm.activeListDetail.isactive">Active Playlist
-                </md-button>
-            </div>
-        </div>
-        </md-toolbar> -->
         <md-content>
         <!--  <md-list flex> -->
         <div layout="row">
@@ -67,7 +30,7 @@
                 md-items="item in vm.querySearch(vm.searchText)"
                 md-item-text="item.snippet.title"
                 md-min-length="0"
-                placeholder="Search YouTube test">
+                placeholder="Search YouTube" style="background-color: #111111;">
                 <md-item-template>
                 <div layout="row">
                     <img ng-src="{{item.snippet.thumbnails.default.url}}?{{$index}}" class="md-avatar" alt="{{item.snippet.title}}" style="height: 40px;width: 40px;border-radius: 40px;" />&nbsp;
@@ -75,48 +38,27 @@
                 </div>
                 </md-item-template>
                 </md-autocomplete>
-                <!-- <md-autocomplete flex md-input-name="autocompleteField" md-no-cache="true" md-selected-item="vm.selectedItem" md-search-text="vm.searchText" md-items="item in vm.querySearch(vm.searchText)" md-item-text="item.snippet.title" md-floating-label="Search YouTube test" >
-                <md-item-template>
-                <div layout="row">
-                    <img ng-src="{{item.snippet.thumbnails.default.url}}?{{$index}}" class="md-avatar" alt="{{item.snippet.title}}" style="height: 40px;width: 40px;border-radius: 40px;" />&nbsp;
-                    <span md-highlight-text="vm.searchText">{{item.snippet.title}}</span>
-                </div>
-                </md-item-template>
-                <div ng-messages="searchForm.autocompleteField.$error" ng-if="searchForm.autocompleteField.$touched">
-                    <div ng-message="required">You <b>must</b> have a favorite state.</div>
-                    <div ng-message="minlength">Your entry is not long enough.</div>
-                    <div ng-message="maxlength">Your entry is too long.</div>
-                </div>
-                </md-autocomplete> -->
             </form>
             <div class="playlistlinks" style="float: right;
-    background-color: #c4254a;
-    width: 47px;
-    height: 34px;
-    padding-top: 7px;
-    cursor: pointer;">
-                                        <i class="mdi mdi-24px mdi-magnify" style="padding: 12px;"></i>
-                                    </div>
-            <!-- <div style="margin-top: 9px;">
-                <md-button class="md-primary" aria-label="Active" ng-click="vm.saveSearchVideo()">Add To Playlist
-                </md-button>
-            </div> -->
+                background-color: #c4254a;
+                width: 47px;
+                height: 34px;
+                padding-top: 7px;
+                cursor: pointer;" ng-click="vm.saveSearchVideo()">
+                <i class="mdi mdi-24px mdi-magnify" style="padding: 12px;"></i>
+            </div>
         </div>
-        <div layout-align="center center" layout="row" ng-if="vm.activated">
-            <md-progress-circular ng-disabled="!vm.activated" class="md-hue-2" md-diameter="20px"></md-progress-circular>
+        <div layout-align="center center" layout="row" ng-if="activatedPlaylistVedio">
+            <md-progress-circular ng-disabled="!activatedPlaylistVedio" class="md-hue-2" md-diameter="20px"></md-progress-circular>
         </div>
-        <!-- <md-divider style="background-color: #c4254a;border-top-width: 3px;"></md-divider> -->
         <md-divider style="border-bottom: 3px solid #fb294f"></md-divider>
         <!--  <div layout=""> -->
         <div class="currentPlaylistInfoBox" layout="row" layout-align="space-between center" style="background: #111111;">
-            <div style="padding: 8px;float: left;font-size: 19px;font-weight: 700;color: #FFFFFF">Nightcore #1</div>
+            <div style="padding: 8px;float: left;font-size: 19px;font-weight: 700;color: #FFFFFF">{{vm.activeListDetail.name}}</div>
             <div class="actions" layout="row">
                 <div style="float: left;width: auto;height: 34px;padding-top: 4px;cursor: pointer;padding-right: 20px;">
                     <label for="setAsActiveCheckbox" style="cursor: pointer;"><span style="color: #FFFFFF">Set as active</span></label>
-                    <input style="position: relative;top: 4px;" type="checkbox">
-                    <!-- <span style="color: #FFFFFF">Set as active</span>
-                    <md-checkbox ng-model="data.cb1" aria-label="Checkbox 1">
-                    </md-checkbox> -->
+                    <input style="position: relative;top: 4px;" type="checkbox" ng-click="vm.activePlaylist()">
                 </div>
                 <div style="float: left;width: 47px;height: 34px;padding-top: 7px;cursor: pointer; color: #FFFFFF">
                     <i class="mdi mdi-24px mdi-shuffle"></i>
@@ -129,27 +71,12 @@
                 </div>
             </div>
         </div>
-        <!-- <md-divider style="border-bottom: 3px solid #cf274e"></md-divider> -->
         <md-divider style="background-color: #fb294f;border-top-width: 3px;"></md-divider>
         <div>
             <div ui-tree="treeOptions" id="tree-root" class="table table-responsive" ng-if="vm.videoList.length > 0">
-                <!--  <div ui-tree-nodes ng-model="vm.videoList">
-                    <md-list-item class="md-3-line" ng-repeat="item in vm.videoList" ui-tree-node>
-                    <img ng-src="{{item.thumbnail}}?{{$index}}" class="md-avatar" alt="{{item.title}}" />
-                    <div class="md-list-item-text" layout="column" ui-tree-handle>
-                        <h3>{{ item.title }}</h3>
-                        <h4>{{ item.created_at }}
-                        </h4>
-                    </div>
-                </div>
-                </md-list-item> -->
                 <div ui-tree-nodes ng-model="vm.videoList">
                     <div ng-repeat="item in vm.videoList" ui-tree-node>
                         <div style="height: 75px;clear: both; background: #111111;" layout="row" layout-align="space-between center" ui-tree-handle>
-                            <!-- <div class="thumbnail">
-                                <img src="file:///E:/Users/robin/Documenten/Design/Delevery%201/MusicPlayerHTML/img/won-playlist-thumbnail.png">
-                            </div> -->
-                            <!--   <img ng-src="{{item.thumbnail}}?{{$index}}" class="md-avatar" alt="{{item.title}}" /> -->
                             <div style="float: left;padding: 15px;">
                                 <div style="color: #FFFFFF;">{{ item.title }}</div>
                                 <div style="font-size: 14px;color: #7b7b7b;">{{ item.created_at }}</div>

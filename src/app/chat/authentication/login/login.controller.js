@@ -37,8 +37,15 @@
                         // $state.go('home.profile');
                         // $state.go('default-layout.admin-layout.user');
                         // $state.go('default-layout.admin-layout.video');
-                        $state.go('default-layout.admin-layout.wait-list-video');
+                        // $state.go('default-layout.admin-layout.wait-list-video');
                         //$state.go('default-layout');
+                        var screenType = {
+                            screenType: 'waitlistVedio'
+                        }
+                        var encode = commonService.encodeObject(screenType);
+                        $state.go('default-layout.admin-layout.wait-list-video', {
+                            parameter: encode
+                        });
                     }
                 })
         }

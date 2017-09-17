@@ -19,8 +19,7 @@
             videoService.getData('api', 'userplaylist', vm.userInfo._id, '').
             then(function(response) {
                 vm.activated = false;
-                vm.response = response.data;
-                console.log(vm.response);
+                vm.historyResponse = response.data;
                 commonService.showToast(response.message);
             })
         }

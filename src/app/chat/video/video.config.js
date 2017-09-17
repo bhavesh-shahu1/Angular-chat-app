@@ -10,7 +10,7 @@
             controllerAs: 'vm'
         })
         .state('default-layout.admin-layout.wait-list-video', {
-            url: '/waitlist-video',
+            url: '/waitlist-video/:parameter',
             templateUrl: 'app/chat/video/wait-list-video.tmpl.html',
             controller: 'WaitListVideoController',
             controllerAs: 'vm'
