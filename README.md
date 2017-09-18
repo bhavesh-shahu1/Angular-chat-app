@@ -34,7 +34,7 @@ Run development web-server:
 * Angular UI Router
 * Angular Material
 * Sass styles
-* Gulp build
+* Gulp build.
 * Stylish, clean, responsive layout with original design
 * BrowserSync for the ease of development
 
