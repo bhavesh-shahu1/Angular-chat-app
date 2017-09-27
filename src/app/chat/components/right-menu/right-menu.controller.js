@@ -35,8 +35,8 @@
         vm.onTabChanges = onTabChanges;
         vm.getRandomColor = getRandomColor;
         vm.ChatStyle = {
-            'max-height': $window.innerHeight - 150 + "px",
-            'min-height': $window.innerHeight - 150 + "px",
+            'max-height': $window.innerHeight - 181 + "px",
+            'min-height': $window.innerHeight - 181 + "px",
             'overflow-y': 'scroll'
         };
         vm.color=['#F44336','#FFEB3B','#E91E63','#9C27B0','#FFC107','#673AB7','#FF9800','#3F51B5','#2196F3','#FF5722','#03A9F4','#795548','#00BCD4','#009688','#607D8B','#4CAF50','#8BC34A','#CDDC39'];
@@ -49,8 +49,8 @@
         var w = angular.element($window);
         w.bind('resize', function() {
             vm.ChatStyle = {
-                'max-height': $window.innerHeight - 150 + "px",
-                'min-height': $window.innerHeight - 150 + "px",
+                'max-height': $window.innerHeight - 181 + "px",
+                'min-height': $window.innerHeight - 181 + "px",
                 'overflow-y': 'scroll'
             }
         });
