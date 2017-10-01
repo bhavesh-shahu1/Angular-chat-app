@@ -5,8 +5,8 @@
                 <md-tab-label>
                     <i class="mdi mdi-24px mdi-message " ng-class="vm.selectedTab == 'chat' ? 'pink-color':'white-color'"></i>
                 </md-tab-label>
-                <md-tab-body >
-                    <md-content >
+                <md-tab-body>
+                    <md-content>
                         <div md-padding style="background: #000" ng-style="vm.ChatStyle" schroll-bottom="vm.userChat.data" id="messageDiv">
                             <!-- <div ng-repeat="chat in vm.userChat.data">
                     <div class="md-whiteframe-1dp">
@@ -14,16 +14,16 @@
                         <span class="md-body-1">{{chat.msg}}</span>
                     </div>
                     </div> -->
-                            <div >
+                            <div>
                                 <div ng-repeat="chat in vm.userChat.data track by $index" flex>
                                     <div layout="row">
                                         <div>
-
                                             <img style="width: 30px; height: 30px;border-radius: 50%" src="http://video-playlist.herokuapp.com/images/user_avtar/{{chat.user_id.avtar}}" draggable="false" />
                                         </div>
                                         <div class="md-body-2 white-color" layout="column" flex="75">
                                             <div ng-style="{color:vm.color[$index%vm.color.length]}"><b>{{chat.user_id.username}}</b></div>
-                                            <div class="grey-color"><h5>{{chat.msg}}</h5></div>
+                                            <div class="grey-color">
+                                                <h5>{{chat.msg}}</h5></div>
                                         </div>
                                         <span flex></span>
                                         <div class="grey-color">
@@ -61,16 +61,31 @@
                         </div>
                         </ol> -->
                         </div>
-                        <div flex>
+                        <div flex class="border-top-chat-pannel" style="color: white!important; background: black;">
                             <form name="chatForm" ng-submit="vm.postChat()" flex>
-                                <div layout="row" flex>
-                                    <md-input-container flex>
-                                        <label>Message</label>
-                                        <input ng-model="vm.data.message" placeholder="Enter here message">
+                                <div layout="row" flex class="chat-text-box">
+                                    <md-input-container flex style="margin: 0px;padding: 0px" md-no-float>
+                                        <input ng-model="vm.data.message" placeholder="Type your message..." style="color: white!important;">
                                     </md-input-container>
-                                    <md-button class="md-fab md-primary md-mini" ng-click="vm.postChat()"> <i class="fa fa-send" aria-hidden="true"></i> </md-button>
+                                    <!-- <md-button class="md-fab md-primary md-mini" ng-click="vm.postChat()"> <i class="fa fa-send" aria-hidden="true"></i> </md-button> -->
                                 </div>
                             </form>
+                        </div>
+                        <div id="app-right" flex layout="coloumn" layout-align="center center">
+                            <div id="vote-buttons" layout="row" flex layout-align="center center">
+                                <div flex="100" layout="row" class="upvote" layout-align="center center">
+                                    <button flex id="upvote" class="votelinks upvote" onclick="voteButton(event, 'upvote')"><i class="mdi mdi-24px mdi-thumb-up-outline"></i> 2</button>
+                                </div>
+                                <div flex="100" layout="row" layout-align="center center">
+                                    <button flex id="grab" class="votelinks grab" onclick="voteButton(event, 'grab')"><i class="mdi mdi-24px mdi-star-outline"></i> 5</button>
+                                </div>
+                                <div flex="100" layout="row" layout-align="center center">
+                                    <button flex id="downvote" class="votelinks downvote" onclick="voteButton(event, 'downvote')"><i class="mdi mdi-24px mdi-thumb-down-outline"></i> 2</button>
+                                </div>
+                                <div flex="100" layout="row" layout-align="center center">
+                                    <button flex id="joinqueue" class="votelinks joinqueue" onclick="voteButton(event, 'joinqueue')"><i class="mdi mdi-24px mdi-playlist-plus"></i></button>
+                                </div>
+                            </div>
                         </div>
                         <!-- <div layout="column" layout-align="space-between">
                     <div>
@@ -105,22 +120,72 @@
                     <i class="mdi mdi-24px mdi-playlist-play  " ng-class="vm.selectedTab == 'waitlist_list' ? 'pink-color':'white-color'"></i> <span class="badge  " ng-class="vm.selectedTab == 'waitlist_list' ? 'pink-color':'white-color'">3/10</span>
                 </md-tab-label>
                 <md-tab-body>
-                    <md-content class="md-padding">
-                        <md-list flex>
+                    <md-content >
+                        <!-- <md-list flex>
                             <md-list-item class="md-3-line" ng-repeat="item in vm.waitList.data">
                                 <img ng-src="{{item.videoplaylists_id.thumbnail}}?{{$index}}" class="md-avatar" alt="{{item.title}}" />
                                 <div class="md-list-item-text" layout="column">
                                     <h3>{{ item.videoplaylists_id.title }}</h3>
                                     <h4>{{ item.videoplaylists_id.created_at }}
-                            <md-button class="md-icon-button md-warn" aria-label="remove waitList"
-                            ng-show="item.videoplaylists_id.user_id == vm.userId" ng-click="vm.removeFromWaitList(item._id,item.videoplaylists_id._id)">
-                             <md-tooltip md-direction="bottom">Remove waitlist</md-tooltip>
-                                <i class="fa fa-trash" aria-hidden="true"></i>  
-                            </md-button>
-                            </h4>
+                                        <md-button class="md-icon-button md-warn" aria-label="remove waitList" ng-show="item.videoplaylists_id.user_id == vm.userId" ng-click="vm.removeFromWaitList(item._id,item.videoplaylists_id._id)">
+                                        <md-tooltip md-direction="bottom">Remove waitlist</md-tooltip>
+                                            <i class="fa fa-trash" aria-hidden="true"></i>  
+                                        </md-button>
+                                    </h4>
+                                </div> 
+                            </md-list-item> 
+                        </md-list> -->
+                        <div id="app-right">
+                            <div id="waitlist" class="tabcontent" ng-repeat="item in vm.waitList.data">
+                                <div id="waitlist-content">
+                                    <div class="queue-user">
+                                        <div class="ranking">1.</div>
+                                        <div class="profilepic"><img src="assets/images/profipic.png" alt=""></div>
+                                        <div class="username owner">User 1</div>
+                                        <div class="actions">
+                                            <div class="removeUser"><i class="mdi mdi-24px mdi-close"></i></div>
+                                            <div class="moveUser"><i class="mdi mdi-24px mdi-drag"></i></div>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="queue-user">
+                                        <div class="ranking">2.</div>
+                                        <div class="profilepic"><img src="assets/images/profipic.png" alt=""></div>
+                                        <div class="username manager">User 2</div>
+                                        <div class="actions">
+                                            <div class="removeUser"><i class="mdi mdi-24px mdi-close"></i></div>
+                                            <div class="moveUser"><i class="mdi mdi-24px mdi-drag"></i></div>
+                                        </div>
+                                    </div>
+                                    <div class="queue-user">
+                                        <div class="ranking">3.</div>
+                                        <div class="profilepic"><img src="assets/images/profipic.png" alt=""></div>
+                                        <div class="username moderator">User 3</div>
+                                        <div class="actions">
+                                            <div class="removeUser"><i class="mdi mdi-24px mdi-close"></i></div>
+                                            <div class="moveUser"><i class="mdi mdi-24px mdi-drag"></i></div>
+                                        </div>
+                                    </div>
+                                    <div class="queue-user">
+                                        <div class="ranking">4.</div>
+                                        <div class="profilepic"><img src="assets/images/profipic.png" alt=""></div>
+                                        <div class="username donator">User 4</div>
+                                        <div class="actions">
+                                            <div class="removeUser"><i class="mdi mdi-24px mdi-close"></i></div>
+                                            <div class="moveUser"><i class="mdi mdi-24px mdi-drag"></i></div>
+                                        </div>
+                                    </div>
+                                    <div class="queue-user">
+                                        <div class="ranking">5.</div>
+                                        <div class="profilepic"><img src="assets/images/profipic.png" alt=""></div>
+                                        <div class="username">User 5</div>
+                                        <div class="actions">
+                                            <div class="removeUser"><i class="mdi mdi-24px mdi-close"></i></div>
+                                            <div class="moveUser"><i class="mdi mdi-24px mdi-drag"></i></div>
+                                        </div>
+                                    </div> -->
                                 </div>
-                            </md-list-item>
-                        </md-list>
+                            </div>
+                        </div>
                     </md-content>
                 </md-tab-body>
             </md-tab>
