@@ -1,7 +1,21 @@
+<style type="text/css">
+    md-autocomplete input:not(.md-input) {
+    font-size: 14px;
+    box-sizing: border-box;
+    border: none;
+    box-shadow: none;
+    outline: none;
+    background: black;
+    width: 100%;
+    padding: 0 15px;
+    line-height: 40px;
+    height: 40px;
+}
+</style>
 <div layout-align="center center" layout="row" ng-if="vm.activated">
     <md-progress-circular ng-disabled="!vm.activated" class="md-hue-2" md-diameter="20px"></md-progress-circular>
 </div>
-<div ng-if="!vm.activated && vm.screenType == 'waitlistVedio'" style="padding-top: 65px;">
+<div ng-if="!vm.activated" style="padding-top: 65px;">
     <div ng-if="!vm.response" layout="row" layout-align="center center">
         <img style="width: 68%;"  src="../assets/images/no-video.gif" />
     </div>
@@ -32,10 +46,12 @@
     </div>
 </div>
 <!-- show history list -->
-<div  ng-repeat="item in vm.historyResponse" ng-if="vm.screenType == 'history'">
-<div class="md-padding" style="background-color: rgba(27, 27, 27, 0.6)" layout="row" layout-align="space-between center">
+<div ng-if="vm.screenType == 'history'" style="position: fixed;top: 47px;height: 74vh;" flex>
+<div  ng-repeat="item in vm.historyResponse" flex>
+<div class="md-padding" style="background-color: rgba(27, 27, 27, 0.6)" layout="row" layout-align="space-between center" flex>
     <div class="details">
-        <div style="color: #FFFFFF;">{{ item.title }}</div>
+        <div style="color: #FFFFFF;">{{ item.title }}&nbsp;&nbsp;&nbsp;</div>
+
         <div style="font-size: 14px;color: #7b7b7b;margin-top: 8px;">{{ item.created_at}} minutes ago
             <font style="margin-left:15px;color:rgb(215,41,79);">Played By: </font>RubyChan</div>
     </div>
@@ -47,8 +63,9 @@
     </div>
 </div>
 </div>
+</div>
 <!-- show create playlist video -->
-<div layout="row" flex ng-if="vm.screenType == 'createdPlayList'">
+<div layout="row" flex ng-if="vm.screenType == 'createdPlayList'" style="position: fixed;top: 64px;">
     <div flex="30" style="border-right: 3px solid #d7294f;">
         <div style="border-bottom: 3px solid #cf274e; background-color: #111111;" layout="row" flex>
             <div flex="80">
@@ -58,7 +75,7 @@
                 <i class="mdi mdi-24px mdi-playlist-plus" style="padding: 16px; color: #FFFFFF;" ></i>
             </div>
         </div>
-        <div style="background-color: #111111;">
+        <div style="background-color: #111111;opacity: 0.6;height: 74vh;">
             <div style="height: 18px;
                 padding: 15px; cursor: pointer; color: #FFFFFF" ng-repeat="item in vm.playlist" ng-click="vm.getVideoListByName(item,$index)" layout="row" layout-align="space-between center">
                 <div style="float: left;font-size: 15px;font-weight: 700;">{{ item.name }}</div>
@@ -66,7 +83,7 @@
             </div>
         </div>
     </div>
-    <div flex>
+    <div flex style="background: #111111;">
         <md-content>
         <!--  <md-list flex> -->
         <div layout="row">
@@ -80,7 +97,7 @@
                 md-items="item in vm.querySearch(vm.searchText)"
                 md-item-text="item.snippet.title"
                 md-min-length="0"
-                placeholder="Search YouTube" style="background-color: #111111;">
+                placeholder="Search YouTube">
                 <md-item-template>
                 <div layout="row">
                     <img ng-src="{{item.snippet.thumbnails.default.url}}?{{$index}}" class="md-avatar" alt="{{item.snippet.title}}" style="height: 40px;width: 40px;border-radius: 40px;" />&nbsp;
