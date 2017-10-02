@@ -117,10 +117,11 @@
             </md-tab>
             <md-tab label="WaitList ({{vm.waitlistCount}})" md-on-select="vm.onTabChanges('waitlist_list')">
                 <md-tab-label>
-                    <i class="mdi mdi-24px mdi-playlist-play  " ng-class="vm.selectedTab == 'waitlist_list' ? 'pink-color':'white-color'"></i> <span class="badge  " ng-class="vm.selectedTab == 'waitlist_list' ? 'pink-color':'white-color'">3/10</span>
+                    <i class="mdi mdi-24px mdi-playlist-play  " ng-class="vm.selectedTab == 'waitlist_list' ? 'pink-color':'white-color'"></i> <span class="badge" ng-class="vm.selectedTab == 'waitlist_list' ? 'pink-color':'white-color'">{{vm.waitList.data.length?vm.waitList.data.length:0}}/50</span>
+
                 </md-tab-label>
                 <md-tab-body>
-                    <md-content >
+                    <md-content>
                         <!-- <md-list flex>
                             <md-list-item class="md-3-line" ng-repeat="item in vm.waitList.data">
                                 <img ng-src="{{item.videoplaylists_id.thumbnail}}?{{$index}}" class="md-avatar" alt="{{item.title}}" />
@@ -135,13 +136,14 @@
                                 </div> 
                             </md-list-item> 
                         </md-list> -->
-                        <div id="app-right">
+                        <div id="app-right" style="background: #000"    >
                             <div id="waitlist" class="tabcontent" ng-repeat="item in vm.waitList.data">
                                 <div id="waitlist-content">
+                                    <!-- {{item}} -->
                                     <div class="queue-user">
-                                        <div class="ranking">1.</div>
-                                        <div class="profilepic"><img src="assets/images/profipic.png" alt=""></div>
-                                        <div class="username owner">User 1</div>
+                                        <div class="ranking username owner">{{$index+1}}</div>
+                                        <div class="profilepic"><img ng-src="{{item.videoplaylists_id.thumbnail}}" alt=""></div>
+                                        <div class="username owner">{{item.videoplaylists_id.title| limitTo : 40}}...</div>
                                         <div class="actions">
                                             <div class="removeUser"><i class="mdi mdi-24px mdi-close"></i></div>
                                             <div class="moveUser"><i class="mdi mdi-24px mdi-drag"></i></div>
