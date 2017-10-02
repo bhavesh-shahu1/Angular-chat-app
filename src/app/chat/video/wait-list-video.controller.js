@@ -225,6 +225,7 @@
         vm.selectedItem = null;
         vm.searchText = null;
         vm.querySearch = querySearch;
+        vm.createPlaylistData = {};
 
         $scope.treeOptions = {
             dragMove: function(event) {
@@ -292,17 +293,23 @@
                 // });
             })
         }
-
         // Create user playlist name
         function createPlayList(){
+            if(angular.isDefined(vm.createPlaylistData.name) && vm.createPlaylistData.name != null && vm.createPlaylistData.name != ''){
+            vm.activatedPlaylistVedio = true;
             var postParam = {
                 user_id : vm.userInfo._id,
                 name: vm.createPlaylistData.name
             }
             videoService.postData('uservideoplaylist',postParam).then(function(response){
+                vm.activatedPlaylistVedio = false;
                 commonService.showToast(response.message);
                 vm.getPlayListName();
+                vm.createPlaylistData.name = null;
             })
+        }else{
+            commonService.showToast('Enter playlist name first !');
+        }
         }
 
         // Get list of video by name
