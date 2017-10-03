@@ -112,13 +112,28 @@
                 <md-tab-body>
                     <md-content class="md-padding">
                         User Online
+                        <div id="app-right" flex layout="coloumn" layout-align="center center">
+                            <div id="vote-buttons" layout="row" flex layout-align="center center">
+                                <div flex="100" layout="row" class="upvote" layout-align="center center">
+                                    <button flex id="upvote" class="votelinks upvote" onclick="voteButton(event, 'upvote')"><i class="mdi mdi-24px mdi-thumb-up-outline"></i> 2</button>
+                                </div>
+                                <div flex="100" layout="row" layout-align="center center">
+                                    <button flex id="grab" class="votelinks grab" onclick="voteButton(event, 'grab')"><i class="mdi mdi-24px mdi-star-outline"></i> 5</button>
+                                </div>
+                                <div flex="100" layout="row" layout-align="center center">
+                                    <button flex id="downvote" class="votelinks downvote" onclick="voteButton(event, 'downvote')"><i class="mdi mdi-24px mdi-thumb-down-outline"></i> 2</button>
+                                </div>
+                                <div flex="100" layout="row" layout-align="center center">
+                                    <button flex id="joinqueue" class="votelinks joinqueue" onclick="voteButton(event, 'joinqueue')"><i class="mdi mdi-24px mdi-playlist-plus"></i></button>
+                                </div>
+                            </div>
+                        </div>
                     </md-content>
                     <md-tab-body>
             </md-tab>
             <md-tab label="WaitList ({{vm.waitlistCount}})" md-on-select="vm.onTabChanges('waitlist_list')">
                 <md-tab-label>
                     <i class="mdi mdi-24px mdi-playlist-play  " ng-class="vm.selectedTab == 'waitlist_list' ? 'pink-color':'white-color'"></i> <span class="badge" ng-class="vm.selectedTab == 'waitlist_list' ? 'pink-color':'white-color'">{{vm.waitList.data.length?vm.waitList.data.length:0}}/50</span>
-
                 </md-tab-label>
                 <md-tab-body>
                     <md-content>
@@ -136,7 +151,7 @@
                                 </div> 
                             </md-list-item> 
                         </md-list> -->
-                        <div id="app-right" style="background: #000"    >
+                        <div id="app-right" style="background: #000">
                             <div id="waitlist" class="tabcontent" ng-repeat="item in vm.waitList.data">
                                 <div id="waitlist-content">
                                     <!-- {{item}} -->
@@ -187,11 +202,27 @@
                                     </div> -->
                                 </div>
                             </div>
+                            <div id="app-right" flex layout="coloumn" layout-align="center center">
+                                <div id="vote-buttons" layout="row" flex layout-align="center center">
+                                    <div flex="100" layout="row" class="upvote" layout-align="center center">
+                                        <button flex id="upvote" class="votelinks upvote" onclick="voteButton(event, 'upvote')"><i class="mdi mdi-24px mdi-thumb-up-outline"></i> 2</button>
+                                    </div>
+                                    <div flex="100" layout="row" layout-align="center center">
+                                        <button flex id="grab" class="votelinks grab" onclick="voteButton(event, 'grab')"><i class="mdi mdi-24px mdi-star-outline"></i> 5</button>
+                                    </div>
+                                    <div flex="100" layout="row" layout-align="center center">
+                                        <button flex id="downvote" class="votelinks downvote" onclick="voteButton(event, 'downvote')"><i class="mdi mdi-24px mdi-thumb-down-outline"></i> 2</button>
+                                    </div>
+                                    <div flex="100" layout="row" layout-align="center center">
+                                        <button flex id="joinqueue" class="votelinks joinqueue" onclick="voteButton(event, 'joinqueue')"><i class="mdi mdi-24px mdi-playlist-plus"></i></button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </md-content>
                 </md-tab-body>
             </md-tab>
-            <md-tab md-on-select="vm.onTabChanges('user_profile')">
+            <md-tab md-on-select="vm.onTabChanges('user_profile');vm.getUserProfile()">
                 <md-tab-label>
                     <ol class="chat">
                         <div class="avatar">
@@ -200,8 +231,112 @@
                     </ol>
                 </md-tab-label>
                 <md-tab-body>
-                    <md-content class="md-padding">
-                        Private Msg
+                    <!--                     <md-content class="md-padding">
+                    vv
+                    </md-content> -->
+                    <md-content>
+                        <div id="app-right" ng-style="vm.userProfileStyle">
+                            <div id="usersettings" class="tabcontent">
+                                <div id="usersettings-content">
+                                    <div class="item-user">
+                                        <div class="item-name">
+                                            <img src="assets/images/profipic.png">
+                                            <div class="top-section">
+                                                <div class="username">{{vm.userData.username}}</div>
+                                                <div class="logout" style="cursor: pointer;">
+                                                    <a ng-click="vm.logout()"><i class="mdi mdi-logout-variant"></i>logout</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="item-change-avatar">
+                                        <i class="mdi mdi-24px mdi-upload"></i>
+                                        <span>Change avatar</span>
+                                    </div>
+                                    <div class="item">
+                                        <div class="item-name">Username</div>
+                                    </div>
+                                    <div class="item">
+                                        <input class="item-input" type="text" ng-model=vm.userData.username placeholder="Type your message..." maxlength="256" disabled="true">
+                                    </div>
+                                    <div class="item">
+                                        <div class="item-name">Old password</div>
+                                    </div>
+                                    <div class="item">
+                                        <input class="item-input" type="text" placeholder="Type your message..." maxlength="256">
+                                    </div>
+                                    <div class="item">
+                                        <div class="item-name">New password</div>
+                                    </div>
+                                    <div class="item">
+                                        <input class="item-input" type="text" placeholder="Type your message..." maxlength="256">
+                                    </div>
+                                    <div class="item">
+                                        <div class="item-name">Repeat password</div>
+                                    </div>
+                                    <div class="item">
+                                        <input class="item-input" type="text" placeholder="Type your message..." maxlength="256">
+                                    </div>
+                                    <div class="item-change-avatar">
+                                        <i class="mdi mdi-24px mdi-content-save"></i>
+                                        <span>Save</span>
+                                    </div>
+                                    <div class="divider"></div>
+                                    <div class="item">
+                                        <div class="item-name checkboxItem">
+                                            <input type="checkbox" id="chatImagesSetting" />
+                                            <label for="chatImagesSetting">Chat images</label>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <div class="item-name checkboxItem">
+                                            <input type="checkbox" id="mentionSoundSetting" checked />
+                                            <label for="mentionSoundSetting">Mention sound</label>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <div class="item-name checkboxItem">
+                                            <input type="checkbox" id="boothAlertSetting" checked />
+                                            <label for="boothAlertSetting">Booth alert</label>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <div class="item-name checkboxItem">
+                                            <input type="checkbox" id="playVideoAudioSetting" checked />
+                                            <label for="playVideoAudioSetting">Play audio/video</label>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <div class="item-name checkboxItem">
+                                            <input type="checkbox" id="userJoinSetting" checked />
+                                            <label for="userJoinSetting">User join</label>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <div class="item-name checkboxItem">
+                                            <input type="checkbox" id="userLeaveSetting" checked />
+                                            <label for="userLeaveSetting">User leave</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="app-right" flex layout="coloumn" layout-align="center center">
+                            <div id="vote-buttons" layout="row" flex layout-align="center center">
+                                <div flex="100" layout="row" class="upvote" layout-align="center center">
+                                    <button flex id="upvote" class="votelinks upvote" onclick="voteButton(event, 'upvote')"><i class="mdi mdi-24px mdi-thumb-up-outline"></i> 2</button>
+                                </div>
+                                <div flex="100" layout="row" layout-align="center center">
+                                    <button flex id="grab" class="votelinks grab" onclick="voteButton(event, 'grab')"><i class="mdi mdi-24px mdi-star-outline"></i> 5</button>
+                                </div>
+                                <div flex="100" layout="row" layout-align="center center">
+                                    <button flex id="downvote" class="votelinks downvote" onclick="voteButton(event, 'downvote')"><i class="mdi mdi-24px mdi-thumb-down-outline"></i> 2</button>
+                                </div>
+                                <div flex="100" layout="row" layout-align="center center">
+                                    <button flex id="joinqueue" class="votelinks joinqueue" onclick="voteButton(event, 'joinqueue')"><i class="mdi mdi-24px mdi-playlist-plus"></i></button>
+                                </div>
+                            </div>
+                        </div>
                     </md-content>
                 </md-tab-body>
             </md-tab>
@@ -212,6 +347,22 @@
                 <md-tab-body>
                     <md-content class="md-padding">
                         Private Msg
+                        <div id="app-right" flex layout="coloumn" layout-align="center center">
+                            <div id="vote-buttons" layout="row" flex layout-align="center center">
+                                <div flex="100" layout="row" class="upvote" layout-align="center center">
+                                    <button flex id="upvote" class="votelinks upvote" onclick="voteButton(event, 'upvote')"><i class="mdi mdi-24px mdi-thumb-up-outline"></i> 2</button>
+                                </div>
+                                <div flex="100" layout="row" layout-align="center center">
+                                    <button flex id="grab" class="votelinks grab" onclick="voteButton(event, 'grab')"><i class="mdi mdi-24px mdi-star-outline"></i> 5</button>
+                                </div>
+                                <div flex="100" layout="row" layout-align="center center">
+                                    <button flex id="downvote" class="votelinks downvote" onclick="voteButton(event, 'downvote')"><i class="mdi mdi-24px mdi-thumb-down-outline"></i> 2</button>
+                                </div>
+                                <div flex="100" layout="row" layout-align="center center">
+                                    <button flex id="joinqueue" class="votelinks joinqueue" onclick="voteButton(event, 'joinqueue')"><i class="mdi mdi-24px mdi-playlist-plus"></i></button>
+                                </div>
+                            </div>
+                        </div>
                     </md-content>
                 </md-tab-body>
             </md-tab>

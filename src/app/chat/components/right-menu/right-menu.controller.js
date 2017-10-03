@@ -17,7 +17,7 @@
         });
 
     /* @ngInject */
-    function RightMenuController(videoService, $scope, commonService, $rootScope, socketService, $window, $timeout) {
+    function RightMenuController(videoService, $scope, commonService, $rootScope, socketService, $window, $timeout, homeService,$state) {
         var vm = this;
         vm.init = init;
         vm.getWaitList = getWaitList;
@@ -34,13 +34,21 @@
         vm.scrollDown = scrollDown;
         vm.onTabChanges = onTabChanges;
         vm.getRandomColor = getRandomColor;
+        vm.getUserProfile = getUserProfile;
+        vm.logout=logout;
+        vm.updateUserProfile=updateUserProfile;
         vm.ChatStyle = {
             'max-height': $window.innerHeight - 181 + "px",
             'min-height': $window.innerHeight - 181 + "px",
             'overflow-y': 'scroll'
         };
-        vm.color=['#F44336','#FFEB3B','#E91E63','#9C27B0','#FFC107','#673AB7','#FF9800','#3F51B5','#2196F3','#FF5722','#03A9F4','#795548','#00BCD4','#009688','#607D8B','#4CAF50','#8BC34A','#CDDC39'];
-    
+        vm.userProfileStyle = {
+            'max-height': $window.innerHeight - 125 + "px",
+            'min-height': $window.innerHeight - 125 + "px",
+            'overflow-y': 'scroll'
+        };
+        vm.color = ['#F44336', '#FFEB3B', '#E91E63', '#9C27B0', '#FFC107', '#673AB7', '#FF9800', '#3F51B5', '#2196F3', '#FF5722', '#03A9F4', '#795548', '#00BCD4', '#009688', '#607D8B', '#4CAF50', '#8BC34A', '#CDDC39'];
+
         vm.selectedTab = 'chat';
 
         function scrollDown($element) {
@@ -52,7 +60,12 @@
                 'max-height': $window.innerHeight - 181 + "px",
                 'min-height': $window.innerHeight - 181 + "px",
                 'overflow-y': 'scroll'
-            }
+            };
+            vm.userProfileStyle = {
+                'max-height': $window.innerHeight - 125 + "px",
+                'min-height': $window.innerHeight - 125 + "px",
+                'overflow-y': 'scroll'
+            };
         });
 
         function init() {
@@ -130,6 +143,38 @@
                 color += letters[Math.floor(Math.random() * 16)];
             }
             return color;
+        }
+
+        function getUserProfile() {
+            vm.activated = true;
+            homeService.getData('api', 'user', vm.userInfo._id, '').then(function(response) {
+                vm.activated = false;
+                if (angular.isDefined(response.data)) {
+                    vm.userData = response.data;
+                    vm.userData.profilePic = 'https://video-playlist.herokuapp.com/images/user_avtar/' + vm.userData.avtar;
+                    if (angular.isDefined(response.data.username)) {
+                        vm.username = response.data.username;
+                        vm.userData.password = null;
+                    }
+
+                }
+            });
+        };
+        function updateUserProfile() {
+            vm.activated = true;
+            var postParam = vm.userData;
+            homeService.postCustomData('api', 'user', vm.userInfo._id, '', null, null, postParam)
+                .then(function(response) {
+                    vm.activated = false;
+                    if (angular.isDefined(response)) {
+                        commonService.showToast(response.message);
+                    }
+                })
+        }
+
+        function logout() {
+            commonService.logout();
+            $state.go('authentication.login');
         }
 
         // Whenever video add in waitList update waitlist
