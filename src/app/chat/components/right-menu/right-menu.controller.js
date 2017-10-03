@@ -17,7 +17,7 @@
         });
 
     /* @ngInject */
-    function RightMenuController(videoService, $scope, commonService, $rootScope, socketService, $window, $timeout, homeService,$state) {
+    function RightMenuController(videoService, $scope, commonService, $rootScope, socketService, $window, $timeout, homeService, $state) {
         var vm = this;
         vm.init = init;
         vm.getWaitList = getWaitList;
@@ -35,8 +35,12 @@
         vm.onTabChanges = onTabChanges;
         vm.getRandomColor = getRandomColor;
         vm.getUserProfile = getUserProfile;
-        vm.logout=logout;
-        vm.updateUserProfile=updateUserProfile;
+        vm.getBannedUser = getBannedUser;
+        vm.getMutedUser = getMutedUser;
+        vm.logout = logout;
+        vm.updateUserProfile = updateUserProfile;
+        vm.getUser = getUser;
+        vm.getConfiguration=getConfiguration;
         vm.ChatStyle = {
             'max-height': $window.innerHeight - 181 + "px",
             'min-height': $window.innerHeight - 181 + "px",
@@ -49,7 +53,7 @@
         };
         vm.color = ['#F44336', '#FFEB3B', '#E91E63', '#9C27B0', '#FFC107', '#673AB7', '#FF9800', '#3F51B5', '#2196F3', '#FF5722', '#03A9F4', '#795548', '#00BCD4', '#009688', '#607D8B', '#4CAF50', '#8BC34A', '#CDDC39'];
 
-        vm.selectedTab = 'chat';
+        vm.selectedTab = 'staff';
 
         function scrollDown($element) {
             // $timeout(function() { $("#messageDiv").scrollTop($("#messageDiv")[0].scrollHeight); }, 10);
@@ -160,22 +164,48 @@
                 }
             });
         };
+
         function updateUserProfile() {
             vm.activated = true;
             var postParam = vm.userData;
-            homeService.postCustomData('api', 'user', vm.userInfo._id, '', null, null, postParam)
-                .then(function(response) {
-                    vm.activated = false;
-                    if (angular.isDefined(response)) {
-                        commonService.showToast(response.message);
-                    }
-                })
+            homeService.postCustomData('api', 'user', vm.userInfo._id, '', null, null, postParam).then(function(response) {
+                vm.activated = false;
+            });
         }
 
         function logout() {
             commonService.logout();
             $state.go('authentication.login');
         }
+
+        function getUser() {
+            homeService.getData('api', 'user').
+            then(function(response) {
+                vm.userList = response.data;
+            })
+        }
+
+        function getBannedUser() {
+            homeService.getData('api', 'user', 'status', '0').
+            then(function(response) {
+                vm.userBannedList = response.data;
+            })
+        }
+
+        function getMutedUser() {
+            homeService.getData('api', 'user', 'status', '0').
+            then(function(response) {
+                vm.userMutedList = response.data;
+            })
+        }
+
+        function getConfiguration() {
+            homeService.getData('api', 'configuration').
+            then(function(response) {
+                vm.configuration = response.data[0];
+            })
+        }
+
 
         // Whenever video add in waitList update waitlist
         $scope.$on('updateWaitList', function($event, message) {
