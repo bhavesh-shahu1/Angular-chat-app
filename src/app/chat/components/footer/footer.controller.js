@@ -48,28 +48,30 @@
             // $mdSidenav('left').toggle();
             // $rootScope.$broadcast('VideoListTab', 'vedioList');
         }
-        
-        vm.openCreatedPlayList = openCreatedPlayList;            
+
+        vm.openCreatedPlayList = openCreatedPlayList;
+
         function openCreatedPlayList(action) {
             vm.isCreatedPlayList = action;
-            console.log(vm.isCreatedPlayList);
             if (vm.isCreatedPlayList) {
                 var screenType = {
                     screenType: 'createdPlayList'
                 }
                 var encode = commonService.encodeObject(screenType);
-                $state.go('default-layout.admin-layout.wait-list-video', {
-                    parameter: encode
-                });
+                $rootScope.$broadcast('menu-open', encode);
+                // $state.go('default-layout.admin-layout.wait-list-video', {
+                //     parameter: encode
+                // });
                 // $state.go('default-layout.admin-layout.play-list-video1');
             } else {
                 var screenType = {
                     screenType: 'waitlistVedio'
                 }
                 var encode = commonService.encodeObject(screenType);
-                $state.go('default-layout.admin-layout.wait-list-video', {
-                    parameter: encode
-                });
+                $rootScope.$broadcast('menu-open', encode);
+                // $state.go('default-layout.admin-layout.wait-list-video', {
+                //     parameter: encode
+                // });
             }
         }
 

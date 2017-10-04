@@ -17,7 +17,7 @@
         });
 
     /* @ngInject */
-    function RightMenuController(videoService, $scope, commonService, $rootScope, socketService, $window, $timeout, homeService, $state) {
+    function RightMenuController(videoService, $scope, commonService, $rootScope, Upload, socketService, $window, $timeout, homeService, $state) {
         var vm = this;
         vm.init = init;
         vm.getWaitList = getWaitList;
@@ -40,7 +40,9 @@
         vm.logout = logout;
         vm.updateUserProfile = updateUserProfile;
         vm.getUser = getUser;
-        vm.getConfiguration=getConfiguration;
+        vm.getConfiguration = getConfiguration;
+        vm.updateConfiguration = updateConfiguration;
+        vm.uploadPic = uploadPic;
         vm.ChatStyle = {
             'max-height': $window.innerHeight - 181 + "px",
             'min-height': $window.innerHeight - 181 + "px",
@@ -167,10 +169,20 @@
 
         function updateUserProfile() {
             vm.activated = true;
-            var postParam = vm.userData;
-            homeService.postCustomData('api', 'user', vm.userInfo._id, '', null, null, postParam).then(function(response) {
-                vm.activated = false;
-            });
+            if (vm.userData.old_password && vm.userData.password && vm.userData.confirm) {
+                if (vm.userData.password == vm.userData.confirm) {
+                    var postParam = vm.userData;
+                    homeService.postCustomData('api', 'user', vm.userInfo._id, '', null, null, postParam).then(function(response) {
+                        vm.activated = false;
+                        commonService.showToast(response.message);
+                    });
+
+                }else{
+                    commonService.showToast("Password Does not match!");
+                }
+            }else{
+                commonService.showToast("Some Parameter are missing")
+            }
         }
 
         function logout() {
@@ -203,10 +215,37 @@
             homeService.getData('api', 'configuration').
             then(function(response) {
                 vm.configuration = response.data[0];
+                console.log(vm.configuration);
             })
         }
 
+        function updateConfiguration() {
+            var postParam = vm.configuration;
+            homeService.postCustomData('api', 'configuration', null, null, null, null, postParam).then(function(response) {
+                vm.activated = false;
+                vm.getConfiguration();
+            });
+        }
 
+        function uploadPic(file) {
+            vm.activated = true;
+            console.log('hi');
+            if (file) {
+                Upload.upload({
+                    url: 'https://video-playlist.herokuapp.com/api/user_profile_image/' + vm.userInfo._id,
+                    // headers : {'mimeType': 'multipart/form-data','crossDomain':true,'contentType':false},
+                    data: { avtar: file },
+                }).then(function(response) {
+                    vm.activated = false;
+                    if (angular.isDefined(response.data.filename)) {
+                        vm.userData.profilePic = 'https://video-playlist.herokuapp.com/images/user_avtar/' + response.data.filename;
+                    }
+                });
+            }
+            // } else {
+            //     commonService.showToast(errFiles[0].name + ' File too large: ' + 'max size 2MB', 'bottom right');
+            // }
+        };
         // Whenever video add in waitList update waitlist
         $scope.$on('updateWaitList', function($event, message) {
             vm.getWaitList();

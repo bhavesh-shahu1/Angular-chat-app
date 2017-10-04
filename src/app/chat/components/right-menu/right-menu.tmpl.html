@@ -1,6 +1,6 @@
 <md-content>
     <div md-theme="whiteAccentTheme">
-        <md-tabs md-dynamic-height class="md-primary">
+        <md-tabs md-dynamic-height class="md-primary" ng-init="vm.getUserProfile()">
             <md-tab md-on-select="vm.onTabChanges('chat')">
                 <md-tab-label>
                     <i class="mdi mdi-24px mdi-message " ng-class="vm.selectedTab == 'chat' ? 'pink-color':'white-color'"></i>
@@ -210,10 +210,10 @@
                     </md-content>
                 </md-tab-body>
             </md-tab>
-            <md-tab md-on-select="vm.onTabChanges('user_profile');vm.getUserProfile()">
+            <md-tab md-on-select="vm.onTabChanges('user_profile');">
                 <md-tab-label>
                     <div class="avatar">
-                        <img src="assets/images/profipic.png" style="width: 25px;height: 25px;border-radius: 15px;border: 2px solid #FFFFFF;" class="avatar" alt="Avatar" ng-class="vm.selectedTab == 'user_profile' ? 'pink-color':'white-color'">
+                        <img ng-src="{{vm.userData.profilePic}}" style="width: 25px;height: 25px;border-radius: 15px;border: 2px solid #FFFFFF;" class="avatar" alt="Avatar" ng-class="vm.selectedTab == 'user_profile' ? 'pink-color':'white-color'">
                     </div>
                 </md-tab-label>
                 <md-tab-body>
@@ -223,7 +223,7 @@
                                 <div id="usersettings-content">
                                     <div class="item-user">
                                         <div class="item-name">
-                                            <img src="assets/images/profipic.png">
+                                            <img ng-src="{{vm.userData.profilePic}}" >
                                             <div class="top-section">
                                                 <div class="username">{{vm.userData.username}}</div>
                                                 <div class="logout" style="cursor: pointer;">
@@ -232,7 +232,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="item-change-avatar">
+                                    <div class="item-change-avatar" ngf-select="vm.uploadPic($file,$invalidFiles)" accept="image/*">
                                         <i class="mdi mdi-24px mdi-upload"></i>
                                         <span>Change avatar</span>
                                     </div>
@@ -240,27 +240,27 @@
                                         <div class="item-name">Username</div>
                                     </div>
                                     <div class="item">
-                                        <input class="item-input" type="text" ng-model=vm.userData.username placeholder="Type your message..." maxlength="256" disabled="true">
+                                        <input class="item-input" type="text" ng-model="vm.userData.username" placeholder="Type your message..." maxlength="256" disabled="true">
                                     </div>
                                     <div class="item">
                                         <div class="item-name">Old password</div>
                                     </div>
                                     <div class="item">
-                                        <input class="item-input" type="text" placeholder="Type your message..." maxlength="256">
+                                        <input class="item-input"  ng-model="vm.userData.old_password" type="text" placeholder="Type your message..." maxlength="256">
                                     </div>
                                     <div class="item">
-                                        <div class="item-name">New password</div>
+                                        <div class="item-name" ">New password</div>
                                     </div>
                                     <div class="item">
-                                        <input class="item-input" type="text" placeholder="Type your message..." maxlength="256">
+                                        <input class="item-input" ng-model="vm.userData.password" type="text" placeholder="Type your message..." maxlength="256">
                                     </div>
                                     <div class="item">
                                         <div class="item-name">Repeat password</div>
                                     </div>
                                     <div class="item">
-                                        <input class="item-input" type="text" placeholder="Type your message..." maxlength="256">
+                                        <input class="item-input" type="text" ng-model="vm.userData.confirm" placeholder="Type your message..." maxlength="256">
                                     </div>
-                                    <div class="item-change-avatar">
+                                    <div class="item-change-avatar" ng-click="vm.updateUserProfile()">
                                         <i class="mdi mdi-24px mdi-content-save"></i>
                                         <span>Save</span>
                                     </div>
@@ -495,7 +495,7 @@
                                                             <div class="item-textarea">
                                                                 <textarea class="item-input" ng-model="vm.configuration.room_info_text" placeholder="Type your message..."></textarea>
                                                             </div>
-                                                            <div class="item-save-settings">
+                                                            <div class="item-save-settings" ng-click="vm.updateConfiguration()">
                                                                 <i class="mdi mdi-24px mdi-content-save"></i>
                                                                 <span>Save</span>
                                                             </div>
