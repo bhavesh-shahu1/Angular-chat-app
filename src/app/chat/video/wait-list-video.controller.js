@@ -411,18 +411,23 @@
         setTimeout(function() {
             var divsize = angular.element(document.getElementById('activ_video')).prop('offsetWidth');
             var divheight = angular.element(document.getElementById('activ_video')).prop('offsetHeight')
+            var footerheight = angular.element(document.getElementById('bottom-bar')).prop('offsetHeight');
+            var topheight = angular.element(document.getElementById('top-bar')).prop('offsetHeight');
+            console.log(footerheight);
             $scope.$apply(function() {
                 vm.playlistStyle = {
                     'max-width': divsize + 'px',
                     'min-width': divsize + 'px',
-
+                    'max-height': $window.innerHeight - footerheight-topheight + "px",
+                    'min-height': $window.innerHeight - footerheight-topheight + "px",
+                    'overflow-y': 'scroll'
 
                 };
                 vm.historyStyle = {
                     'max-width': divsize + 'px',
                     'min-width': divsize + 'px',
-                    'max-height': $window.innerHeight - 100 + "px",
-                    'min-height': $window.innerHeight - 100 + "px",
+                    'max-height': $window.innerHeight - footerheight + "px",
+                    'min-height': $window.innerHeight - footerheight + "px",
                     'overflow-y': 'scroll'
                 };
             });
@@ -432,19 +437,22 @@
         w.bind('resize', function() {
             var divsize = angular.element(document.getElementById('activ_video')).prop('offsetWidth');
             var divheight = angular.element(document.getElementById('activ_video')).prop('offsetHeight')
+            var footerheight = angular.element(document.getElementById('bottom-bar')).prop('offsetHeight');
+             var topheight = angular.element(document.getElementById('top-bar')).prop('offsetHeight');
+            console.log(footerheight);
             $scope.$apply(function() {
                 vm.playlistStyle = {
                     'max-width': divsize + 'px',
                     'min-width': divsize + 'px',
-
-
-
+                    'max-height': $window.innerHeight - footerheight-topheight + "px",
+                    'min-height': $window.innerHeight - footerheight-topheight + "px",
+                    'overflow-y': 'scroll'
                 };
                 vm.historyStyle = {
                     'max-width': divsize + 'px',
                     'min-width': divsize + 'px',
-                    'max-height': $window.innerHeight - 100 + "px",
-                    'min-height': $window.innerHeight - 100 + "px",
+                    'max-height': $window.innerHeight - footerheight-topheight + "px",
+                    'min-height': $window.innerHeight - footerheight-topheight + "px",
                     'overflow-y': 'scroll'
                 };
             });
