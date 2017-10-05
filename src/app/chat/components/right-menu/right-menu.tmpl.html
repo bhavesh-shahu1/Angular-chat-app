@@ -512,16 +512,16 @@
                 </md-tab-body>
             </md-tab>
         </md-tabs>
-        <div id="app-right" flex layout="coloumn" layout-align="center center">
+         <div id="app-right" flex layout="coloumn" layout-align="center center">
             <div id="vote-buttons" layout="row" flex layout-align="center center">
                 <div flex="100" layout="row" class="upvote" layout-align="center center">
-                    <button flex id="upvote" class="votelinks upvote" onclick="voteButton(event, 'upvote')"><i class="mdi mdi-24px mdi-thumb-up-outline"></i> 2</button>
+                    <button flex id="upvote" class="votelinks upvote" ng-click="vm.upvote(vm.waitList.data[0]._id)"><i class="mdi mdi-24px mdi-thumb-up-outline"></i> {{vm.voting.upvote}}</button>
                 </div>
                 <div flex="100" layout="row" layout-align="center center">
-                    <button flex id="grab" class="votelinks grab" onclick="voteButton(event, 'grab')"><i class="mdi mdi-24px mdi-star-outline"></i> 5</button>
+                    <button flex id="grab" class="votelinks grab" ng-click="voteButton(event, 'grab')"><i class="mdi mdi-24px mdi-star-outline"></i> 5</button>
                 </div>
                 <div flex="100" layout="row" layout-align="center center">
-                    <button flex id="downvote" class="votelinks downvote" onclick="voteButton(event, 'downvote')"><i class="mdi mdi-24px mdi-thumb-down-outline"></i> 2</button>
+                    <button flex id="downvote" class="votelinks downvote" ng-click="vm.downvote(vm.waitList.data[0]._id)"><i class="mdi mdi-24px mdi-thumb-down-outline"></i>{{vm.voting.downvote}}</button>
                 </div>
                 <div flex="100" layout="row" layout-align="center center">
                     <button flex id="joinqueue" class="votelinks joinqueue" onclick="voteButton(event, 'joinqueue')"><i class="mdi mdi-24px mdi-playlist-plus"></i></button>

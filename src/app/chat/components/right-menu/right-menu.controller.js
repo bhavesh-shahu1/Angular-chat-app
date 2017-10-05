@@ -43,6 +43,8 @@
         vm.getConfiguration = getConfiguration;
         vm.updateConfiguration = updateConfiguration;
         vm.uploadPic = uploadPic;
+        vm.upvote = upvote;
+        vm.downvote = downvote;
         vm.ChatStyle = {
             'max-height': $window.innerHeight - 181 + "px",
             'min-height': $window.innerHeight - 181 + "px",
@@ -97,6 +99,19 @@
                 vm.userChat.data.push(data);
             });
             // console.log(vm.userChat);
+        });
+
+
+        // Get to server
+        socketService.on('voting_waitlist', function(data) {
+            console.log(data);
+            $scope.$apply(function() {
+                vm.getWaitList();
+                vm.voting = {};
+                vm.voting.upvote = data.upvote != '' ? data.upvote.split(',').length - 1 : 0;
+                vm.voting.downvote = data.downvote != '' ? data.downvote.split(',').length - 1 : 0;
+            });
+            console.log(vm.voting);
         });
 
         // Get user chat history
@@ -177,10 +192,10 @@
                         commonService.showToast(response.message);
                     });
 
-                }else{
+                } else {
                     commonService.showToast("Password Does not match!");
                 }
-            }else{
+            } else {
                 commonService.showToast("Some Parameter are missing")
             }
         }
@@ -246,6 +261,49 @@
             //     commonService.showToast(errFiles[0].name + ' File too large: ' + 'max size 2MB', 'bottom right');
             // }
         };
+
+        function upvote(id) {
+            console.log(id);
+            videoService.getData('api', 'upvote', id.toString(), vm.userInfo._id).then(function(response) {
+                if (angular.isDefined(response.data.data)) {
+                    vm.upvoteCount = response.data.data.upvote.split(',');
+                    vm.downvoteCount = response.data.data.downvote.split(',');
+                    vm.voting.upvote = response.data.data.upvote != '' ? response.data.data.upvote.split(',').length - 1 : 0;
+                    vm.voting.downvote = response.data.data.downvote != '' ? response.data.data.downvote.split(',').length - 1 : 0;
+                    if (response.data.data.upvote.includes(vm.userInfo._id)) {
+                        vm.upvoteColor['color'] = 'rgb(63,81,181)';
+                    } else {
+                        vm.upvoteColor['color'] = 'rgba(0,0,0,0.54)';
+                    }
+                    if (response.data.data.downvote.includes(vm.userInfo._id)) {
+                        vm.downvoteColor['color'] = 'rgb(63,81,181)';
+                    } else {
+                        vm.downvoteColor['color'] = 'rgba(0,0,0,0.54)';
+                    }
+                }
+            });
+        }
+
+        function downvote(id) {
+            videoService.getData('api', 'downvote', id.toString(), vm.userInfo._id).then(function(response) {
+                if (angular.isDefined(response.data.data)) {
+                    vm.upvoteCount = response.data.data.upvote.split(',');
+                    vm.downvoteCount = response.data.data.downvote.split(',');
+                    // Set vote button color
+                    if (response.data.data.upvote.includes(vm.userInfo._id)) {
+                        vm.upvoteColor['color'] = 'rgb(63,81,181)';
+                    } else {
+                        vm.upvoteColor['color'] = 'rgba(0,0,0,0.54)';
+                    }
+                    if (response.data.data.downvote.includes(vm.userInfo._id)) {
+                        vm.downvoteColor['color'] = 'rgb(63,81,181)';
+                    } else {
+                        vm.downvoteColor['color'] = 'rgba(0,0,0,0.54)';
+                    }
+                }
+            });
+        }
+
         // Whenever video add in waitList update waitlist
         $scope.$on('updateWaitList', function($event, message) {
             vm.getWaitList();
