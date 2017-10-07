@@ -68,24 +68,25 @@
 
         function openHistory(action) {
             vm.isHistoryButton = action;
-            console.log(vm.isHistoryButton);
             if (vm.isHistoryButton) {
                 var screenType = {
                     screenType: 'history'
                 }
                 var encode = commonService.encodeObject(screenType);
-                $state.go('default-layout.admin-layout.wait-list-video', {
-                    parameter: encode
-                });
+                $rootScope.$broadcast('menu-open', encode);
+                // $state.go('default-layout.admin-layout.wait-list-video', {
+                //     parameter: encode
+                // });
                 // $state.go('default-layout.admin-layout.history');
             } else {
                 var screenType = {
                     screenType: 'waitlistVedio'
                 }
                 var encode = commonService.encodeObject(screenType);
-                $state.go('default-layout.admin-layout.wait-list-video', {
-                    parameter: encode
-                });
+                $rootScope.$broadcast('menu-open', encode);
+                // $state.go('default-layout.admin-layout.wait-list-video', {
+                //     parameter: encode
+                // });
             }
         }
 

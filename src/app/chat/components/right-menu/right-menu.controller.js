@@ -17,7 +17,7 @@
         });
 
     /* @ngInject */
-    function RightMenuController(videoService, $scope, commonService, $rootScope, socketService, $window, $timeout, homeService,$state) {
+    function RightMenuController(videoService, $scope, commonService, $rootScope, Upload, socketService, $window, $timeout, homeService, $state) {
         var vm = this;
         vm.init = init;
         vm.getWaitList = getWaitList;
@@ -35,8 +35,16 @@
         vm.onTabChanges = onTabChanges;
         vm.getRandomColor = getRandomColor;
         vm.getUserProfile = getUserProfile;
-        vm.logout=logout;
-        vm.updateUserProfile=updateUserProfile;
+        vm.getBannedUser = getBannedUser;
+        vm.getMutedUser = getMutedUser;
+        vm.logout = logout;
+        vm.updateUserProfile = updateUserProfile;
+        vm.getUser = getUser;
+        vm.getConfiguration = getConfiguration;
+        vm.updateConfiguration = updateConfiguration;
+        vm.uploadPic = uploadPic;
+        vm.upvote = upvote;
+        vm.downvote = downvote;
         vm.ChatStyle = {
             'max-height': $window.innerHeight - 181 + "px",
             'min-height': $window.innerHeight - 181 + "px",
@@ -49,7 +57,7 @@
         };
         vm.color = ['#F44336', '#FFEB3B', '#E91E63', '#9C27B0', '#FFC107', '#673AB7', '#FF9800', '#3F51B5', '#2196F3', '#FF5722', '#03A9F4', '#795548', '#00BCD4', '#009688', '#607D8B', '#4CAF50', '#8BC34A', '#CDDC39'];
 
-        vm.selectedTab = 'chat';
+        vm.selectedTab = 'staff';
 
         function scrollDown($element) {
             // $timeout(function() { $("#messageDiv").scrollTop($("#messageDiv")[0].scrollHeight); }, 10);
@@ -91,6 +99,19 @@
                 vm.userChat.data.push(data);
             });
             // console.log(vm.userChat);
+        });
+
+
+        // Get to server
+        socketService.on('voting_waitlist', function(data) {
+            console.log(data);
+            $scope.$apply(function() {
+                vm.getWaitList();
+                vm.voting = {};
+                vm.voting.upvote = data.upvote != '' ? data.upvote.split(',').length - 1 : 0;
+                vm.voting.downvote = data.downvote != '' ? data.downvote.split(',').length - 1 : 0;
+            });
+            console.log(vm.voting);
         });
 
         // Get user chat history
@@ -160,21 +181,127 @@
                 }
             });
         };
+
         function updateUserProfile() {
             vm.activated = true;
-            var postParam = vm.userData;
-            homeService.postCustomData('api', 'user', vm.userInfo._id, '', null, null, postParam)
-                .then(function(response) {
-                    vm.activated = false;
-                    if (angular.isDefined(response)) {
+            if (vm.userData.old_password && vm.userData.password && vm.userData.confirm) {
+                if (vm.userData.password == vm.userData.confirm) {
+                    var postParam = vm.userData;
+                    homeService.postCustomData('api', 'user', vm.userInfo._id, '', null, null, postParam).then(function(response) {
+                        vm.activated = false;
                         commonService.showToast(response.message);
-                    }
-                })
+                    });
+
+                } else {
+                    commonService.showToast("Password Does not match!");
+                }
+            } else {
+                commonService.showToast("Some Parameter are missing")
+            }
         }
 
         function logout() {
             commonService.logout();
             $state.go('authentication.login');
+        }
+
+        function getUser() {
+            homeService.getData('api', 'user').
+            then(function(response) {
+                vm.userList = response.data;
+            })
+        }
+
+        function getBannedUser() {
+            homeService.getData('api', 'user', 'status', '0').
+            then(function(response) {
+                vm.userBannedList = response.data;
+            })
+        }
+
+        function getMutedUser() {
+            homeService.getData('api', 'user', 'status', '0').
+            then(function(response) {
+                vm.userMutedList = response.data;
+            })
+        }
+
+        function getConfiguration() {
+            homeService.getData('api', 'configuration').
+            then(function(response) {
+                vm.configuration = response.data[0];
+                console.log(vm.configuration);
+            })
+        }
+
+        function updateConfiguration() {
+            var postParam = vm.configuration;
+            homeService.postCustomData('api', 'configuration', null, null, null, null, postParam).then(function(response) {
+                vm.activated = false;
+                vm.getConfiguration();
+            });
+        }
+
+        function uploadPic(file) {
+            vm.activated = true;
+            console.log('hi');
+            if (file) {
+                Upload.upload({
+                    url: 'https://video-playlist.herokuapp.com/api/user_profile_image/' + vm.userInfo._id,
+                    // headers : {'mimeType': 'multipart/form-data','crossDomain':true,'contentType':false},
+                    data: { avtar: file },
+                }).then(function(response) {
+                    vm.activated = false;
+                    if (angular.isDefined(response.data.filename)) {
+                        vm.userData.profilePic = 'https://video-playlist.herokuapp.com/images/user_avtar/' + response.data.filename;
+                    }
+                });
+            }
+            // } else {
+            //     commonService.showToast(errFiles[0].name + ' File too large: ' + 'max size 2MB', 'bottom right');
+            // }
+        };
+
+        function upvote(id) {
+            console.log(id);
+            videoService.getData('api', 'upvote', id.toString(), vm.userInfo._id).then(function(response) {
+                if (angular.isDefined(response.data.data)) {
+                    vm.upvoteCount = response.data.data.upvote.split(',');
+                    vm.downvoteCount = response.data.data.downvote.split(',');
+                    vm.voting.upvote = response.data.data.upvote != '' ? response.data.data.upvote.split(',').length - 1 : 0;
+                    vm.voting.downvote = response.data.data.downvote != '' ? response.data.data.downvote.split(',').length - 1 : 0;
+                    if (response.data.data.upvote.includes(vm.userInfo._id)) {
+                        vm.upvoteColor['color'] = 'rgb(63,81,181)';
+                    } else {
+                        vm.upvoteColor['color'] = 'rgba(0,0,0,0.54)';
+                    }
+                    if (response.data.data.downvote.includes(vm.userInfo._id)) {
+                        vm.downvoteColor['color'] = 'rgb(63,81,181)';
+                    } else {
+                        vm.downvoteColor['color'] = 'rgba(0,0,0,0.54)';
+                    }
+                }
+            });
+        }
+
+        function downvote(id) {
+            videoService.getData('api', 'downvote', id.toString(), vm.userInfo._id).then(function(response) {
+                if (angular.isDefined(response.data.data)) {
+                    vm.upvoteCount = response.data.data.upvote.split(',');
+                    vm.downvoteCount = response.data.data.downvote.split(',');
+                    // Set vote button color
+                    if (response.data.data.upvote.includes(vm.userInfo._id)) {
+                        vm.upvoteColor['color'] = 'rgb(63,81,181)';
+                    } else {
+                        vm.upvoteColor['color'] = 'rgba(0,0,0,0.54)';
+                    }
+                    if (response.data.data.downvote.includes(vm.userInfo._id)) {
+                        vm.downvoteColor['color'] = 'rgb(63,81,181)';
+                    } else {
+                        vm.downvoteColor['color'] = 'rgba(0,0,0,0.54)';
+                    }
+                }
+            });
         }
 
         // Whenever video add in waitList update waitlist

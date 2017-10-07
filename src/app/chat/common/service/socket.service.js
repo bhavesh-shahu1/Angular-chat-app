@@ -3,7 +3,8 @@
     /* @ngInject */
     function socketService($rootScope) {
 
-    	var socket = io.connect('video-playlist.herokuapp.com');
+        var socket = io.connect('video-playlist.herokuapp.com');
+    	//var socket = io.connect('localhost:9000');
         function on(eventName, callback) {
             socket.on(eventName, callback);
         }
