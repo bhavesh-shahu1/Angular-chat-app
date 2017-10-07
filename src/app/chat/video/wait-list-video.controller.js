@@ -27,13 +27,14 @@
         vm.downvote = downvote;
         vm.openHistory = openHistory;
         vm.screenType = vm.stateParams.screenType;
+
         function init() {
             vm.getWaitListStatus();
             vm.getCurrentVideo();
-            if(vm.screenType == 'history'){
+            if (vm.screenType == 'history') {
                 vm.openHistory();
             }
-            if(vm.screenType == 'createdPlayList'){
+            if (vm.screenType == 'createdPlayList') {
                 vm.getPlayListName();
             }
         }
@@ -54,17 +55,17 @@
                     }
                     vm.upvoteCount = vm.response.videoplaylists_id.upvote.split(',');
                     vm.downvoteCount = vm.response.videoplaylists_id.downvote.split(',');
-                     // Set vote button color
-                        if(vm.response.videoplaylists_id.upvote.includes(vm.userInfo._id)){
-                            vm.upvoteColor['color'] = 'rgb(63,81,181)';
-                        }else{
-                            vm.upvoteColor['color'] = 'rgba(0,0,0,0.54)';
-                        }
-                        if(vm.response.videoplaylists_id.downvote.includes(vm.userInfo._id)){
-                            vm.downvoteColor['color'] = 'rgb(63,81,181)';
-                        }else{
-                            vm.downvoteColor['color'] = 'rgba(0,0,0,0.54)';
-                        }
+                    // Set vote button color
+                    if (vm.response.videoplaylists_id.upvote.includes(vm.userInfo._id)) {
+                        vm.upvoteColor['color'] = 'rgb(63,81,181)';
+                    } else {
+                        vm.upvoteColor['color'] = 'rgba(0,0,0,0.54)';
+                    }
+                    if (vm.response.videoplaylists_id.downvote.includes(vm.userInfo._id)) {
+                        vm.downvoteColor['color'] = 'rgb(63,81,181)';
+                    } else {
+                        vm.downvoteColor['color'] = 'rgba(0,0,0,0.54)';
+                    }
                     commonService.showToast(response.data.message);
                 } else {
                     vm.addWaitlistMessage = 'Please add video in waitlist';
@@ -149,20 +150,21 @@
 
         vm.upvoteColor = {};
         vm.downvoteColor = {};
+
         function upvote(id) {
             videoService.getData('api', 'upvote', id.toString(), vm.userInfo._id)
                 .then(function(response) {
                     if (angular.isDefined(response.data.data)) {
                         vm.upvoteCount = response.data.data.upvote.split(',');
                         vm.downvoteCount = response.data.data.downvote.split(',');
-                        if(response.data.data.upvote.includes(vm.userInfo._id)){
+                        if (response.data.data.upvote.includes(vm.userInfo._id)) {
                             vm.upvoteColor['color'] = 'rgb(63,81,181)';
-                        }else{
+                        } else {
                             vm.upvoteColor['color'] = 'rgba(0,0,0,0.54)';
                         }
-                        if(response.data.data.downvote.includes(vm.userInfo._id)){
+                        if (response.data.data.downvote.includes(vm.userInfo._id)) {
                             vm.downvoteColor['color'] = 'rgb(63,81,181)';
-                        }else{
+                        } else {
                             vm.downvoteColor['color'] = 'rgba(0,0,0,0.54)';
                         }
                     }
@@ -177,14 +179,14 @@
                         vm.upvoteCount = response.data.data.upvote.split(',');
                         vm.downvoteCount = response.data.data.downvote.split(',');
                         // Set vote button color
-                        if(response.data.data.upvote.includes(vm.userInfo._id)){
+                        if (response.data.data.upvote.includes(vm.userInfo._id)) {
                             vm.upvoteColor['color'] = 'rgb(63,81,181)';
-                        }else{
+                        } else {
                             vm.upvoteColor['color'] = 'rgba(0,0,0,0.54)';
                         }
-                        if(response.data.data.downvote.includes(vm.userInfo._id)){
+                        if (response.data.data.downvote.includes(vm.userInfo._id)) {
                             vm.downvoteColor['color'] = 'rgb(63,81,181)';
-                        }else{
+                        } else {
                             vm.downvoteColor['color'] = 'rgba(0,0,0,0.54)';
                         }
                     }
@@ -203,7 +205,7 @@
         });
 
         // Get history
-        function openHistory(){
+        function openHistory() {
             vm.activated = true;
             videoService.getData('api', 'userplaylist', vm.userInfo._id, '').
             then(function(response) {
@@ -294,22 +296,22 @@
             })
         }
         // Create user playlist name
-        function createPlayList(){
-            if(angular.isDefined(vm.createPlaylistData.name) && vm.createPlaylistData.name != null && vm.createPlaylistData.name != ''){
-            vm.activatedPlaylistVedio = true;
-            var postParam = {
-                user_id : vm.userInfo._id,
-                name: vm.createPlaylistData.name
+        function createPlayList() {
+            if (angular.isDefined(vm.createPlaylistData.name) && vm.createPlaylistData.name != null && vm.createPlaylistData.name != '') {
+                vm.activatedPlaylistVedio = true;
+                var postParam = {
+                    user_id: vm.userInfo._id,
+                    name: vm.createPlaylistData.name
+                }
+                videoService.postData('uservideoplaylist', postParam).then(function(response) {
+                    vm.activatedPlaylistVedio = false;
+                    commonService.showToast(response.message);
+                    vm.getPlayListName();
+                    vm.createPlaylistData.name = null;
+                })
+            } else {
+                commonService.showToast('Enter playlist name first !');
             }
-            videoService.postData('uservideoplaylist',postParam).then(function(response){
-                vm.activatedPlaylistVedio = false;
-                commonService.showToast(response.message);
-                vm.getPlayListName();
-                vm.createPlaylistData.name = null;
-            })
-        }else{
-            commonService.showToast('Enter playlist name first !');
-        }
         }
 
         // Get list of video by name
