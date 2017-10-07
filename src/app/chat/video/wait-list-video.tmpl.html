@@ -93,7 +93,7 @@ md-autocomplete md-autocomplete-wrap {
                 <i class="mdi mdi-24px mdi-playlist-plus" style="padding: 16px; color: #FFFFFF;"></i>
             </div>
         </div>
-        <div style="background-color: #111111;height: 74vh;">
+        <div style="background-color: #111111;height: 74vh; overflow-y: scroll;" ng-style="vm.createPlaylistSidebarStyle">
             <div style="height: 18px;
                 padding: 15px; cursor: pointer; color: #FFFFFF" ng-repeat="item in vm.playlist" ng-click="vm.getVideoListByName(item,$index)" layout="row" layout-align="space-between center">
                 <div style="float: left;font-size: 15px;font-weight: 700;">{{ item.name }}</div>
@@ -102,9 +102,8 @@ md-autocomplete md-autocomplete-wrap {
         </div>
     </div>
     <div flex style="background-color: #111111;opacity: 0.95;">
-        <md-content>
             <!--  <md-list flex> -->
-            <div layout="row" flex>
+            <div layout="row" flex id="youtubePanel">
                 <form name="searchForm" flex>
                     <md-autocomplete ng-disabled="ctrl.isDisabled" md-no-cache="true" md-selected-item="vm.selectedItem" md-search-text-change="ctrl.searchTextChange(ctrl.searchText)" md-search-text="vm.searchText" md-items="item in vm.querySearch(vm.searchText)" md-item-text="item.snippet.title" md-min-length="0" placeholder="Search YouTube" style="opacity: 0.95">
                         <md-item-template>
@@ -129,7 +128,7 @@ md-autocomplete md-autocomplete-wrap {
             </div>
             <md-divider style="border-bottom: 3px solid #fb294f"></md-divider>
             <!--  <div layout=""> -->
-            <div class="currentPlaylistInfoBox" layout="row" layout-align="space-between center" style="background: #111111;">
+            <div class="currentPlaylistInfoBox" layout="row" layout-align="space-between center" style="background: #111111;" id="currentPlaylistInfoBox">
                 <div style="padding: 8px;float: left;font-size: 19px;font-weight: 700;color: #FFFFFF">{{vm.activeListDetail.name}}</div>
                 <div class="actions" layout="row">
                     <div style="float: left;width: auto;height: 34px;padding-top: 4px;cursor: pointer;padding-right: 20px;">
@@ -152,7 +151,7 @@ md-autocomplete md-autocomplete-wrap {
                 </div>
             </div>
             <md-divider style="background-color: #fb294f;border-top-width: 3px;"></md-divider>
-            <div>
+            <div style="overflow-y: scroll; max-height: 422px">
                 <div ui-tree="treeOptions" id="tree-root" class="table-responsive" ng-if="vm.videoList.length > 0">
                     <div ui-tree-nodes ng-model="vm.videoList">
                         <div ng-repeat="item in vm.videoList" ui-tree-node>
@@ -178,7 +177,6 @@ md-autocomplete md-autocomplete-wrap {
                 </div>
             </div>
             <!-- </md-list> -->
-        </md-content>
         <!-- <div flex ng-cloak style="position: fixed; right: 25px; bottom: 25px; z-index: 999;">
             <md-fab-speed-dial md-direction="up" md-open="false" class="md-fab-bottom-right md-scale">
             <md-fab-trigger>
