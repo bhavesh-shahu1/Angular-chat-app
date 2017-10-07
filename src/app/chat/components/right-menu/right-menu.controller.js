@@ -45,6 +45,8 @@
         vm.uploadPic = uploadPic;
         vm.upvote = upvote;
         vm.downvote = downvote;
+        vm.getCurrentVideo = getCurrentVideo;
+
         vm.ChatStyle = {
             'max-height': $window.innerHeight - 181 + "px",
             'min-height': $window.innerHeight - 181 + "px",
@@ -77,6 +79,7 @@
         });
 
         function init() {
+            vm.getCurrentVideo();
             vm.getWaitList();
             vm.getUserChat();
         }
@@ -130,6 +133,46 @@
                 // console.log(response);
             })
         }
+
+        function getCurrentVideo() {
+            vm.activated = true;
+            videoService.getData('api', 'waitlist', 'current', '').
+            then(function(response) {
+                vm.activated = false;
+                vm.currentVideoInformation = response.data.data;
+                vm.Id = vm.currentVideoInformation.videoplaylists_id._id;
+                if (angular.isDefined(response.data.data) && response.data.data != null) {
+                    vm.upvoteCount = vm.response.videoplaylists_id.upvote.split(',');
+                    vm.downvoteCount = vm.response.videoplaylists_id.downvote.split(',');
+                    vm.voting.upvote = response.data.data.upvote != '' ? response.data.data.upvote.split(',').length - 1 : 0;
+                    vm.voting.downvote = response.data.data.downvote != '' ? response.data.data.downvote.split(',').length - 1 : 0;
+                    // Set vote button color
+                    if (vm.response.videoplaylists_id.upvote.includes(vm.userInfo._id)) {
+                        vm.upvoteColor['color'] = 'rgb(63,81,181)';
+                    } else {
+                        vm.upvoteColor['color'] = 'rgba(0,0,0,0.54)';
+                    }
+                    if (vm.response.videoplaylists_id.downvote.includes(vm.userInfo._id)) {
+                        vm.downvoteColor['color'] = 'rgb(63,81,181)';
+                    } else {
+                        vm.downvoteColor['color'] = 'rgba(0,0,0,0.54)';
+                    }
+                    // commonService.showToast(response.data.message);
+                } else {
+                    vm.addWaitlistMessage = 'Please add video in waitlist';
+                }
+            })
+        }
+
+
+        // Add event to get select vedio Info
+        $scope.$on('playUserSelectedVideo', function($event, videoInfo) {
+            vm.currentVideoInformation = JSON.parse(videoInfo);
+            vm.Id = vm.currentVideoInformation.videoplaylists_id._id;
+            // vm.videoInformation = videoInfo;
+            console.log(currentVideoInformation);
+            vm.init();
+        });
 
         // Get video wait List
         function getWaitList() {
@@ -262,9 +305,10 @@
             // }
         };
 
-        function upvote(id) {
-            console.log(id);
-            videoService.getData('api', 'upvote', id.toString(), vm.userInfo._id).then(function(response) {
+        function upvote() {
+            // console.log(id);
+            if(angular.isDefined(vm.Id)){
+            videoService.getData('api', 'upvote', vm.Id.toString(), vm.userInfo._id).then(function(response) {
                 if (angular.isDefined(response.data.data)) {
                     vm.upvoteCount = response.data.data.upvote.split(',');
                     vm.downvoteCount = response.data.data.downvote.split(',');
@@ -282,10 +326,14 @@
                     }
                 }
             });
+            }else{
+                commonService.showToast('There is no video avaliable.');
+            }
         }
 
-        function downvote(id) {
-            videoService.getData('api', 'downvote', id.toString(), vm.userInfo._id).then(function(response) {
+        function downvote() {
+            if(angular.isDefined(vm.Id)){
+            videoService.getData('api', 'downvote', vm.Id.toString(), vm.userInfo._id).then(function(response) {
                 if (angular.isDefined(response.data.data)) {
                     vm.upvoteCount = response.data.data.upvote.split(',');
                     vm.downvoteCount = response.data.data.downvote.split(',');
@@ -302,6 +350,9 @@
                     }
                 }
             });
+            }else{
+                commonService.showToast('There is no video avaliable.');
+            }
         }
 
         // Whenever video add in waitList update waitlist
