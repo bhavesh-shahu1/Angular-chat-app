@@ -151,10 +151,12 @@
                 if (angular.isDefined(response.data.data) && response.data.data != null) {
                     vm.currentVideoInformation = response.data.data;
                     vm.Id = vm.currentVideoInformation.videoplaylists_id._id;
-                    vm.upvoteCount = vm.response.videoplaylists_id.upvote.split(',');
-                    vm.downvoteCount = vm.response.videoplaylists_id.downvote.split(',');
+                    if(response.data.data.videoplaylists_id.upvote != null){
+                    vm.upvoteCount = response.data.data.videoplaylists_id.upvote.split(',');
+                    vm.downvoteCount = response.data.data.videoplaylists_id.downvote.split(',');
                     vm.voting.upvote = response.data.data.upvote != '' ? response.data.data.upvote.split(',').length - 1 : 0;
                     vm.voting.downvote = response.data.data.downvote != '' ? response.data.data.downvote.split(',').length - 1 : 0;
+                    }
                     // Set vote button color
                     if (vm.response.videoplaylists_id.upvote.includes(vm.userInfo._id)) {
                         vm.upvoteColor['color'] = 'rgb(63,81,181)';
@@ -175,13 +177,14 @@
 
 
         // Add event to get select vedio Info
-        $scope.$on('playUserSelectedVideo', function($event, videoInfo) {
-            vm.currentVideoInformation = JSON.parse(videoInfo);
-            vm.Id = vm.currentVideoInformation.videoplaylists_id._id;
-            // vm.videoInformation = videoInfo;
-            console.log(currentVideoInformation);
-            vm.init();
-        });
+        // $scope.$on('playUserSelectedVideo', function($event, videoInfo) {
+        //     vm.currentVideoInformation = JSON.parse(videoInfo);
+        //     console.log(vm.currentVideoInformation);
+        //     vm.Id = vm.currentVideoInformation.videoplaylists_id._id;
+        //     // vm.videoInformation = videoInfo;
+        //     console.log(currentVideoInformation);
+        //     vm.init();
+        // });
 
         // Get video wait List
         function getWaitList() {

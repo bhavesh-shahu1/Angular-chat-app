@@ -21,7 +21,10 @@
                                             <img style="width: 30px; height: 30px;border-radius: 50%" src="http://video-playlist.herokuapp.com/images/user_avtar/{{chat.user_id.avtar}}" draggable="false" />
                                         </div>
                                         <div class="md-body-2 white-color" layout="column" flex="75">
-                                            <div ng-style="{color:vm.color[$index%vm.color.length]}"><b>{{chat.user_id.username}}</b></div>
+                                            <!-- <div ng-style="{color:vm.color[$index%vm.color.length]}"><b>{{chat.user_id.username}}{{chat.user_id.user_role}}</b></div> -->
+                                            <div style="color: #FFFFFF" ng-if="chat.user_id.user_role == 0"><b>{{chat.user_id.username}}</b></div>
+                                            <div style="color: #3180b3" ng-if="chat.user_id.user_role == 1"><b>{{chat.user_id.username}}</b></div>
+                                            <div style="color: #c20448" ng-if="chat.user_id.user_role == 2"><b>{{chat.user_id.username}}</b></div>
                                             <div class="grey-color">
                                                 <h5>{{chat.msg}}</h5></div>
                                         </div>
