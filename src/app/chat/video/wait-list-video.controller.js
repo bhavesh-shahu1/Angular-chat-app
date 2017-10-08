@@ -2,7 +2,7 @@
     'use strict';
     angular.module('app.chat.video').controller('WaitListVideoController', WaitListVideoController);
     /* @ngInject */
-    function WaitListVideoController($mdDialog, videoService, commonService, $scope, $rootScope, $stateParams, $http, $window) {
+    function WaitListVideoController($mdDialog, videoService, commonService, $scope, $rootScope, $stateParams, $http, $window, homeService) {
         var vm = this;
         $scope.Math = Math;
         vm.stateParams = {};
@@ -14,6 +14,9 @@
             }
             if (vm.screenType == 'createdPlayList') {
                 vm.getPlayListName();
+            }
+            if (vm.screenType == 'socialMedia') {
+                vm.getConfiguration();
             }
 
         });
@@ -38,7 +41,9 @@
         vm.upvote = upvote;
         vm.downvote = downvote;
         vm.openHistory = openHistory;
+        vm.getConfiguration = getConfiguration;
         vm.screenType = vm.stateParams.screenType;
+
 
 
         function init() {
@@ -476,6 +481,13 @@
                 };
             });
         });
+
+        function getConfiguration() {
+            homeService.getData('api', 'configuration').
+            then(function(response) {
+                vm.configuration = response.data[0];
+            })
+        }
 
 
         vm.init();

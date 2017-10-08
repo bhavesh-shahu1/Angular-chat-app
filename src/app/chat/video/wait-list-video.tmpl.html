@@ -16,6 +16,62 @@ md-autocomplete input:not(.md-input) {
 md-autocomplete md-autocomplete-wrap {
     background-color: #c4254a;
 }
+
+ #social-links {
+    padding-top: 20px;
+}
+
+ #social-links a {
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    color: #FFF;
+    border-radius: 5px;
+    margin-right: 15px;
+}
+#social-links #discord-button {
+    background-color: #7289DA;
+    text-decoration: none;
+}
+
+ #social-links #discord-button:hover {
+    background-color: rgba(114, 137, 218, 0.8);
+}
+
+#social-links #youtube-button {
+    background-color: #E62117;
+    text-decoration: none;
+}
+
+#social-links #youtube-button:hover {
+    background-color: rgba(230, 33, 23, 0.8);
+}
+
+#social-links #facebook-button {
+    background-color: #3B5998;
+    text-decoration: none;
+}
+
+#social-links #facebook-button:hover {
+    background-color: rgba(59, 89, 152, 0.8)
+}
+
+#social-links #soundcloud-button {
+    background-color: #FF6801;
+    text-decoration: none;
+}
+
+#social-links #soundcloud-button:hover {
+    background-color: rgba(255, 104, 1, 0.8);
+}
+
+#social-links .social-button {
+    position: relative;
+    top: -2px;
+    padding-left: 5px;
+}
 </style>
 <!-- <div layout-align="center center" layout="row" ng-if="vm.activated" >
     <md-progress-circular ng-disabled="!vm.activated" class="md-hue-2" md-diameter="20px"></md-progress-circular>
@@ -27,6 +83,7 @@ md-autocomplete md-autocomplete-wrap {
     <div flex layout="row" layout-align="center center" ng-if="vm.response">
         <youtube-video video-url="vm.response.videoplaylists_id.url" player-vars="vm.playerVars"></youtube-video>
     </div>
+    <youtube-video video-url="vm.response.videoplaylists_id.url" player-vars="vm.playerVars"></youtube-video>
     <div flex-offset="15" layout="row">
         <div>
             <md-button class="md-raised md-primary" ng-click="vm.addToWaitList(item._id)" ng-if="!vm.waitlistStatus">
@@ -36,7 +93,7 @@ md-autocomplete md-autocomplete-wrap {
                 Stop Playing
             </md-button>
         </div>
-        <div flex-offset="50" ng-if="vm.response">
+        <!-- <div flex-offset="50" ng-if="vm.response">
             <md-button class="md-icon-button" aria-label="like" ng-click="vm.upvote(vm.response.videoplaylists_id._id)">
                 <span>{{vm.upvoteCount.length}}</span>
                 <md-tooltip md-direction="bottom">Like</md-tooltip>
@@ -47,7 +104,7 @@ md-autocomplete md-autocomplete-wrap {
                 <md-tooltip md-direction="bottom">UnLike</md-tooltip>
                 <i class="fa fa-thumbs-down" aria-hidden="true" ng-style="vm.downvoteColor"></i>
             </md-button>
-        </div>
+        </div> -->
     </div>
 </div>
 <!-- show history list -->
@@ -189,3 +246,19 @@ md-autocomplete md-autocomplete-wrap {
         </div> -->
     </div>
 </div>
+<div ng-if="vm.screenType == 'socialMedia'" style="position: fixed;top: 64px;opacity: 0.95; background: rgb(17, 17, 17);" ng-style="vm.playlistStyle">
+<div id="room-info" class="maincontent">
+                    <div id="room-info-content" style="padding: 50px;overflow-y: auto;height: calc(100% - 100px);">
+                        <img src="assets/images/logo.png" class="logo" style="width:162px;">
+                        <p id="room-info-text" style="width: 100%;color: #b3b3b3;border-bottom: 2px solid #b3b3b3;padding-bottom: 20px;padding-top: 15px;">
+                            {{vm.configuration.room_info_text}}
+                        </p>
+                        <div id="social-links">
+                            <a href="{{vm.configuration.discord_url}}" id="discord-button"><i class="mdi mdi-24px mdi-discord"></i><span class="social-button">Discord</span></a>
+                            <a href="{{vm.configuration.youtube_url}}" id="youtube-button"><i class="mdi mdi-24px mdi-youtube-play"></i><span class="social-button">YouTube</span></a>
+                            <a href="{{vm.configuration.facebook_url}}" id="facebook-button"><i class="mdi mdi-24px mdi-facebook"></i><span class="social-button">Facebook</span></a>
+                            <a href="{{vm.configuration.soundcloud_url}}" id="soundcloud-button"><i class="mdi mdi-24px mdi-soundcloud"></i><span class="social-button">Soundcloud</span></a>
+                        </div>
+                    </div>
+                </div>
+                </div>

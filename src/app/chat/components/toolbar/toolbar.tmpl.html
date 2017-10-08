@@ -4,7 +4,10 @@
             <!-- <md-button ng-click="vm.getWaitListVideo()">
                 Logo
             </md-button> -->
-            <div class="logo menulinks" flex="15"  onclick="openMenu(event, 'room-info')">
+            <div class="logo menulinks" flex="15"  ng-click="vm.openSocialMedia(true)" ng-if="!vm.isSocialMediaButton">
+                <img src="assets/images/logo.png"  />
+            </div>
+            <div class="logo menulinks" flex="15"  ng-click="vm.openSocialMedia(false)" ng-if="vm.isSocialMediaButton">
                 <img src="assets/images/logo.png"  />
             </div>
             <div layout="row" class="current-song" layout-align="center center" flex>

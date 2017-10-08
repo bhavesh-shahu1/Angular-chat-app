@@ -139,9 +139,9 @@
             videoService.getData('api', 'waitlist', 'current', '').
             then(function(response) {
                 vm.activated = false;
-                vm.currentVideoInformation = response.data.data;
-                vm.Id = vm.currentVideoInformation.videoplaylists_id._id;
                 if (angular.isDefined(response.data.data) && response.data.data != null) {
+                    vm.currentVideoInformation = response.data.data;
+                    vm.Id = vm.currentVideoInformation.videoplaylists_id._id;
                     vm.upvoteCount = vm.response.videoplaylists_id.upvote.split(',');
                     vm.downvoteCount = vm.response.videoplaylists_id.downvote.split(',');
                     vm.voting.upvote = response.data.data.upvote != '' ? response.data.data.upvote.split(',').length - 1 : 0;
