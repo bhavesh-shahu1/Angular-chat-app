@@ -523,9 +523,12 @@
                 <div flex="100" layout="row" layout-align="center center">
                     <button flex id="downvote" class="votelinks downvote" ng-click="vm.downvote(vm.waitList.data[0]._id)"><i class="mdi mdi-24px mdi-thumb-down-outline"></i>{{vm.voting.downvote}}</button>
                 </div>
-                <div flex="100" layout="row" layout-align="center center">
-                    <button flex id="joinqueue" class="votelinks joinqueue" onclick="voteButton(event, 'joinqueue')"><i class="mdi mdi-24px mdi-playlist-plus"></i></button>
+                <div flex="100" layout="row" layout-align="center center" ng-if="!vm.waitlistStatus">
+                    <button flex id="joinqueue" class="votelinks joinqueue" ng-click="vm.setWaitListStatus('joinWaitList')"><i class="mdi mdi-24px mdi-playlist-plus" ></i></button>
                 </div>
+                <div flex="100" layout="row" layout-align="center center" ng-if="vm.waitlistStatus">
+                <button flex id="joinqueue" class="votelinks" style="background-color: rgba(241, 84, 51, 0.6)" ng-click="vm.setWaitListStatus('stopPlaying')"><i class="mdi mdi-24px mdi-playlist-remove " ></i></button>
+            </div>
             </div>
         </div>
     </div>

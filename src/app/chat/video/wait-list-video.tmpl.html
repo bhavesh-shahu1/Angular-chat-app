@@ -84,7 +84,7 @@ md-autocomplete md-autocomplete-wrap {
         <youtube-video video-url="vm.response.videoplaylists_id.url" player-vars="vm.playerVars"></youtube-video>
     </div>
     <youtube-video video-url="vm.response.videoplaylists_id.url" player-vars="vm.playerVars"></youtube-video>
-    <div flex-offset="15" layout="row">
+   <!--  <div flex-offset="15" layout="row">
         <div>
             <md-button class="md-raised md-primary" ng-click="vm.addToWaitList(item._id)" ng-if="!vm.waitlistStatus">
                 Join Wait List
@@ -93,7 +93,7 @@ md-autocomplete md-autocomplete-wrap {
                 Stop Playing
             </md-button>
         </div>
-        <!-- <div flex-offset="50" ng-if="vm.response">
+        <div flex-offset="50" ng-if="vm.response">
             <md-button class="md-icon-button" aria-label="like" ng-click="vm.upvote(vm.response.videoplaylists_id._id)">
                 <span>{{vm.upvoteCount.length}}</span>
                 <md-tooltip md-direction="bottom">Like</md-tooltip>
@@ -104,8 +104,8 @@ md-autocomplete md-autocomplete-wrap {
                 <md-tooltip md-direction="bottom">UnLike</md-tooltip>
                 <i class="fa fa-thumbs-down" aria-hidden="true" ng-style="vm.downvoteColor"></i>
             </md-button>
-        </div> -->
-    </div>
+        </div>
+    </div> -->
 </div>
 <!-- show history list -->
 <div ng-if="vm.screenType == 'history'" style="position: fixed;top: 47px;background-color: rgba(27, 27, 27, 0.6)" flex ng-style="vm.historyStyle">

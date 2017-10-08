@@ -84,6 +84,11 @@
             vm.getUserChat();
         }
 
+        vm.setWaitListStatus = setWaitListStatus;
+        function setWaitListStatus(type){
+            $rootScope.$broadcast('setWaitListStatus', type);
+        }
+
         // Send to server
         function postChat(argument) {
             var msg = {
@@ -134,6 +139,10 @@
             })
         }
 
+         $scope.$on('waitlistStatus', function($event, message) {
+            vm.waitlistStatus = message;
+        });
+        
         function getCurrentVideo() {
             vm.activated = true;
             videoService.getData('api', 'waitlist', 'current', '').

@@ -98,6 +98,7 @@
                 .then(function(response) {
                     vm.activated = false;
                     vm.waitlistStatus = response.data.data.already_in_waitlist;
+                    $rootScope.$broadcast('waitlistStatus', vm.waitlistStatus);
                 })
         }
 
@@ -220,6 +221,15 @@
         // Whenever video remove from waitList update button status
         $scope.$on('updateWaitListButton', function($event, message) {
             vm.getWaitListStatus();
+        });
+
+        $scope.$on('setWaitListStatus', function($event, message) {
+            if(message == 'joinWaitList'){
+                vm.addToWaitList();
+            }
+            if(message == 'stopPlaying'){
+                vm.removeFromWaitList();
+            }
         });
 
         // Get history
