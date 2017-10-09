@@ -21,7 +21,10 @@
                                             <img style="width: 30px; height: 30px;border-radius: 50%" src="http://video-playlist.herokuapp.com/images/user_avtar/{{chat.user_id.avtar}}" draggable="false" />
                                         </div>
                                         <div class="md-body-2 white-color" layout="column" flex="75">
-                                            <div ng-style="{color:vm.color[$index%vm.color.length]}"><b>{{chat.user_id.username}}</b></div>
+                                            <!-- <div ng-style="{color:vm.color[$index%vm.color.length]}"><b>{{chat.user_id.username}}{{chat.user_id.user_role}}</b></div> -->
+                                            <div style="color: #FFFFFF" ng-if="chat.user_id.user_role == 0"><b>{{chat.user_id.username}}</b></div>
+                                            <div style="color: #3180b3" ng-if="chat.user_id.user_role == 1"><b>{{chat.user_id.username}}</b></div>
+                                            <div style="color: #c20448" ng-if="chat.user_id.user_role == 2"><b>{{chat.user_id.username}}</b></div>
                                             <div class="grey-color">
                                                 <h5>{{chat.msg}}</h5></div>
                                         </div>
@@ -523,9 +526,12 @@
                 <div flex="100" layout="row" layout-align="center center">
                     <button flex id="downvote" class="votelinks downvote" ng-click="vm.downvote(vm.waitList.data[0]._id)"><i class="mdi mdi-24px mdi-thumb-down-outline"></i>{{vm.voting.downvote}}</button>
                 </div>
-                <div flex="100" layout="row" layout-align="center center">
-                    <button flex id="joinqueue" class="votelinks joinqueue" onclick="voteButton(event, 'joinqueue')"><i class="mdi mdi-24px mdi-playlist-plus"></i></button>
+                <div flex="100" layout="row" layout-align="center center" ng-if="!vm.waitlistStatus">
+                    <button flex id="joinqueue" class="votelinks joinqueue" ng-click="vm.setWaitListStatus('joinWaitList')"><i class="mdi mdi-24px mdi-playlist-plus" ></i></button>
                 </div>
+                <div flex="100" layout="row" layout-align="center center" ng-if="vm.waitlistStatus">
+                <button flex id="joinqueue" class="votelinks" style="background-color: rgba(241, 84, 51, 0.6)" ng-click="vm.setWaitListStatus('stopPlaying')"><i class="mdi mdi-24px mdi-playlist-remove " ></i></button>
+            </div>
             </div>
         </div>
     </div>

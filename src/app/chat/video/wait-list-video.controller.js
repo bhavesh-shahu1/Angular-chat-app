@@ -2,7 +2,7 @@
     'use strict';
     angular.module('app.chat.video').controller('WaitListVideoController', WaitListVideoController);
     /* @ngInject */
-    function WaitListVideoController($mdDialog, videoService, commonService, $scope, $rootScope, $stateParams, $http, $window) {
+    function WaitListVideoController($mdDialog, videoService, commonService, $scope, $rootScope, $stateParams, $http, $window, homeService) {
         var vm = this;
         $scope.Math = Math;
         vm.stateParams = {};
@@ -14,6 +14,9 @@
             }
             if (vm.screenType == 'createdPlayList') {
                 vm.getPlayListName();
+            }
+            if (vm.screenType == 'socialMedia') {
+                vm.getConfiguration();
             }
 
         });
@@ -38,7 +41,9 @@
         vm.upvote = upvote;
         vm.downvote = downvote;
         vm.openHistory = openHistory;
+        vm.getConfiguration = getConfiguration;
         vm.screenType = vm.stateParams.screenType;
+
 
 
         function init() {
@@ -93,6 +98,7 @@
                 .then(function(response) {
                     vm.activated = false;
                     vm.waitlistStatus = response.data.data.already_in_waitlist;
+                    $rootScope.$broadcast('waitlistStatus', vm.waitlistStatus);
                 })
         }
 
@@ -215,6 +221,15 @@
         // Whenever video remove from waitList update button status
         $scope.$on('updateWaitListButton', function($event, message) {
             vm.getWaitListStatus();
+        });
+
+        $scope.$on('setWaitListStatus', function($event, message) {
+            if(message == 'joinWaitList'){
+                vm.addToWaitList();
+            }
+            if(message == 'stopPlaying'){
+                vm.removeFromWaitList();
+            }
         });
 
         // Get history
@@ -395,7 +410,9 @@
                 Upload.upload({
                     url: 'https://video-playlist.herokuapp.com/api/user_profile_image/' + vm.userInfo._id,
                     // headers : {'mimeType': 'multipart/form-data','crossDomain':true,'contentType':false},
-                    data: { avtar: file },
+                    data: {
+                        avtar: file
+                    },
                 }).then(function(response) {
                     vm.activated = false;
                     if (angular.isDefined(response.data.filename)) {
@@ -408,6 +425,8 @@
             // }
         };
         setTimeout(function() {
+            var youtubeDiv = angular.element(document.getElementById('youtubePanel')).innerHeight();
+            var currentPlaylistInfoBoxDiv = angular.element(document.getElementById('currentPlaylistInfoBox')).innerHeight();
             var divsize = angular.element(document.getElementById('activ_video')).prop('offsetWidth');
             var divheight = angular.element(document.getElementById('activ_video')).prop('offsetHeight')
             var footerheight = angular.element(document.getElementById('bottom-bar')).prop('offsetHeight');
@@ -417,15 +436,23 @@
                     'max-width': divsize + 'px',
                     'min-width': divsize + 'px',
                     'max-height': $window.innerHeight - footerheight - topheight + "px",
-                    'min-height': $window.innerHeight - footerheight - topheight + "px",
-                    'overflow-y': 'scroll'
+                    'min-height': $window.innerHeight - footerheight - topheight + "px"
+                        // 'overflow-y': 'scroll'
 
                 };
+                vm.playlistVedioStyle = {
+                        'overflow-y': scroll,
+                        'max-height': $window.innerHeight - footerheight - topheight - currentPlaylistInfoBoxDiv - youtubeDiv + "px"
+                    }
+                    // vm.createPlaylistSidebarStyle = {
+                    //     'overflow-y': scroll,
+                    //     'max-height': $window.innerHeight - footerheight - topheight - youtubeDiv + "px"
+                    // }
                 vm.historyStyle = {
                     'max-width': divsize + 'px',
                     'min-width': divsize + 'px',
-                    'max-height': $window.innerHeight - footerheight + "px",
-                    'min-height': $window.innerHeight - footerheight + "px",
+                    'max-height': $window.innerHeight - footerheight - topheight + "px",
+                    'min-height': $window.innerHeight - footerheight - topheight + 18 + "px",
                     'overflow-y': 'scroll'
                 };
             });
@@ -433,6 +460,8 @@
 
         var w = angular.element($window);
         w.bind('resize', function() {
+            var currentPlaylistInfoBoxDiv = angular.element(document.getElementById('currentPlaylistInfoBox')).innerHeight();
+            var youtubeDiv = angular.element(document.getElementById('youtubePanel')).innerHeight();
             var divsize = angular.element(document.getElementById('activ_video')).prop('offsetWidth');
             var divheight = angular.element(document.getElementById('activ_video')).prop('offsetHeight')
             var footerheight = angular.element(document.getElementById('bottom-bar')).prop('offsetHeight');
@@ -442,18 +471,35 @@
                     'max-width': divsize + 'px',
                     'min-width': divsize + 'px',
                     'max-height': $window.innerHeight - footerheight - topheight + "px",
-                    'min-height': $window.innerHeight - footerheight - topheight + "px",
-                    'overflow-y': 'scroll'
+                    'min-height': $window.innerHeight - footerheight - topheight + "px"
+                        // 'overflow-y': 'scroll'
                 };
+                vm.playlistVedioStyle = {
+                    'overflow-y': scroll,
+                    'max-height': $window.innerHeight - footerheight - topheight - currentPlaylistInfoBoxDiv - youtubeDiv + "px"
+                };
+                // vm.createPlaylistSidebarStyle = {
+                //     'overflow-y': scroll,
+                //     'max-height': $window.innerHeight - footerheight - topheight - youtubeDiv + "px"
+                // }
                 vm.historyStyle = {
                     'max-width': divsize + 'px',
                     'min-width': divsize + 'px',
                     'max-height': $window.innerHeight - footerheight - topheight + "px",
-                    'min-height': $window.innerHeight - footerheight - topheight + "px",
+                    'min-height': $window.innerHeight - footerheight - topheight + 18 + "px",
                     'overflow-y': 'scroll'
                 };
             });
         });
+
+        function getConfiguration() {
+            homeService.getData('api', 'configuration').
+            then(function(response) {
+                vm.configuration = response.data[0];
+            })
+        }
+
+
         vm.init();
 
     }

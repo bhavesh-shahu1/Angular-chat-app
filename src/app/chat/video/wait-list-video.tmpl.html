@@ -16,6 +16,62 @@ md-autocomplete input:not(.md-input) {
 md-autocomplete md-autocomplete-wrap {
     background-color: #c4254a;
 }
+
+ #social-links {
+    padding-top: 20px;
+}
+
+ #social-links a {
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    color: #FFF;
+    border-radius: 5px;
+    margin-right: 15px;
+}
+#social-links #discord-button {
+    background-color: #7289DA;
+    text-decoration: none;
+}
+
+ #social-links #discord-button:hover {
+    background-color: rgba(114, 137, 218, 0.8);
+}
+
+#social-links #youtube-button {
+    background-color: #E62117;
+    text-decoration: none;
+}
+
+#social-links #youtube-button:hover {
+    background-color: rgba(230, 33, 23, 0.8);
+}
+
+#social-links #facebook-button {
+    background-color: #3B5998;
+    text-decoration: none;
+}
+
+#social-links #facebook-button:hover {
+    background-color: rgba(59, 89, 152, 0.8)
+}
+
+#social-links #soundcloud-button {
+    background-color: #FF6801;
+    text-decoration: none;
+}
+
+#social-links #soundcloud-button:hover {
+    background-color: rgba(255, 104, 1, 0.8);
+}
+
+#social-links .social-button {
+    position: relative;
+    top: -2px;
+    padding-left: 5px;
+}
 </style>
 <!-- <div layout-align="center center" layout="row" ng-if="vm.activated" >
     <md-progress-circular ng-disabled="!vm.activated" class="md-hue-2" md-diameter="20px"></md-progress-circular>
@@ -27,7 +83,7 @@ md-autocomplete md-autocomplete-wrap {
     <div flex layout="row" layout-align="center center" ng-if="vm.response">
         <youtube-video video-url="vm.response.videoplaylists_id.url" player-vars="vm.playerVars"></youtube-video>
     </div>
-    <div flex-offset="15" layout="row">
+   <!--  <div flex-offset="15" layout="row">
         <div>
             <md-button class="md-raised md-primary" ng-click="vm.addToWaitList(item._id)" ng-if="!vm.waitlistStatus">
                 Join Wait List
@@ -48,7 +104,7 @@ md-autocomplete md-autocomplete-wrap {
                 <i class="fa fa-thumbs-down" aria-hidden="true" ng-style="vm.downvoteColor"></i>
             </md-button>
         </div>
-    </div>
+    </div> -->
 </div>
 <!-- show history list -->
 <div ng-if="vm.screenType == 'history'" style="position: fixed;top: 47px;background-color: rgba(27, 27, 27, 0.6)" flex ng-style="vm.historyStyle">
@@ -93,7 +149,7 @@ md-autocomplete md-autocomplete-wrap {
                 <i class="mdi mdi-24px mdi-playlist-plus" style="padding: 16px; color: #FFFFFF;"></i>
             </div>
         </div>
-        <div style="background-color: #111111;height: 74vh;">
+        <div style="background-color: #111111;height: 74vh; overflow-y: scroll;" ng-style="vm.createPlaylistSidebarStyle">
             <div style="height: 18px;
                 padding: 15px; cursor: pointer; color: #FFFFFF" ng-repeat="item in vm.playlist" ng-click="vm.getVideoListByName(item,$index)" layout="row" layout-align="space-between center">
                 <div style="float: left;font-size: 15px;font-weight: 700;">{{ item.name }}</div>
@@ -102,9 +158,8 @@ md-autocomplete md-autocomplete-wrap {
         </div>
     </div>
     <div flex style="background-color: #111111;opacity: 0.95;">
-        <md-content>
             <!--  <md-list flex> -->
-            <div layout="row" flex>
+            <div layout="row" flex id="youtubePanel">
                 <form name="searchForm" flex>
                     <md-autocomplete ng-disabled="ctrl.isDisabled" md-no-cache="true" md-selected-item="vm.selectedItem" md-search-text-change="ctrl.searchTextChange(ctrl.searchText)" md-search-text="vm.searchText" md-items="item in vm.querySearch(vm.searchText)" md-item-text="item.snippet.title" md-min-length="0" placeholder="Search YouTube" style="opacity: 0.95">
                         <md-item-template>
@@ -129,7 +184,7 @@ md-autocomplete md-autocomplete-wrap {
             </div>
             <md-divider style="border-bottom: 3px solid #fb294f"></md-divider>
             <!--  <div layout=""> -->
-            <div class="currentPlaylistInfoBox" layout="row" layout-align="space-between center" style="background: #111111;">
+            <div class="currentPlaylistInfoBox" layout="row" layout-align="space-between center" style="background: #111111;" id="currentPlaylistInfoBox">
                 <div style="padding: 8px;float: left;font-size: 19px;font-weight: 700;color: #FFFFFF">{{vm.activeListDetail.name}}</div>
                 <div class="actions" layout="row">
                     <div style="float: left;width: auto;height: 34px;padding-top: 4px;cursor: pointer;padding-right: 20px;">
@@ -152,7 +207,7 @@ md-autocomplete md-autocomplete-wrap {
                 </div>
             </div>
             <md-divider style="background-color: #fb294f;border-top-width: 3px;"></md-divider>
-            <div>
+            <div style="overflow-y: scroll; max-height: 422px">
                 <div ui-tree="treeOptions" id="tree-root" class="table-responsive" ng-if="vm.videoList.length > 0">
                     <div ui-tree-nodes ng-model="vm.videoList">
                         <div ng-repeat="item in vm.videoList" ui-tree-node>
@@ -178,7 +233,6 @@ md-autocomplete md-autocomplete-wrap {
                 </div>
             </div>
             <!-- </md-list> -->
-        </md-content>
         <!-- <div flex ng-cloak style="position: fixed; right: 25px; bottom: 25px; z-index: 999;">
             <md-fab-speed-dial md-direction="up" md-open="false" class="md-fab-bottom-right md-scale">
             <md-fab-trigger>
@@ -191,3 +245,19 @@ md-autocomplete md-autocomplete-wrap {
         </div> -->
     </div>
 </div>
+<div ng-if="vm.screenType == 'socialMedia'" style="position: fixed;top: 64px;opacity: 0.95; background: rgb(17, 17, 17);" ng-style="vm.playlistStyle">
+<div id="room-info" class="maincontent">
+                    <div id="room-info-content" style="padding: 50px;overflow-y: auto;height: calc(100% - 100px);">
+                        <img src="assets/images/logo.png" class="logo" style="width:162px;">
+                        <p id="room-info-text" style="width: 100%;color: #b3b3b3;border-bottom: 2px solid #b3b3b3;padding-bottom: 20px;padding-top: 15px;">
+                            {{vm.configuration.room_info_text}}
+                        </p>
+                        <div id="social-links">
+                            <a href="{{vm.configuration.discord_url}}" id="discord-button"><i class="mdi mdi-24px mdi-discord"></i><span class="social-button">Discord</span></a>
+                            <a href="{{vm.configuration.youtube_url}}" id="youtube-button"><i class="mdi mdi-24px mdi-youtube-play"></i><span class="social-button">YouTube</span></a>
+                            <a href="{{vm.configuration.facebook_url}}" id="facebook-button"><i class="mdi mdi-24px mdi-facebook"></i><span class="social-button">Facebook</span></a>
+                            <a href="{{vm.configuration.soundcloud_url}}" id="soundcloud-button"><i class="mdi mdi-24px mdi-soundcloud"></i><span class="social-button">Soundcloud</span></a>
+                        </div>
+                    </div>
+                </div>
+                </div>

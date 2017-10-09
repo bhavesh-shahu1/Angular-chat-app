@@ -56,7 +56,7 @@
         vm.showUserProfile = showUserProfile;
         vm.logout = logout;
         vm.openHistory = openHistory;
-
+        vm.openSocialMedia  = openSocialMedia;    
         function init() {
             // vm.videoInfo = localStorage.getItem('videoInfo');
             // if (angular.isDefined(localStorage.getItem('videoInfo')) && localStorage.getItem('videoInfo') != null) {
@@ -64,6 +64,23 @@
             //     vm.videoInformation1 = JSON.parse(vm.videoInfo);
             //     vm.videoTitle = vm.videoInformation1.title;
             // }
+        }
+
+        function openSocialMedia(action){
+            vm.isSocialMediaButton = action;
+            if (vm.isSocialMediaButton) {
+                var screenType = {
+                    screenType: 'socialMedia'
+                }
+                var encode = commonService.encodeObject(screenType);
+                $rootScope.$broadcast('menu-open', encode);
+            } else {
+                var screenType = {
+                    screenType: 'waitlistVedio'
+                }
+                var encode = commonService.encodeObject(screenType);
+                $rootScope.$broadcast('menu-open', encode);
+            }
         }
 
         function openHistory(action) {
