@@ -23,6 +23,7 @@
         vm.getWaitList = getWaitList;
         vm.userInfo = commonService.getUserInfo();
         vm.userId = vm.userInfo._id;
+        console.log(vm.userId);
         vm.username = vm.userInfo.username;
         vm.status = vm.userInfo.status;
         vm.removeFromWaitList = removeFromWaitList;
@@ -43,6 +44,12 @@
         vm.getConfiguration = getConfiguration;
         vm.updateConfiguration = updateConfiguration;
         vm.uploadPic = uploadPic;
+        vm.voting = {
+            upvote: 0,
+            downvote: 0,
+            upvoteUser: [],
+            downvoteUser: []
+        }
         vm.upvote = upvote;
         vm.downvote = downvote;
         vm.getCurrentVideo = getCurrentVideo;
@@ -85,7 +92,8 @@
         }
 
         vm.setWaitListStatus = setWaitListStatus;
-        function setWaitListStatus(type){
+
+        function setWaitListStatus(type) {
             $rootScope.$broadcast('setWaitListStatus', type);
         }
 
@@ -112,14 +120,13 @@
 
         // Get to server
         socketService.on('voting_waitlist', function(data) {
-            console.log(data);
             $scope.$apply(function() {
                 vm.getWaitList();
-                vm.voting = {};
                 vm.voting.upvote = data.upvote != '' ? data.upvote.split(',').length - 1 : 0;
                 vm.voting.downvote = data.downvote != '' ? data.downvote.split(',').length - 1 : 0;
+                vm.voting.upvoteUser = data.upvote != '' ? data.data.upvote.split(',') : [];
+                vm.voting.downvoteUser = data.downvote != '' ? data.downvote.split(',') : [];
             });
-            console.log(vm.voting);
         });
 
         // Get user chat history
@@ -139,10 +146,10 @@
             })
         }
 
-         $scope.$on('waitlistStatus', function($event, message) {
+        $scope.$on('waitlistStatus', function($event, message) {
             vm.waitlistStatus = message;
         });
-        
+
         function getCurrentVideo() {
             vm.activated = true;
             videoService.getData('api', 'waitlist', 'current', '').
@@ -151,23 +158,11 @@
                 if (angular.isDefined(response.data.data) && response.data.data != null) {
                     vm.currentVideoInformation = response.data.data;
                     vm.Id = vm.currentVideoInformation.videoplaylists_id._id;
-                    if(response.data.data.videoplaylists_id.upvote != null){
-                    vm.upvoteCount = response.data.data.videoplaylists_id.upvote.split(',');
-                    vm.downvoteCount = response.data.data.videoplaylists_id.downvote.split(',');
-                    vm.voting.upvote = response.data.data.upvote != '' ? response.data.data.upvote.split(',').length - 1 : 0;
-                    vm.voting.downvote = response.data.data.downvote != '' ? response.data.data.downvote.split(',').length - 1 : 0;
+                    if (response.data.data.videoplaylists_id.upvote != null) {
+                        vm.voting.upvote = response.data.data.upvote != '' ? response.data.data.upvote.split(',').length - 1 : 0;
+                        vm.voting.downvote = response.data.data.downvote != '' ? response.data.data.downvote.split(',').length - 1 : 0;
                     }
-                    // Set vote button color
-                    if (vm.response.videoplaylists_id.upvote.includes(vm.userInfo._id)) {
-                        vm.upvoteColor['color'] = 'rgb(63,81,181)';
-                    } else {
-                        vm.upvoteColor['color'] = 'rgba(0,0,0,0.54)';
-                    }
-                    if (vm.response.videoplaylists_id.downvote.includes(vm.userInfo._id)) {
-                        vm.downvoteColor['color'] = 'rgb(63,81,181)';
-                    } else {
-                        vm.downvoteColor['color'] = 'rgba(0,0,0,0.54)';
-                    }
+
                     // commonService.showToast(response.data.message);
                 } else {
                     vm.addWaitlistMessage = 'Please add video in waitlist';
@@ -318,51 +313,31 @@
         };
 
         function upvote() {
-            // console.log(id);
-            if(angular.isDefined(vm.Id)){
-            videoService.getData('api', 'upvote', vm.Id.toString(), vm.userInfo._id).then(function(response) {
-                if (angular.isDefined(response.data.data)) {
-                    vm.upvoteCount = response.data.data.upvote.split(',');
-                    vm.downvoteCount = response.data.data.downvote.split(',');
-                    vm.voting.upvote = response.data.data.upvote != '' ? response.data.data.upvote.split(',').length - 1 : 0;
-                    vm.voting.downvote = response.data.data.downvote != '' ? response.data.data.downvote.split(',').length - 1 : 0;
-                    if (response.data.data.upvote.includes(vm.userInfo._id)) {
-                        vm.upvoteColor['color'] = 'rgb(63,81,181)';
-                    } else {
-                        vm.upvoteColor['color'] = 'rgba(0,0,0,0.54)';
+            if (vm.waitList.data[0]._id) {
+                videoService.getData('api', 'upvote', vm.waitList.data[0]._id.toString(), vm.userInfo._id).then(function(response) {
+                    if (angular.isDefined(response.data.data)) {
+                        vm.voting.upvote = response.data.data.upvote != '' ? response.data.data.upvote.split(',').length - 1 : 0;
+                        vm.voting.downvote = response.data.data.downvote != '' ? response.data.data.downvote.split(',').length - 1 : 0;
+                        vm.voting.upvoteUser = response.data.data.upvote != '' ? response.data.data.upvote.split(',') : [];
+                        vm.voting.downvoteUser = response.data.data.downvote != '' ? response.data.data.downvote.split(',') : [];
                     }
-                    if (response.data.data.downvote.includes(vm.userInfo._id)) {
-                        vm.downvoteColor['color'] = 'rgb(63,81,181)';
-                    } else {
-                        vm.downvoteColor['color'] = 'rgba(0,0,0,0.54)';
-                    }
-                }
-            });
-            }else{
+                });
+            } else {
                 commonService.showToast('There is no video avaliable.');
             }
         }
 
         function downvote() {
-            if(angular.isDefined(vm.Id)){
-            videoService.getData('api', 'downvote', vm.Id.toString(), vm.userInfo._id).then(function(response) {
-                if (angular.isDefined(response.data.data)) {
-                    vm.upvoteCount = response.data.data.upvote.split(',');
-                    vm.downvoteCount = response.data.data.downvote.split(',');
-                    // Set vote button color
-                    if (response.data.data.upvote.includes(vm.userInfo._id)) {
-                        vm.upvoteColor['color'] = 'rgb(63,81,181)';
-                    } else {
-                        vm.upvoteColor['color'] = 'rgba(0,0,0,0.54)';
+            if (angular.isDefined(vm.waitList.data[0]._id)) {
+                videoService.getData('api', 'downvote', vm.waitList.data[0]._id.toString(), vm.userInfo._id).then(function(response) {
+                    if (angular.isDefined(response.data.data)) {
+                        vm.voting.upvote = response.data.upvote != '' ? response.data.data.upvote.split(',').length - 1 : 0;
+                        vm.voting.downvote = response.data.data.downvote != '' ? response.data.data.downvote.split(',').length - 1 : 0;
+                        vm.voting.upvoteUser = response.data.upvote != '' ? response.data.data.upvote.split(',') : [];
+                        vm.voting.downvoteUser = response.data.data.downvote != '' ? response.data.data.downvote.split(',') : [];
                     }
-                    if (response.data.data.downvote.includes(vm.userInfo._id)) {
-                        vm.downvoteColor['color'] = 'rgb(63,81,181)';
-                    } else {
-                        vm.downvoteColor['color'] = 'rgba(0,0,0,0.54)';
-                    }
-                }
-            });
-            }else{
+                });
+            } else {
                 commonService.showToast('There is no video avaliable.');
             }
         }

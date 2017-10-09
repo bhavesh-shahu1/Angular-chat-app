@@ -166,7 +166,7 @@
                                         <div class="profilepic"><img ng-src="{{item.videoplaylists_id.thumbnail}}" alt=""></div>
                                         <div class="username owner">{{item.videoplaylists_id.title| limitTo : 40}}...</div>
                                         <div class="actions">
-                                            <div class="removeUser"><i class="mdi mdi-24px mdi-close"></i></div>
+                                            <div class="removeUser"><i class="mdi mdi-24px mdi-close" ng-click="vm.removeFromWaitList(item._id,item.videoplaylists_id._id)"></i></div>
                                             <div class="moveUser"><i class="mdi mdi-24px mdi-drag"></i></div>
                                         </div>
                                     </div>
@@ -517,14 +517,16 @@
         </md-tabs>
          <div id="app-right" flex layout="coloumn" layout-align="center center">
             <div id="vote-buttons" layout="row" flex layout-align="center center">
-                <div flex="100" layout="row" class="upvote" layout-align="center center">
-                    <button flex id="upvote" class="votelinks upvote" ng-click="vm.upvote(vm.waitList.data[0]._id)"><i class="mdi mdi-24px mdi-thumb-up-outline"></i> {{vm.voting.upvote}}</button>
+                <div flex="100" layout="row" layout-align="center center">
+                    <button flex id="upvote" class="votelinks upvote" ng-click="vm.upvote()"><i class="mdi mdi-24px mdi-thumb-up" ng-if="vm.voting.upvoteUser.indexOf(vm.userId)>0"></i><i class="mdi mdi-24px mdi-thumb-up-outline" ng-if="vm.voting.upvoteUser.indexOf(vm.userId)<=0"></i> {{vm.voting.upvote}}</button>
                 </div>
                 <div flex="100" layout="row" layout-align="center center">
                     <button flex id="grab" class="votelinks grab" ng-click="voteButton(event, 'grab')"><i class="mdi mdi-24px mdi-star-outline"></i> 5</button>
                 </div>
                 <div flex="100" layout="row" layout-align="center center">
-                    <button flex id="downvote" class="votelinks downvote" ng-click="vm.downvote(vm.waitList.data[0]._id)"><i class="mdi mdi-24px mdi-thumb-down-outline"></i>{{vm.voting.downvote}}</button>
+                    <button flex id="downvote" class="votelinks downvote" ng-click="vm.downvote()">
+                        <i class="mdi mdi-24px mdi-thumb-down" ng-if="vm.voting.downvoteUser.indexOf(vm.userId)>0"></i><i class="mdi mdi-24px mdi-thumb-down-outline" ng-if="vm.voting.downvoteUser.indexOf(vm.userId)<=0"></i>
+                    {{vm.voting.downvote}}</button>
                 </div>
                 <div flex="100" layout="row" layout-align="center center" ng-if="!vm.waitlistStatus">
                     <button flex id="joinqueue" class="votelinks joinqueue" ng-click="vm.setWaitListStatus('joinWaitList')"><i class="mdi mdi-24px mdi-playlist-plus" ></i></button>

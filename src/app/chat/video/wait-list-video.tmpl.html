@@ -119,7 +119,7 @@ md-autocomplete md-autocomplete-wrap {
             <div class="votes" layout="row" flex layout-align="center center">
                 <div class="upvotes" style=" color: #90AD2F;" flex layout="column" layout-align="center center">
                     <div><i class="mdi mdi-24px mdi-thumb-up-outline"></i></div>
-                    <div><span class="number-votes"><span ng-if="item.upvote.split(',').length==0">{{item.upvote.split(',').length - 1}}</span><span ng-if="item.upvote.split(',').length!=0">0</span></span>
+                    <div><span class="number-votes"><span ng-if="item.upvote.split(',').length!=0">{{item.upvote.split(',').length - 1}}</span><span ng-if="item.upvote.split(',').length==0">0</span></span>
                     </div>
                 </div>
                 <div class="grabs" style="  color: #A771FB;" flex layout="column" layout-align="center center">
@@ -129,7 +129,7 @@ md-autocomplete md-autocomplete-wrap {
                 <div class="downvotes" style=" color: #C42E3B;" flex layout="column" layout-align="center center">
                     <div><i class="mdi mdi-24px mdi-thumb-down-outline"></i></div>
                     <div><span class="number-votes">
-                        <span ng-if="item.downvote.split(',').length==0">{{item.downvote.split(',').length - 1}}</span><span ng-if="item.downvote.split(',').length!=0">0</span></span></div>
+                        <span ng-if="item.downvote.split(',').length!=0">{{item.downvote.split(',').length - 1}}</span><span ng-if="item.downvote.split(',').length==0">0</span></span></div>
                 </div>
                 <div class="add-to-playlist" style="cursor: pointer;color: #FFFFFF;" flex layout-align="center center" layout="column">
                     <div><i class="mdi mdi-24px mdi-plus-box-outline"></i></div>
