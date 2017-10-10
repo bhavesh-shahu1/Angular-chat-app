@@ -38,6 +38,16 @@
     background: #111111;
 }
 
+.background-image-music {
+    background-image: url(../images/landing-page.jpg);
+}
+
+// full background image
+.full-image-background {
+  background-size: cover;
+  background-position: center;
+}
+
 chat-text-box ::-webkit-scrollbar-corner {
     background: transparent;
 }

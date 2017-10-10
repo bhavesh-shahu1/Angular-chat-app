@@ -121,10 +121,11 @@
         // Get to server
         socketService.on('voting_waitlist', function(data) {
             $scope.$apply(function() {
-                vm.getWaitList();
+                // vm.getWaitList();
+                console.log(data);
                 vm.voting.upvote = data.upvote != '' ? data.upvote.split(',').length - 1 : 0;
                 vm.voting.downvote = data.downvote != '' ? data.downvote.split(',').length - 1 : 0;
-                vm.voting.upvoteUser = data.upvote != '' ? data.data.upvote.split(',') : [];
+                vm.voting.upvoteUser = data.upvote != '' ? data.upvote.split(',') : [];
                 vm.voting.downvoteUser = data.downvote != '' ? data.downvote.split(',') : [];
             });
         });
