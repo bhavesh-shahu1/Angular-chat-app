@@ -53,7 +53,8 @@
         vm.upvote = upvote;
         vm.downvote = downvote;
         vm.getCurrentVideo = getCurrentVideo;
-
+        vm.onlineUser = [];
+        vm.socketId = socketService.getId();
         vm.ChatStyle = {
             'max-height': $window.innerHeight - 181 + "px",
             'min-height': $window.innerHeight - 181 + "px",
@@ -108,6 +109,8 @@
             vm.data.message = null;
         }
 
+
+
         // Get to server
         socketService.on('broadcast', function(data) {
             // console.log(data);
@@ -117,18 +120,27 @@
             // console.log(vm.userChat);
         });
 
+        socketService.on('user_online', function(data) {
+            data.socket_id = socketService.getId();
+            console.log(data);
+            $scope.$apply(function() {
+                vm.onlineUser.push(data);
+            });
+            socketService.emit('user_online_ack', data);
+
+        })
 
         // Get to server
         socketService.on('voting_waitlist', function(data) {
             $scope.$apply(function() {
                 // vm.getWaitList();
-                console.log(data);
                 vm.voting.upvote = data.upvote != '' ? data.upvote.split(',').length - 1 : 0;
                 vm.voting.downvote = data.downvote != '' ? data.downvote.split(',').length - 1 : 0;
                 vm.voting.upvoteUser = data.upvote != '' ? data.upvote.split(',') : [];
                 vm.voting.downvoteUser = data.downvote != '' ? data.downvote.split(',') : [];
             });
         });
+
 
         // Get user chat history
         function getUserChat() {
@@ -314,7 +326,7 @@
         };
 
         function upvote() {
-            if (vm.waitList.data[0]._id) {
+            if (vm.waitList && vm.waitList.data[0] && vm.waitList.data[0]._id) {
                 videoService.getData('api', 'upvote', vm.waitList.data[0]._id.toString(), vm.userInfo._id).then(function(response) {
                     if (angular.isDefined(response.data.data)) {
                         vm.voting.upvote = response.data.data.upvote != '' ? response.data.data.upvote.split(',').length - 1 : 0;
@@ -329,7 +341,7 @@
         }
 
         function downvote() {
-            if (angular.isDefined(vm.waitList.data[0]._id)) {
+            if (vm.waitList && vm.waitList.data[0] && vm.waitList.data[0]._id) {
                 videoService.getData('api', 'downvote', vm.waitList.data[0]._id.toString(), vm.userInfo._id).then(function(response) {
                     if (angular.isDefined(response.data.data)) {
                         vm.voting.upvote = response.data.upvote != '' ? response.data.data.upvote.split(',').length - 1 : 0;

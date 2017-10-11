@@ -2,7 +2,7 @@
     'use strict';
     angular.module('app.chat.authentication').controller('LoginController', LoginController);
     /* @ngInject */
-    function LoginController($mdDialog, authenticationService, commonService, $stateParams, $state) {
+    function LoginController($mdDialog, authenticationService, commonService, $stateParams, $state,socketService) {
         var vm = this;
         vm.data = {};
         vm.parameter = $stateParams.parameter;
@@ -39,6 +39,15 @@
                         // $state.go('default-layout.admin-layout.video');
                         // $state.go('default-layout.admin-layout.wait-list-video');
                         //$state.go('default-layout');
+                        var user = response.data.data;
+                        var socketOnlineData = {
+                            user_id : user._id,
+                            username : user.username,
+                            user_role :user.user_role,
+                            socket_id: socketService.getId(),
+                            avtar: user.avtar
+                        }
+                        socketService.emit('userGetsOnlineServerAck', socketOnlineData);
                         var screenType = {
                             screenType: 'waitlistVedio'
                         }

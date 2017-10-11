@@ -13,9 +13,14 @@
             socket.emit(eventName, data);
         }
 
+        function getId(){
+            return socket.id
+        }
+
         return {
             on: on,
-            emit: emit
+            emit: emit,
+            getId: getId
         }
     }
 })();
