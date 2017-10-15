@@ -1,6 +1,6 @@
 <md-content>
     <div md-theme="whiteAccentTheme">
-        <md-tabs md-dynamic-height class="md-primary" ng-init="vm.getUserProfile()">
+        <md-tabs md-dynamic-height class="md-primary" md-selected="vm.selectedTabIndex"> <!-- ng-init="vm.getUserProfile()" -->
             <md-tab md-on-select="vm.onTabChanges('chat')">
                 <md-tab-label>
                     <i class="mdi mdi-24px mdi-message " ng-class="vm.selectedTab == 'chat' ? 'pink-color':'white-color'"></i>
@@ -340,7 +340,7 @@
                                                                         <span ng-if="userValue.user_role==1">Moderator</span>
                                                                         <span ng-if="userValue.user_role==2">Admin</span>
                                                                     </div>
-                                                                    <div class="editUser"><i class="mdi mdi-24px mdi-pencil"></i></div>
+                                                                    <div class="editUser"><i class="mdi mdi-24px mdi-pencil" ng-click="vm.getUserProfile(userValue._id,'edit');"></i></div>
                                                                 </div>
                                                             </div>
                                                             <!-- <div class="user">

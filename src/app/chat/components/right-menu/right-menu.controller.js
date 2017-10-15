@@ -90,6 +90,7 @@
             vm.getCurrentVideo();
             vm.getWaitList();
             vm.getUserChat();
+            vm.getUserProfile(vm.userInfo._id);
         }
 
         vm.setWaitListStatus = setWaitListStatus;
@@ -218,6 +219,7 @@
 
         function onTabChanges(tab) {
             vm.selectedTab = tab;
+            console.log(vm.selectedTab);
         }
 
         function getRandomColor() {
@@ -229,9 +231,12 @@
             return color;
         }
 
-        function getUserProfile() {
+        function getUserProfile(userID, type) {
+            if(type == 'edit'){
+                vm.selectedTabIndex = 3;
+            }
             vm.activated = true;
-            homeService.getData('api', 'user', vm.userInfo._id, '').then(function(response) {
+            homeService.getData('api', 'user', userID, '').then(function(response) {
                 vm.activated = false;
                 if (angular.isDefined(response.data)) {
                     vm.userData = response.data;
