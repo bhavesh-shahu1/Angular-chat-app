@@ -66,8 +66,10 @@
             'overflow-y': 'scroll'
         };
         vm.color = ['#F44336', '#FFEB3B', '#E91E63', '#9C27B0', '#FFC107', '#673AB7', '#FF9800', '#3F51B5', '#2196F3', '#FF5722', '#03A9F4', '#795548', '#00BCD4', '#009688', '#607D8B', '#4CAF50', '#8BC34A', '#CDDC39'];
-
         vm.selectedTab = 'staff';
+        vm.updateUserProfileOnEdit = updateUserProfileOnEdit;
+        vm.getUserProfileOnEdit = getUserProfileOnEdit;
+        vm.isEditUserProfile = false;
 
         function scrollDown($element) {
             // $timeout(function() { $("#messageDiv").scrollTop($("#messageDiv")[0].scrollHeight); }, 10);
@@ -219,7 +221,6 @@
 
         function onTabChanges(tab) {
             vm.selectedTab = tab;
-            console.log(vm.selectedTab);
         }
 
         function getRandomColor() {
@@ -233,7 +234,8 @@
 
         function getUserProfile(userID, type) {
             if(type == 'edit'){
-                vm.selectedTabIndex = 3;
+                // vm.selectedTabIndex = 3;
+                vm.isEditUserProfile = true;
             }
             vm.activated = true;
             homeService.getData('api', 'user', userID, '').then(function(response) {
@@ -244,6 +246,26 @@
                     if (angular.isDefined(response.data.username)) {
                         vm.username = response.data.username;
                         vm.userData.password = null;
+                    }
+
+                }
+            });
+        };
+        
+        function getUserProfileOnEdit(userID, type) {
+            if(type == 'edit'){
+                // vm.selectedTabIndex = 3;
+                vm.isEditUserProfile = true;
+            }
+            vm.activated = true;
+            homeService.getData('api', 'user', userID, '').then(function(response) {
+                vm.activated = false;
+                if (angular.isDefined(response.data)) {
+                    vm.userData1 = response.data;
+                    vm.userData1.profilePic = 'https://video-playlist.herokuapp.com/images/user_avtar/' + vm.userData1.avtar;
+                    if (angular.isDefined(response.data.username)) {
+                        vm.username1 = response.data.username;
+                        vm.userData1.password = null;
                     }
 
                 }
@@ -266,6 +288,25 @@
             } else {
                 commonService.showToast("Some Parameter are missing")
             }
+        }
+
+        function updateUserProfileOnEdit() {
+            vm.activated = true;
+            if (vm.userData1.old_password && vm.userData1.password && vm.userData1.confirm) {
+                if (vm.userData1.password == vm.userData1.confirm) {
+                    var postParam = vm.userData1;
+                    homeService.postCustomData('api', 'user', vm.userInfo._id, '', null, null, postParam).then(function(response) {
+                        vm.activated = false;
+                        commonService.showToast(response.message);
+                    });
+
+                } else {
+                    commonService.showToast("Password Does not match!");
+                }
+            } else {
+                commonService.showToast("Some Parameter are missing")
+            }
+            vm.isEditUserProfile = false;
         }
 
         function logout() {

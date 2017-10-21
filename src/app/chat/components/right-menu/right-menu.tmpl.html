@@ -325,7 +325,94 @@
                                             <i class="mdi mdi-24px mdi-account-multiple  " ng-class="vm.selectedTab == 'staff_user_list' ? 'pink-color':'white-color'"></i> <span class="badge" ng-class="vm.selectedTab == 'staff_user_list' ? 'pink-color':'white-color'">{{vm.userList.length}}</span>
                                         </md-tab-label>
                                         <md-tab-body>
-                                            <div id="staff">
+                            <div id="usersettings" class="tabcontent" ng-show="vm.isEditUserProfile">
+                                <div id="usersettings-content" style="overflow-y: hidden;">
+                                    <div class="item-user" layout="row" layout-align="space-between center">
+                                        <div class="item-name">
+                                            <img ng-src="{{vm.userData1.profilePic}}" >
+                                            <div class="top-section">
+                                                <div class="username">{{vm.userData1.username}}</div>
+                                                <!-- <div class="logout" style="cursor: pointer;">
+                                                    <a ng-click="vm.logout()"><i class="mdi mdi-logout-variant"></i>logout</a>
+                                                </div> -->
+                                            </div>
+                                        </div>
+                                        <div style="padding-right: 10px;"><i class="fa fa-arrow-circle-left" ng-click="vm.isEditUserProfile = false;"></i></div>
+                                    </div>
+                                    <div class="item-change-avatar" ngf-select="vm.uploadPic($file,$invalidFiles)" accept="image/*">
+                                        <i class="mdi mdi-24px mdi-upload"></i>
+                                        <span>Change avatar</span>
+                                    </div>
+                                    <div class="item">
+                                        <div class="item-name">Username</div>
+                                    </div>
+                                    <div class="item">
+                                        <input class="item-input" type="text" ng-model="vm.userData1.username" placeholder="Type your message..." maxlength="256" >
+                                    </div>
+                                    <div class="item">
+                                        <div class="item-name">Old password</div>
+                                    </div>
+                                    <div class="item">
+                                        <input class="item-input"  ng-model="vm.userData1.old_password" type="text" placeholder="Type your message..." maxlength="256">
+                                    </div>
+                                    <div class="item">
+                                        <div class="item-name" ">New password</div>
+                                    </div>
+                                    <div class="item">
+                                        <input class="item-input" ng-model="vm.userData1.password" type="text" placeholder="Type your message..." maxlength="256">
+                                    </div>
+                                    <div class="item">
+                                        <div class="item-name">Repeat password</div>
+                                    </div>
+                                    <div class="item">
+                                        <input class="item-input" type="text" ng-model="vm.userData1.confirm" placeholder="Type your message..." maxlength="256">
+                                    </div>
+                                    <div class="item-change-avatar" ng-click="vm.updateUserProfileOnEdit()">
+                                        <i class="mdi mdi-24px mdi-content-save"></i>
+                                        <span>Save</span>
+                                    </div>
+                                    <div class="divider"></div>
+                                    <div class="item">
+                                        <div class="item-name checkboxItem">
+                                            <input type="checkbox" id="chatImagesSetting" />
+                                            <label for="chatImagesSetting">Chat images</label>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <div class="item-name checkboxItem">
+                                            <input type="checkbox" id="mentionSoundSetting" checked />
+                                            <label for="mentionSoundSetting">Mention sound</label>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <div class="item-name checkboxItem">
+                                            <input type="checkbox" id="boothAlertSetting" checked />
+                                            <label for="boothAlertSetting">Booth alert</label>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <div class="item-name checkboxItem">
+                                            <input type="checkbox" id="playVideoAudioSetting" checked />
+                                            <label for="playVideoAudioSetting">Play audio/video</label>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <div class="item-name checkboxItem">
+                                            <input type="checkbox" id="userJoinSetting" checked />
+                                            <label for="userJoinSetting">User join</label>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <div class="item-name checkboxItem">
+                                            <input type="checkbox" id="userLeaveSetting" checked />
+                                            <label for="userLeaveSetting">User leave</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                        </div>
+                                            
+                                            <div id="staff" ng-hide="vm.isEditUserProfile">
                                                 <div id="staff-content">
                                                     <div id="staffUserlist" class="pagecontent" style="display: block;">
                                                         <div id="staffUserlist-content">
@@ -340,7 +427,7 @@
                                                                         <span ng-if="userValue.user_role==1">Moderator</span>
                                                                         <span ng-if="userValue.user_role==2">Admin</span>
                                                                     </div>
-                                                                    <div class="editUser"><i class="mdi mdi-24px mdi-pencil" ng-click="vm.getUserProfile(userValue._id,'edit');"></i></div>
+                                                                    <div class="editUser"><i class="mdi mdi-24px mdi-pencil" ng-click="vm.getUserProfileOnEdit(userValue._id,'edit');"></i></div>
                                                                 </div>
                                                             </div>
                                                             <!-- <div class="user">
