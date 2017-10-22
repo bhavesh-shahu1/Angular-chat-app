@@ -26,11 +26,12 @@
         console.log(vm.userId);
         vm.username = vm.userInfo.username;
         vm.status = vm.userInfo.status;
+        vm.userRole = vm.userInfo.user_role;
         vm.removeFromWaitList = removeFromWaitList;
         vm.postChat = postChat;
         vm.getUserChat = getUserChat;
         vm.data = {};
-        vm.userChat = {};
+            vm.userChat = {};
         vm.userChat.data = [];
         vm.scrollDown = scrollDown;
         vm.onTabChanges = onTabChanges;
@@ -70,6 +71,8 @@
         vm.updateUserProfileOnEdit = updateUserProfileOnEdit;
         vm.getUserProfileOnEdit = getUserProfileOnEdit;
         vm.isEditUserProfile = false;
+        vm.getOnlineUserList = getOnlineUserList;
+        vm.deleteChatMessage = deleteChatMessage;
 
         function scrollDown($element) {
             // $timeout(function() { $("#messageDiv").scrollTop($("#messageDiv")[0].scrollHeight); }, 10);
@@ -106,7 +109,8 @@
             var msg = {
                 user_id: vm.userId,
                 username: vm.username,
-                msg: vm.data.message
+                msg: vm.data.message,
+                user_role: vm.userRole
             };
             socketService.emit('send_msg', msg);
             vm.data.message = null;
@@ -125,7 +129,7 @@
 
         socketService.on('user_online', function(data) {
             data.socket_id = socketService.getId();
-            console.log(data);
+            // console.log(data);
             $scope.$apply(function() {
                 vm.onlineUser.push(data);
             });
@@ -152,8 +156,7 @@
                 vm.scrollDown();
             })
         }
-        vm.deleteChatMessage = deleteChatMessage;
-
+        
         function deleteChatMessage(id) {
             videoService.getData('api', 'groupchat', 'delete', id).then(function(response) {
                 // commonService.showToast(response.data.message);
@@ -221,6 +224,10 @@
 
         function onTabChanges(tab) {
             vm.selectedTab = tab;
+            console.log(vm.selectedTab);
+            if(vm.selectedTab == 'user_list'){
+                vm.getOnlineUserList();
+            }
         }
 
         function getRandomColor() {
@@ -401,6 +408,13 @@
             }
         }
 
+        function getOnlineUserList(){
+            homeService.getData('api','','onlineusers', '1').
+            then(function(response) {
+                vm.onlineUserList = response.data.data;
+                console.log(vm.onlineUserList);
+            })        
+        }
         // Whenever video add in waitList update waitlist
         $scope.$on('updateWaitList', function($event, message) {
             vm.getWaitList();

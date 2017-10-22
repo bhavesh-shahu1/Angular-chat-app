@@ -16,6 +16,7 @@
                     </div> -->
                             <div>
                                 <div ng-repeat="chat in vm.userChat.data track by $index" flex>
+                                    <!-- <span style="color: white">{{chat}}</span> -->
                                     <div layout="row">
                                         <div>
                                             <img style="width: 30px; height: 30px;border-radius: 50%" src="http://video-playlist.herokuapp.com/images/user_avtar/{{chat.user_id.avtar}}" draggable="false" />
@@ -99,37 +100,38 @@
                 <md-tab-body>
                     <md-content>
                         <div id="app-right" flex layout="coloumn" ng-style="vm.userProfileStyle">
-                            <div id="userlist" class="tabcontent">
-                                <div id="userlist-content">
+                                <!-- <span ng-if="vm.onlineUserList.length == 0">No Online User found</span> -->
+                            <div id="userlist" class="tabcontent" ng-if="onlineUser in vm.onlineUserList">
+                                <div id="userlist-content" ng-if="onlineUser.user_role == 2">
                                     <div class="user">
-                                        <div class="profilepic"><img src="assets/images/profipic.png" alt=""></div>
-                                        <div class="username owner">User 1</div>
+                                        <div class="profilepic"><img src="onlineUser.avtar" alt=""></div>
+                                        <div class="username owner">{{onlineUser.username}}</div>
                                         <div class="rank">Owner</div>
                                     </div>
-                                    <div class="user">
+                                    <!-- <div class="user">
                                         <div class="profilepic"><img src="assets/images/profipic.png" alt=""></div>
                                         <div class="username manager">User 2</div>
                                         <div class="rank">Manager</div>
-                                    </div>
-                                    <div class="user">
-                                        <div class="profilepic"><img src="assets/images/profipic.png" alt=""></div>
-                                        <div class="username moderator">User 3</div>
+                                    </div> -->
+                                    <div class="user" ng-if="onlineUser.user_role == 1">
+                                        <div class="profilepic"><img src="onlineUser.avtar" alt=""></div>
+                                        <div class="username moderator">{{onlineUser.username}}</div>
                                         <div class="rank">Moderator</div>
                                     </div>
-                                    <div class="user">
-                                        <div class="profilepic"><img src="assets/images/profipic.png" alt=""></div>
+                                    <!-- <div class="user">
+                                        <div class="profilepic"><img src="onlineUser.avtar" alt=""></div>
                                         <div class="username donator">User 4</div>
                                         <div class="rank">Donator</div>
-                                    </div>
-                                    <div class="user">
-                                        <div class="profilepic"><img src="assets/images/profipic.png" alt=""></div>
-                                        <div class="username">User 5</div>
+                                    </div> -->
+                                    <div class="user" ng-if="onlineUser.user_role == 0">
+                                        <div class="profilepic"><img src="onlineUser.avtar" alt=""></div>
+                                        <div class="username">{{onlineUser.username}}</div>
                                         <div class="rank"></div>
                                     </div>
                                     <!-- Amount of guests (not logged in visitors) -->
-                                    <div class="user">
+                                    <!-- <div class="user">
                                         <div class="username guests" style="">And 13 guests</div>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
