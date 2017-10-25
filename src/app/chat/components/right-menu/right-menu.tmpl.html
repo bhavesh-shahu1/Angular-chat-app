@@ -101,7 +101,7 @@
                     <md-content>
                         <div id="app-right" flex layout="coloumn" ng-style="vm.userProfileStyle">
                                 <!-- <span ng-if="vm.onlineUserList.length == 0">No Online User found</span> -->
-                            <div id="userlist" class="tabcontent" ng-if="onlineUser in vm.onlineUserList">
+                            <div id="userlist" class="tabcontent" ng-repeat="onlineUser in vm.onlineUserList">
                                 <div id="userlist-content" ng-if="onlineUser.user_role == 2">
                                     <div class="user">
                                         <div class="profilepic"><img src="onlineUser.avtar" alt=""></div>

@@ -73,6 +73,7 @@
         vm.isEditUserProfile = false;
         vm.getOnlineUserList = getOnlineUserList;
         vm.deleteChatMessage = deleteChatMessage;
+        vm.onlineUserList=[];
 
         function scrollDown($element) {
             // $timeout(function() { $("#messageDiv").scrollTop($("#messageDiv")[0].scrollHeight); }, 10);
@@ -120,14 +121,14 @@
 
         // Get to server
         socketService.on('broadcast', function(data) {
-            // console.log(data);
+            console.log(data);
             $scope.$apply(function() {
                 vm.userChat.data.push(data);
             });
             // console.log(vm.userChat);
         });
 
-        socketService.on('user_online', function(data) {
+        socketService.on('userGetsOnlineClientAck', function(data) {
             data.socket_id = socketService.getId();
             // console.log(data);
             $scope.$apply(function() {
