@@ -23,7 +23,6 @@
         vm.getWaitList = getWaitList;
         vm.userInfo = commonService.getUserInfo();
         vm.userId = vm.userInfo._id;
-        console.log(vm.userId);
         vm.username = vm.userInfo.username;
         vm.status = vm.userInfo.status;
         vm.userRole = vm.userInfo.user_role;
@@ -31,7 +30,7 @@
         vm.postChat = postChat;
         vm.getUserChat = getUserChat;
         vm.data = {};
-            vm.userChat = {};
+        vm.userChat = {};
         vm.userChat.data = [];
         vm.scrollDown = scrollDown;
         vm.onTabChanges = onTabChanges;
@@ -73,7 +72,9 @@
         vm.isEditUserProfile = false;
         vm.getOnlineUserList = getOnlineUserList;
         vm.deleteChatMessage = deleteChatMessage;
-        vm.onlineUserList=[];
+        vm.getPlayListName = getPlayListName;
+        vm.AddToWaitList = AddToWaitList;
+        vm.onlineUserList = [];
 
         function scrollDown($element) {
             // $timeout(function() { $("#messageDiv").scrollTop($("#messageDiv")[0].scrollHeight); }, 10);
@@ -121,7 +122,6 @@
 
         // Get to server
         socketService.on('broadcast', function(data) {
-            console.log(data);
             $scope.$apply(function() {
                 vm.userChat.data.push(data);
             });
@@ -157,7 +157,7 @@
                 vm.scrollDown();
             })
         }
-        
+
         function deleteChatMessage(id) {
             videoService.getData('api', 'groupchat', 'delete', id).then(function(response) {
                 // commonService.showToast(response.data.message);
@@ -192,14 +192,9 @@
 
 
         // Add event to get select vedio Info
-        // $scope.$on('playUserSelectedVideo', function($event, videoInfo) {
-        //     vm.currentVideoInformation = JSON.parse(videoInfo);
-        //     console.log(vm.currentVideoInformation);
-        //     vm.Id = vm.currentVideoInformation.videoplaylists_id._id;
-        //     // vm.videoInformation = videoInfo;
-        //     console.log(currentVideoInformation);
-        //     vm.init();
-        // });
+        $scope.$on('playUserSelectedVideo', function($event, videoInfo) {
+            vm.userCurrentVideoInformation = JSON.parse(videoInfo);
+        });
 
         // Get video wait List
         function getWaitList() {
@@ -225,8 +220,7 @@
 
         function onTabChanges(tab) {
             vm.selectedTab = tab;
-            console.log(vm.selectedTab);
-            if(vm.selectedTab == 'user_list'){
+            if (vm.selectedTab == 'user_list') {
                 vm.getOnlineUserList();
             }
         }
@@ -241,7 +235,7 @@
         }
 
         function getUserProfile(userID, type) {
-            if(type == 'edit'){
+            if (type == 'edit') {
                 // vm.selectedTabIndex = 3;
                 vm.isEditUserProfile = true;
             }
@@ -259,9 +253,9 @@
                 }
             });
         };
-        
+
         function getUserProfileOnEdit(userID, type) {
-            if(type == 'edit'){
+            if (type == 'edit') {
                 // vm.selectedTabIndex = 3;
                 vm.isEditUserProfile = true;
             }
@@ -300,21 +294,57 @@
 
         function updateUserProfileOnEdit() {
             vm.activated = true;
-            if (vm.userData1.old_password && vm.userData1.password && vm.userData1.confirm) {
-                if (vm.userData1.password == vm.userData1.confirm) {
-                    var postParam = vm.userData1;
-                    homeService.postCustomData('api', 'user', vm.userInfo._id, '', null, null, postParam).then(function(response) {
-                        vm.activated = false;
-                        commonService.showToast(response.message);
-                    });
+            if (vm.userData1.password && vm.userData1.confirm) {
+                // if (vm.userData1.password == vm.userData1.confirm) {
+                var postParam = vm.userData1;
+                homeService.postCustomData('api', 'user', vm.userInfo._id, '', null, null, postParam).then(function(response) {
+                    vm.activated = false;
+                    commonService.showToast(response.message);
+                });
 
-                } else {
-                    commonService.showToast("Password Does not match!");
-                }
+                // } else {
+                //     commonService.showToast("Password Does not match!");
+                // }
             } else {
                 commonService.showToast("Some Parameter are missing")
             }
             vm.isEditUserProfile = false;
+        }
+
+        vm.openMenu = openMenu;
+
+        function openMenu($mdMenu, ev) {
+            vm.getPlayListName();
+            var originatorEv = ev;
+            $mdMenu.open(ev);
+        };
+
+        // Get user playlist 
+        function getPlayListName() {
+            // vm.activatedPlaylistVedio = true;
+            videoService.getData('api', 'uservideoplaylist', vm.userInfo._id, '').
+            then(function(response) {
+                // vm.activatedPlaylistVedio = false;
+                vm.playlist = response.data.data;
+            })
+        }
+
+        function AddToWaitList(playListId) {
+            if (angular.isDefined(vm.userCurrentVideoInformation)) {
+                // vm.activatedPlaylistVedio = true;
+                vm.youtubeUrl = vm.userCurrentVideoInformation.url;
+                var postParameter = {
+                    url: vm.youtubeUrl,
+                    user_id: vm.userInfo._id,
+                    userplaylist_id: playListId
+                }
+                videoService.postData('userplaylist', postParameter).then(function(response) {
+                    // vm.activatedPlaylistVedio = false;
+                    // commonService.showToast(response.message);
+                })
+            }else{
+                commonService.showToast('vedio not avaliable !');
+            }
         }
 
         function logout() {
@@ -347,7 +377,6 @@
             homeService.getData('api', 'configuration').
             then(function(response) {
                 vm.configuration = response.data[0];
-                console.log(vm.configuration);
             })
         }
 
@@ -366,7 +395,9 @@
                 Upload.upload({
                     url: 'https://video-playlist.herokuapp.com/api/user_profile_image/' + vm.userInfo._id,
                     // headers : {'mimeType': 'multipart/form-data','crossDomain':true,'contentType':false},
-                    data: { avtar: file },
+                    data: {
+                        avtar: file
+                    },
                 }).then(function(response) {
                     vm.activated = false;
                     if (angular.isDefined(response.data.filename)) {
@@ -409,12 +440,11 @@
             }
         }
 
-        function getOnlineUserList(){
-            homeService.getData('api','','onlineusers', '1').
+        function getOnlineUserList() {
+            homeService.getData('api', '', 'onlineusers', '1').
             then(function(response) {
                 vm.onlineUserList = response.data.data;
-                console.log(vm.onlineUserList);
-            })        
+            })
         }
         // Whenever video add in waitList update waitlist
         $scope.$on('updateWaitList', function($event, message) {
