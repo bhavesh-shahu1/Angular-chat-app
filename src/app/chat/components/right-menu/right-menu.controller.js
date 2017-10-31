@@ -48,7 +48,9 @@
             upvote: 0,
             downvote: 0,
             upvoteUser: [],
-            downvoteUser: []
+            downvoteUser: [],
+            grab : 0,
+            grabUser : []
         }
         vm.upvote = upvote;
         vm.downvote = downvote;
@@ -75,6 +77,7 @@
         vm.getPlayListName = getPlayListName;
         vm.AddToWaitList = AddToWaitList;
         vm.onlineUserList = [];
+        vm.grabvote = grabvote;
 
         function scrollDown($element) {
             // $timeout(function() { $("#messageDiv").scrollTop($("#messageDiv")[0].scrollHeight); }, 10);
@@ -144,8 +147,10 @@
                 // vm.getWaitList();
                 vm.voting.upvote = data.upvote != '' ? data.upvote.split(',').length - 1 : 0;
                 vm.voting.downvote = data.downvote != '' ? data.downvote.split(',').length - 1 : 0;
+                vm.voting.grab = data.grab != '' ? data.grab.split(',').length - 1 : 0;
                 vm.voting.upvoteUser = data.upvote != '' ? data.upvote.split(',') : [];
                 vm.voting.downvoteUser = data.downvote != '' ? data.downvote.split(',') : [];
+                vm.voting.grabUser = data.grab != '' ? data.grab.split(',') : [];
             });
         });
 
@@ -181,6 +186,7 @@
                     if (response.data.data.videoplaylists_id.upvote != null) {
                         vm.voting.upvote = response.data.data.upvote != '' ? response.data.data.upvote.split(',').length - 1 : 0;
                         vm.voting.downvote = response.data.data.downvote != '' ? response.data.data.downvote.split(',').length - 1 : 0;
+                        vm.voting.grab = response.data.data.grab!=''?response.data.data.grab.split(',').length-1:0;
                     }
 
                     // commonService.showToast(response.data.message);
@@ -314,9 +320,12 @@
         vm.openMenu = openMenu;
 
         function openMenu($mdMenu, ev) {
+            vm.playlist = {};
             vm.getPlayListName();
-            var originatorEv = ev;
+            if(vm.userCurrentVideoInformation)
+         {   var originatorEv = ev;
             $mdMenu.open(ev);
+        }
         };
 
         // Get user playlist 
@@ -341,9 +350,10 @@
                 videoService.postData('userplaylist', postParameter).then(function(response) {
                     // vm.activatedPlaylistVedio = false;
                     // commonService.showToast(response.message);
+                    vm.grabvote();
                 })
             }else{
-                commonService.showToast('vedio not avaliable !');
+                commonService.showToast('video not avaliable !');
             }
         }
 
@@ -418,6 +428,8 @@
                         vm.voting.downvote = response.data.data.downvote != '' ? response.data.data.downvote.split(',').length - 1 : 0;
                         vm.voting.upvoteUser = response.data.data.upvote != '' ? response.data.data.upvote.split(',') : [];
                         vm.voting.downvoteUser = response.data.data.downvote != '' ? response.data.data.downvote.split(',') : [];
+                        vm.voting.grab = response.data.data.grab != '' ? response.data.data.grab.split(',').length - 1 : 0;
+                        vm.voting.grabUser = response.data.data.grab != '' ? response.data.data.grab.split(',') : [];
                     }
                 });
             } else {
@@ -433,6 +445,25 @@
                         vm.voting.downvote = response.data.data.downvote != '' ? response.data.data.downvote.split(',').length - 1 : 0;
                         vm.voting.upvoteUser = response.data.upvote != '' ? response.data.data.upvote.split(',') : [];
                         vm.voting.downvoteUser = response.data.data.downvote != '' ? response.data.data.downvote.split(',') : [];
+                        vm.voting.grab = response.data.data.grab != '' ? response.data.data.grab.split(',').length - 1 : 0;
+                        vm.voting.grabUser = response.data.data.grab != '' ? response.data.data.grab.split(',') : [];
+                    }
+                });
+            } else {
+                commonService.showToast('There is no video avaliable.');
+            }
+        }
+
+        function grabvote() {
+            if (vm.waitList && vm.waitList.data[0] && vm.waitList.data[0]._id) {
+                videoService.getData('api', 'grab', vm.waitList.data[0]._id.toString(), vm.userInfo._id).then(function(response) {
+                    if (angular.isDefined(response.data.data)) {
+                        vm.voting.upvote = response.data.upvote != '' ? response.data.data.upvote.split(',').length - 1 : 0;
+                        vm.voting.downvote = response.data.data.downvote != '' ? response.data.data.downvote.split(',').length - 1 : 0;
+                        vm.voting.upvoteUser = response.data.upvote != '' ? response.data.data.upvote.split(',') : [];
+                        vm.voting.downvoteUser = response.data.data.downvote != '' ? response.data.data.downvote.split(',') : [];
+                        vm.voting.grab = response.data.data.grab != '' ? response.data.data.grab.split(',').length - 1 : 0;
+                        vm.voting.grabUser = response.data.data.grab != '' ? response.data.data.grab.split(',') : [];
                     }
                 });
             } else {
