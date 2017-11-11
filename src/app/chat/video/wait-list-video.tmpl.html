@@ -117,17 +117,17 @@ md-autocomplete md-autocomplete-wrap {
                     <!-- {{item.videoplaylists_id.user_id}} -->Ruby Chan</div>
             </div>
             <div class="votes" layout="row" flex layout-align="center center">
-                <div class="upvotes" style=" color: #90AD2F;" flex layout="column" layout-align="center center">
-                    <div><i class="mdi mdi-24px mdi-thumb-up-outline"></i></div>
+                <div class="upvotes" style=" color: #90AD2F;" flex layout="row" layout-align="center center">
+                    <div><i class="mdi mdi-24px mdi-thumb-up-outline"></i></div>&nbsp;
                     <div><span class="number-votes"><span ng-if="item.upvote.split(',').length!=0">{{item.upvote.split(',').length - 1}}</span><span ng-if="item.upvote.split(',').length==0">0</span></span>
                     </div>
                 </div>
-                <div class="grabs" style="  color: #A771FB;" flex layout="column" layout-align="center center">
-                    <div><i class="mdi mdi-24px mdi-star-outline"></i></div>
+                <div class="grabs" style="  color: #A771FB;" flex layout="row" layout-align="center center">
+                    <div><i class="mdi mdi-24px mdi-star-outline"></i></div>&nbsp;
                     <div><span class="number-votes"><span ng-if="item.grab.split(',').length!=0">{{item.grab.split(',').length - 1}}</span><span ng-if="item.grab.split(',').length==0">0</span></span></div>
                 </div>
-                <div class="downvotes" style=" color: #C42E3B;" flex layout="column" layout-align="center center">
-                    <div><i class="mdi mdi-24px mdi-thumb-down-outline"></i></div>
+                <div class="downvotes" style=" color: #C42E3B;" flex layout="row" layout-align="center center">
+                    <div><i class="mdi mdi-24px mdi-thumb-down-outline"></i></div>&nbsp;
                     <div><span class="number-votes">
                         <span ng-if="item.downvote.split(',').length!=0">{{item.downvote.split(',').length - 1}}</span><span ng-if="item.downvote.split(',').length==0">0</span></span>
                     </div>
