@@ -1,12 +1,22 @@
 <div layout="row" class="full-height" flex>
     <!-- Uncomment Code and open left sidebar -->
     <!-- <div ui-view="sidebarLeft" flex="10"></div> -->
-    <div layout="column" flex="65">
-        <div ui-view="toolbar"></div>
+    <div layout="column" style="
+    float: left;
+    width: calc(100% - 450px);
+    height: 100%;">
+        <div ui-view="toolbar" style="height: 63px;"></div>
         <!-- <md-content flex ui-view="content" class="md-padding"></md-content> -->
         <div flex ui-view="content" id="content" style="background: url(http://i.imgur.com/XUYO7wv.jpg);"></div>
         <!-- <div flex ui-view="content" style="background: #111111;"></div> -->
-        <div ui-view="belowContent"></div>
+        <div ui-view="belowContent" ></div>
     </div>
-    <div ui-view="sidebarRight" style="background: #000" flex></div>
+    <!-- <div ui-view="sidebarRight" style="background: #000" flex></div> -->
+    <div ui-view="sidebarRight" style="float: right;
+    width: 447px;
+    height: 100%;
+    background: #1F1F1F;
+    color: #FFF;
+    overflow: hidden;
+    border-left: 3px solid #111111;" flex></div>
 </div>

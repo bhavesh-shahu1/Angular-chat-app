@@ -107,7 +107,7 @@ md-autocomplete md-autocomplete-wrap {
     </div> -->
 </div>
 <!-- show history list -->
-<div ng-if="vm.screenType == 'history'" style="position: fixed;top: 47px;background-color: rgba(27, 27, 27, 0.6)" flex ng-style="vm.historyStyle">
+<div ng-if="vm.screenType == 'history'" style="position: fixed;top: 60px;background-color: rgba(27, 27, 27, 0.6)" flex ng-style="vm.historyStyle">
     <div ng-repeat="item in vm.historyResponse" flex>
         <div class="md-padding" style="background-color: rgba(27, 27, 27, 0.6)" layout="row" layout-align="space-between center" flex>
             <div class="details" flex="80">
@@ -140,7 +140,7 @@ md-autocomplete md-autocomplete-wrap {
     </div>
 </div>
 <!-- show create playlist video -->
-<div layout="row" flex ng-if="vm.screenType == 'createdPlayList'" style="position: fixed;top: 64px;opacity: 0.95;" ng-style="vm.playlistStyle">
+<div layout="row" flex ng-if="vm.screenType == 'createdPlayList'" style="position: fixed;top: 60px;opacity: 0.95;" ng-style="vm.playlistStyle">
     <div flex="30" style="border-right: 3px solid #d7294f;">
         <div style="border-bottom: 3px solid #cf274e; background-color: #111111;" layout="row" flex>
             <div flex="80">
@@ -246,7 +246,7 @@ md-autocomplete md-autocomplete-wrap {
         </div> -->
     </div>
 </div>
-<div ng-if="vm.screenType == 'socialMedia'" style="position: fixed;top: 64px;opacity: 0.95; background: rgb(17, 17, 17);" ng-style="vm.playlistStyle">
+<div ng-if="vm.screenType == 'socialMedia'" style="position: fixed;top: 60px;opacity: 0.95; background: rgb(17, 17, 17);" ng-style="vm.playlistStyle">
 <div id="room-info" class="maincontent">
                     <div id="room-info-content" style="padding: 50px;overflow-y: auto;height: calc(100% - 100px);">
                         <img src="assets/images/logo.png" class="logo" style="width:162px;">

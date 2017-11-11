@@ -1,9 +1,111 @@
-<md-toolbar>
+<style type="text/css">
+    #app {
+    display: inline-block;
+    float: left;
+    width: calc(100% - 450px);
+    height: 100%;
+}
+
+#top-bar {
+    height: 60px;
+    border-bottom: 3px solid #111111;
+    background: #1F1F1F;
+    color: #FFF;
+}
+
+#top-bar .logo {
+    margin-top: 9px;
+    margin-left: 20px;
+    height: 45px;
+    width: 123px;
+    border-right: 3px solid #d7294f;
+    cursor: pointer;
+    float: left;
+}
+
+#top-bar .logo img {
+    height: 35px;
+    width: 99px;
+    padding-top: 4px;
+    
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    user-drag: none;
+    -webkit-touch-callout: none;
+}
+
+#top-bar .current-song {
+    float: left;
+    padding: 13px;
+}
+
+#top-bar .current-song .disc {
+    float: left;
+}
+
+#top-bar .current-song .disc img {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    user-drag: none;
+    -webkit-touch-callout: none;
+    height: 36px;
+    opacity: 0.5;
+}
+
+#top-bar .current-song .song-info {
+    float: left;
+    width: auto;
+    padding-left: 15px;
+    padding-top: 2px;
+}
+
+#top-bar .current-song .current-dj {
+    font-size: 14px;
+    color: #7b7b7b;
+}
+
+#top-bar .current-song .current-dj font {   
+    padding-left: 5px;
+    color:rgb(215,41,79);
+}
+
+#top-bar .history-button {
+    width: 52px;
+    height: 46px;
+    padding: 14px 0px 0px 20px;
+    float: right;
+    cursor: pointer;
+    background: #ac1234;
+}
+
+#top-bar .skip-button {
+    width: 52px;
+    height: 46px;
+    padding: 14px 0px 0px 20px;
+    float: right;
+    cursor: pointer;
+    background: #111111;
+}
+
+#top-bar #timeProgress {
+    width: 52px;
+    height: 46px;
+    padding: 21px 0px 0px 20px;
+    float: right;
+    font-size: 14px;
+    color: #7b7b7b;
+}
+
+</style>
+<!-- <md-toolbar>
     <div id="top-bar" layout="column" layout-align="start start" class="md-toolbar-tools" style="padding: 0px">
         <div layout="row" flex="100" layout-fill>
-            <!-- <md-button ng-click="vm.getWaitListVideo()">
-                Logo
-            </md-button> -->
             <div class="logo menulinks" flex="15"  ng-click="vm.openSocialMedia(true)" ng-if="!vm.isSocialMediaButton">
                 <img src="assets/images/logo.png"  />
             </div>
@@ -13,8 +115,6 @@
             <div layout="row" class="current-song" layout-align="center center" flex>
                 <div class="disc" flex="5">
                 <img src="assets/images/disc.png" alt="Logo" /></div>
-                <!--  <span class="md-body-2">{{vm.videoTitle}}</span>
-                <span class="md-body-2" ng-if="vm.playingBy">Playing by:{{vm.playingBy}}</span> -->
                 <div class="song-info "  layout="column" flex>
                     <div id="currentSong" class="md-body-3"><h5>{{vm.videoTitle}}</h5></div>
                     <div class="current-dj" ng-if="vm.playingBy">Current DJ:
@@ -25,56 +125,43 @@
                     {{vm.videoInformation.duration | time:'mm'}}
                 </div>
                 <div class="history-button menulinks" layout="column" layout-align="center center"  ng-click="vm.openHistory(true)" layout-fill flex="10" ng-if="!vm.isHistoryButton">
-                    <!-- history -->
                     <i class="mdi mdi-history" style="font-size: 30px;" ></i>
                 </div>
                 <div class="history-button menulinks" layout="column" layout-align="center center"  ng-click="vm.openHistory(false)" layout-fill flex="10" ng-if="vm.isHistoryButton">
-                    <!-- history -->
                     <i class="mdi mdi-chevron-up" style="font-size: 30px;"></i>
                 </div>
             </div>
         </div>
-        <!--  <div>
-            <md-menu>
-                <md-button class="md-icon-button" aria-label="open menu" ng-click="$mdOpenMenu()">
-                    <md-icon md-font-icon="fa fa-cog"></md-icon>
-                </md-button>
-                <md-menu-content width="3">
-                    <md-menu-item>
-                        <md-button ng-click="vm.getWaitListVideo()" class="md-primary">
-                            <md-icon md-font-icon="fa fa-youtube-play"></md-icon>
-                            Wait List
-                        </md-button>
-                    </md-menu-item>
-                    <md-menu-item>
-                        <md-button ng-click="vm.openRightMenu()" class="md-primary">
-                            <md-icon md-font-icon="fa fa-history"></md-icon>
-                            History
-                        </md-button>
-                    </md-menu-item>
-                    <md-menu-item>
-                        <md-button ng-click="vm.showUserProfile()" class="md-primary">
-                            <md-icon md-font-icon="fa fa-users"></md-icon>
-                            Profile
-                        </md-button>
-                    </md-menu-item>
-                    <md-menu-item ng-if="vm.userInfo.user_role == 2">
-                        <md-button ng-click="vm.showUserList()" class="md-primary">
-                            <md-icon md-font-icon="fa fa-user"></md-icon>
-                            Users
-                        </md-button>
-                    </md-menu-item>
-                    <md-menu-item>
-                        <md-button ng-click="vm.logout()" class="md-primary">
-                            <md-icon md-font-icon="fa fa-sign-out"></md-icon>
-                            Log out
-                        </md-button>
-                    </md-menu-item>
-                </md-menu-content>
-            </md-menu>
-        </div> -->
     </div>
-</md-toolbar>
+</md-toolbar> -->
+            <div id="top-bar">
+                <div class="logo " ng-click="vm.openSocialMedia(true)" ng-if="!vm.isSocialMediaButton">
+                    <img src="assets/images/logo.png" />
+                </div>
+                <div class="logo menulinks" ng-click="vm.openSocialMedia(false)" ng-if="vm.isSocialMediaButton">
+                    <img src="assets/images/logo.png" />
+                </div>
+                <div class="current-song">
+                    <div class="disc"><img src="assets/images/disc.png" alt="Logo" /></div>
+                    <div class="song-info">
+                        <div id="currentSong">{{vm.videoTitle}}</div>
+                        <div class="current-dj">Current DJ:<font id="currentDj">{{vm.playingBy}}</font></div>
+                    </div>
+                </div>
+                <div class="history-button menulinks" ng-click="vm.openHistory(true)"  ng-if="!vm.isHistoryButton">
+                    <i class="mdi mdi-history" style="font-size: 30px;"></i>
+                </div>
+                <div class="history-button menulinks" ng-click="vm.openHistory(false)"  ng-if="vm.isHistoryButton">
+                    <i class="mdi mdi-history" style="font-size: 30px;"></i>
+                </div>
+                <div class="skip-button" onclick="confirmSkip()">
+                    <i class="mdi mdi-skip-next" style="font-size: 30px;"></i>
+                </div>
+                <div id="timeProgress">
+                    {{vm.videoInformation.duration | time:'mm'}}   
+                </div>
+            </div>
+        
 <md-sidenav class="md-sidenav-right md-whiteframe-4dp" md-component-id="right">
     <md-content>
         <md-list flex>

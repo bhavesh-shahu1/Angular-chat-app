@@ -1,18 +1,30 @@
-<!-- <md-toolbar>
-    <div class="md-toolbar-tools" layout="row" layout-align="start center">
-        <md-button ng-click="vm.openBottomLeftMenu()">
-           Playlist
-        </md-button>
-        <div layout-align="start start">
-        	<span class="md-body-2">{{vm.videoInformation.title}}</span>
-        </div>
-</md-toolbar> -->
-<!-- <md-button ng-click="vm.showGridBottomSheet()">
-            Menu
-        </md-button> -->
+<style type="text/css">
+    /* BOTTOM BAR */
+
+#bottom-bar {
+    background: #1F1F1F;
+    color: #FFF;
+    height: 60px;
+}
+
+#bottom-bar .playlists-button {
+    width: 52px;
+    height: 45px;
+    padding: 11px 15px 0px 15px;
+    float: left;
+    cursor: pointer;
+}
+
+#bottom-bar .selected-song {
+    float: left;
+    font-size: 19px;
+    margin-top: 19px;
+    margin-left: -5px;
+}
+</style>
 <div id="bottom-bar">
                 <!-- <div class="playlists-button menulinks" ng-click="vm.openBottomLeftMenu()">
-                    <i class="mdi mdi-36px mdi-format-list-bulleted"></i>
+                        <i class="mdi mdi-36px mdi-format-list-bulleted"></i>
                 </div> -->
                 <div class="playlists-button menulinks" ng-click="vm.openCreatedPlayList(true)" ng-if="!vm.isCreatedPlayList">
                     <i class="mdi mdi-36px mdi-format-list-bulleted"></i>
