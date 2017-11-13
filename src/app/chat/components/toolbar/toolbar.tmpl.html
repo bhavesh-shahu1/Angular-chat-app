@@ -135,17 +135,17 @@
     </div>
 </md-toolbar> -->
             <div id="top-bar">
-                <div class="logo " ng-click="vm.openSocialMedia(true)" ng-if="!vm.isSocialMediaButton">
-                    <img src="assets/images/logo.png" />
+                <div class="logo " ng-click="vm.openSocialMedia(true)" ng-if="!vm.isSocialMediaButton" style="outline: 0;">
+                    <img src="assets/images/logo.png" style="outline: 0;"/>
                 </div>
-                <div class="logo menulinks" ng-click="vm.openSocialMedia(false)" ng-if="vm.isSocialMediaButton">
-                    <img src="assets/images/logo.png" />
+                <div class="logo menulinks" ng-click="vm.openSocialMedia(false)" ng-if="vm.isSocialMediaButton" style="outline: 0;">
+                    <img src="assets/images/logo.png" style="outline: 0;"/>
                 </div>
                 <div class="current-song">
                     <div class="disc"><img src="assets/images/disc.png" alt="Logo" /></div>
                     <div class="song-info">
                         <div id="currentSong">{{vm.videoTitle}}</div>
-                        <div class="current-dj">Current DJ:<font id="currentDj">{{vm.playingBy}}</font></div>
+                        <div class="current-dj" ng-if="vm.playingBy">Current DJ:<font id="currentDj">{{vm.playingBy}}</font></div>
                     </div>
                 </div>
                 <div class="history-button menulinks" ng-click="vm.openHistory(true)"  ng-if="!vm.isHistoryButton">

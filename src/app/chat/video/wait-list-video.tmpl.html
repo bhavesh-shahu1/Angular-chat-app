@@ -6,7 +6,7 @@ md-autocomplete input:not(.md-input) {
     border: none;
     box-shadow: none;
     outline: none;
-    background: black;
+    background: #1f1f1f;
     width: 100%;
     padding: 0 15px;
     line-height: 40px;
@@ -117,7 +117,7 @@ md-autocomplete md-autocomplete-wrap {
 <!-- show history list -->
 <div ng-if="vm.screenType == 'history'" style="position: fixed;top: 63px;background-color: rgba(27, 27, 27, 0.6)" flex ng-style="vm.historyStyle">
     <div ng-repeat="item in vm.historyResponse" flex>
-        <div class="md-padding" style="background-color: rgba(27, 27, 27, 0.6)" layout="row" layout-align="space-between center" flex>
+        <div class="md-padding" ng-class-odd="'odd'" ng-class-even="'even'" layout="row" layout-align="space-between center" flex>
             <div class="details" flex="80">
                 <div style="color: #FFFFFF;">{{$index+1}}. {{ item.videoplaylists_id.title }}</div>
                 <div style="font-size: 14px;color: #7b7b7b;margin-top: 8px;">{{item.created_at | date :'d MMM yy, hh:mm:ss' }}
@@ -150,29 +150,29 @@ md-autocomplete md-autocomplete-wrap {
 <!-- show create playlist video -->
 <div layout="row" flex ng-if="vm.screenType == 'createdPlayList'" style="position: fixed;top: 63px;opacity: 0.95;" ng-style="vm.playlistStyle">
     <div flex="30" style="border-right: 3px solid #d7294f;">
-        <div style="border-bottom: 3px solid #cf274e; background-color: #111111;" layout="row" flex>
+        <div style="border-bottom: 3px solid #cf274e; background-color: #1f1f1f;" layout="row" flex>
             <div flex="80">
-                <input style="height: 100%;width: 80%;background: none;padding: 11px;border: none;color: #FFFFFF;outline: 0;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;" type="text" placeholder="Create new playlist" maxlength="256" ng-model="vm.createPlaylistData.name">
+                <input style="height: 100%;width: 80%;background: none;padding: 11px;border: none;color: #FFFFFF;outline: 0;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;font-size: 12px" type="text" placeholder="Create new playlist" maxlength="256" ng-model="vm.createPlaylistData.name" >
             </div>
             <div style="float: right;background-color: #c4254a;width: 121px;height: 40px;padding-top: 5px;cursor: pointer;" flex="20" ng-click="vm.createPlayList()">
                 <i class="mdi mdi-24px mdi-playlist-plus" style="padding: 16px; color: #FFFFFF;"></i>
             </div>
         </div>
-        <div style="background-color: #111111;height: 74vh; overflow-y: auto;" ng-style="vm.createPlaylistSidebarStyle" id="playlists">
+        <div style="background-color: #1f1f1f;height: 80vh; overflow-y: auto;" ng-style="vm.createPlaylistSidebarStyle" id="playlists">
             <div style="height: 18px;
-                padding: 15px; cursor: pointer; color: #FFFFFF" ng-repeat="item in vm.playlist" ng-click="vm.getVideoListByName(item,$index)" layout="row" layout-align="space-between center" class="List playlistlinks active list1">
+                padding: 15px; cursor: pointer; color: #FFFFFF;outline: 0;" ng-repeat="item in vm.playlist" ng-click="vm.getVideoListByName(item,$index)" layout="row" layout-align="space-between center" class="List playlistlinks active list1" ng-class-odd="'odd'" ng-class-even="'even'">
                 <div style="float: left;font-size: 15px;font-weight: 700;">{{ item.name }}</div>
                 <div style="float: right;font-size: 12px;color: #7b7b7b;padding-top: 3px;">{{ item.total_video }}</div>
             </div>
         </div>
     </div>
-    <div flex style="background-color: #111111;opacity: 0.95;">
+    <div flex style="background-color: #1f1f1f;opacity: 0.95;">
             <!--  <md-list flex> -->
             <div layout="row" flex id="youtubePanel">
                 <form name="searchForm" flex>
-                    <md-autocomplete ng-disabled="ctrl.isDisabled" md-no-cache="true" md-selected-item="vm.selectedItem" md-search-text-change="ctrl.searchTextChange(ctrl.searchText)" md-search-text="vm.searchText" md-items="item in vm.querySearch(vm.searchText)" md-item-text="item.snippet.title" md-min-length="0" placeholder="Search YouTube" style="opacity: 0.95">
+                    <md-autocomplete ng-disabled="ctrl.isDisabled" md-no-cache="true" md-selected-item="vm.selectedItem" md-search-text-change="ctrl.searchTextChange(ctrl.searchText)" md-search-text="vm.searchText" md-items="item in vm.querySearch(vm.searchText)" md-item-text="item.snippet.title" md-min-length="0" placeholder="Search YouTube" style="opacity: 0.95;font-size: 12px;background: #1f1f1f">
                         <md-item-template>
-                            <div layout="row" style="background-color: #111111;">
+                            <div layout="row" style="background-color: #1f1f1f;">
                                 <img ng-src="{{item.snippet.thumbnails.default.url}}?{{$index}}" class="md-avatar" alt="{{item.snippet.title}}" style="height: 40px;width: 40px;border-radius: 40px;" />&nbsp;
                                 <span md-highlight-text="vm.searchText" style="color: white">{{item.snippet.title}}</span>
                             </div>
@@ -194,7 +194,7 @@ md-autocomplete md-autocomplete-wrap {
             <md-divider style="border-bottom: 3px solid #fb294f"></md-divider>
             <!--  <div layout=""> -->
             <div class="currentPlaylistInfoBox" layout="row" layout-align="space-between center" style="background: #111111;" id="currentPlaylistInfoBox">
-                <div style="padding: 8px;float: left;font-size: 19px;font-weight: 700;color: #FFFFFF">{{vm.activeListDetail.name}}</div>
+                <div style="padding: 8px;float: left;font-size: 19px;font-weight: 700;color: #FFFFFF">{{vm.activeListDetail.name | limitTo: 30}}<span ng-if="vm.activeListDetail.name.length>30">...</span></div>
                 <div class="actions" layout="row">
                     <div style="float: left;width: auto;height: 34px;padding-top: 4px;cursor: pointer;padding-right: 20px;">
                         <label for="setAsActiveCheckbox" style="cursor: pointer;"><span style="color: #FFFFFF">Set as active</span></label>
@@ -216,11 +216,12 @@ md-autocomplete md-autocomplete-wrap {
                 </div>
             </div>
             <md-divider style="background-color: #fb294f;border-top-width: 3px;"></md-divider>
-            <div style="overflow-y: scroll; max-height: 422px">
+            <!-- <div style="overflow-y: auto; max-height: 422px"> -->
+            <div style="max-height: 422px">
                 <div ui-tree="treeOptions" id="tree-root" class="table-responsive" ng-if="vm.videoList.length > 0">
                     <div ui-tree-nodes ng-model="vm.videoList">
-                        <div ng-repeat="item in vm.videoList" ui-tree-node>
-                            <div style="height: 75px;clear: both; background: #111111;font-weight:normal;" layout="row" layout-align="space-between center" ui-tree-handle>
+                        <div ng-repeat="item in vm.videoList" ui-tree-node ng-class-odd="'odd'" ng-class-even="'even'">
+                            <div style="height: 75px;clear: both; font-weight:normal;" layout="row" layout-align="space-between center" ui-tree-handle>
                                 <div style="float: left;padding: 15px;">
                                     <div style="color: #FFFFFF;">{{ item.title }}</div>
                                     <div style="font-size: 14px;color: #7b7b7b;">{{ Math.floor(item.duration/60)}}:{{ Math.floor(item.duration%60) }}</div>

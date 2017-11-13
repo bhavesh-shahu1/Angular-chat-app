@@ -65,10 +65,10 @@
         vm.userProfileStyle = {
             'max-height': $window.innerHeight - 125 + "px",
             'min-height': $window.innerHeight - 125 + "px",
-            'overflow-y': 'scroll'
+            'overflow-y': 'auto'
         };
         vm.color = ['#F44336', '#FFEB3B', '#E91E63', '#9C27B0', '#FFC107', '#673AB7', '#FF9800', '#3F51B5', '#2196F3', '#FF5722', '#03A9F4', '#795548', '#00BCD4', '#009688', '#607D8B', '#4CAF50', '#8BC34A', '#CDDC39'];
-        vm.selectedTab = 'staff';
+        vm.selectedTab = 'chat';
         vm.updateUserProfileOnEdit = updateUserProfileOnEdit;
         vm.getUserProfileOnEdit = getUserProfileOnEdit;
         vm.isEditUserProfile = false;
@@ -92,7 +92,7 @@
             vm.userProfileStyle = {
                 'max-height': $window.innerHeight - 125 + "px",
                 'min-height': $window.innerHeight - 125 + "px",
-                'overflow-y': 'scroll'
+                'overflow-y': 'auto'
             };
         });
 

@@ -25,17 +25,17 @@
 }
 
 ::-webkit-scrollbar-track {
-    background: #111111;
+    background: #1f1f1f;
     border: 0px none #ffffff;
     border-radius: 0px;
 }
 
 ::-webkit-scrollbar-track:hover {
-    background: #111111;
+    background: #1f1f1f;
 }
 
 ::-webkit-scrollbar-track:active {
-    background: #111111;
+    background: #1f1f1f;
 }
 
 .background-image-music {
@@ -1306,6 +1306,9 @@ input[type=range] {
     cursor: pointer;
 }*/
 
+.menulinks {
+    outline: 0
+}
 
 /* stripes */
 
@@ -1356,4 +1359,16 @@ input[type=range] {
 
 .hello-test {
     background-color: yellow;
+}
+
+md-tabs.md-whiteAccentTheme-theme md-ink-bar, md-tabs md-ink-bar {
+    color: #fb294f !important;
+    background-color:#fb294f !important;
+}
+
+.odd{
+    background-color: rgba(27, 27, 27, 0.6)!important;
+}
+.even{
+    background-color: rgba(31,31,31, 0.6)!important;   
 }

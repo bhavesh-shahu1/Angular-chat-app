@@ -101,19 +101,37 @@ angular.module('angularMaterialAdmin', ['ngAnimate', 'ngCookies',
 };
 var  blackAccent ={
      '50': '#fff',
-    '100': '#000000',
-    '200': '#000000',
-    '300': '#000000',
-    '400': '#000000',
+    '100': '#1F1F1F',
+    '200': '#1F1F1F',
+    '300': '#1F1F1F',
+    '400': '#1F1F1F',
     '500': '#000',
     '600': '#fff',
-    '700': '#000000',
-    '800': '#000000',
-    '900': '#000000',
-    'A100': '#000000',
-    'A200': '#000000',
-    'A400': '#000000',
-    'A700': '#000000',
+    '700': '#1F1F1F',
+    '800': '#1F1F1F',
+    '900': '#1F1F1F',
+    'A100': '#1F1F1F',
+    'A200': '#1F1F1F',
+    'A400': '#1F1F1F',
+    'A700': '#1F1F1F',
+    'contrastDefaultColor': 'light'
+}
+
+var  greyAccent ={
+     '50': '#fff',
+    '100': '#1F1F1F',
+    '200': '#1F1F1F',
+    '300': '#1F1F1F',
+    '400': '#1F1F1F',
+    '500': '#000',
+    '600': '#fff',
+    '700': '#1F1F1F',
+    '800': '#1F1F1F',
+    '900': '#1F1F1F',
+    'A100': '#1F1F1F',
+    'A200': '#1F1F1F',
+    'A400': '#1F1F1F',
+    'A700': '#1F1F1F',
     'contrastDefaultColor': 'light'
 }
 $mdThemingProvider
@@ -122,9 +140,12 @@ $mdThemingProvider
 $mdThemingProvider
 .definePalette('blackAccent', blackAccent);
 
+$mdThemingProvider
+.definePalette('greyAccent', greyAccent);
+
 $mdThemingProvider.theme('whiteAccentTheme')
     .primaryPalette('blackAccent')
-    .accentPalette('whiteAccent');
+    .accentPalette('greyAccent');
 
     $mdIconProvider.icon('user', 'assets/images/user.svg', 64);
 $mdThemingProvider.setDefaultTheme('whiteAccentTheme');
