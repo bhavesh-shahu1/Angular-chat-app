@@ -43,7 +43,7 @@
         vm.openHistory = openHistory;
         vm.getConfiguration = getConfiguration;
         vm.screenType = vm.stateParams.screenType;
-
+        vm.playerStateChanged = playerStateChanged;
 
 
         function init() {
@@ -102,17 +102,24 @@
                 })
         }
 
+        // Gets fired when the state of the iframe player changes
+        function playerStateChanged(event) {
+            console.log(event); // Event data logged
+        };
+
         function getNextVideo() {
             vm.activated = true;
             videoService.getData('api', 'waitlist', 'next', vm.response._id).
             then(function(response) {
                 vm.activated = false;
                 vm.response = response.data.data;
-                if (angular.isDefined(vm.response.videoplaylists_id)) {
+                if (vm.response != null && angular.isDefined(vm.response.videoplaylists_id)) {
                     vm.setVedioInfo(vm.response.videoplaylists_id);
                     vm.setCurrnetVedioInfo(response.data);
                     // Update video info on toolbar
                     $rootScope.$broadcast('nextVideoInfo', vm.response.videoplaylists_id);
+                } else {
+                    $rootScope.$broadcast('noVideoFound', []);
                 }
 
                 commonService.showToast(response.data.message);
@@ -218,16 +225,27 @@
             // player.playVideo();
         });
 
+        $scope.$on('youtube.player.buffering', function($event, player) {
+            console.log(player);
+            $rootScope.$broadcast('bufferVideo', true);
+        });
+
+        $scope.$on('youtube.player.playing', function($event, player) {
+            console.log(player);
+            $rootScope.$broadcast('bufferVideo', false);
+        });
+
+
         // Whenever video remove from waitList update button status
         $scope.$on('updateWaitListButton', function($event, message) {
             vm.getWaitListStatus();
         });
 
         $scope.$on('setWaitListStatus', function($event, message) {
-            if(message == 'joinWaitList'){
+            if (message == 'joinWaitList') {
                 vm.addToWaitList();
             }
-            if(message == 'stopPlaying'){
+            if (message == 'stopPlaying') {
                 vm.removeFromWaitList();
             }
         });
@@ -437,17 +455,17 @@
                     'min-width': divsize + 'px',
                     'max-height': $window.innerHeight - footerheight - topheight + "px",
                     'min-height': $window.innerHeight - footerheight - topheight + "px"
-                        // 'overflow-y': 'scroll'
+                    // 'overflow-y': 'scroll'
 
                 };
                 vm.playlistVedioStyle = {
-                        'overflow-y': scroll,
-                        'max-height': $window.innerHeight - footerheight - topheight - currentPlaylistInfoBoxDiv - youtubeDiv + "px"
-                    }
-                    // vm.createPlaylistSidebarStyle = {
-                    //     'overflow-y': scroll,
-                    //     'max-height': $window.innerHeight - footerheight - topheight - youtubeDiv + "px"
-                    // }
+                    'overflow-y': scroll,
+                    'max-height': $window.innerHeight - footerheight - topheight - currentPlaylistInfoBoxDiv - youtubeDiv + "px"
+                }
+                // vm.createPlaylistSidebarStyle = {
+                //     'overflow-y': scroll,
+                //     'max-height': $window.innerHeight - footerheight - topheight - youtubeDiv + "px"
+                // }
                 vm.historyStyle = {
                     'max-width': divsize + 'px',
                     'min-width': divsize + 'px',
@@ -472,7 +490,7 @@
                     'min-width': divsize + 'px',
                     'max-height': $window.innerHeight - footerheight - topheight + "px",
                     'min-height': $window.innerHeight - footerheight - topheight + "px"
-                        // 'overflow-y': 'scroll'
+                    // 'overflow-y': 'scroll'
                 };
                 vm.playlistVedioStyle = {
                     'overflow-y': scroll,

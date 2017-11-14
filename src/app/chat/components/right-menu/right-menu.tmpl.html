@@ -1,6 +1,6 @@
 <md-content>
     <div md-theme="whiteAccentTheme" ng-init="vm.onTabChanges('chat')">
-        <md-tabs md-dynamic-height class="md-primary md-accent" md-selected="vm.selectedTabIndex"> <!-- ng-init="vm.getUserProfile()" -->
+        <md-tabs md-dynamic-height class="md-primary md-accent" style="border-radius: 0px;" md-selected="vm.selectedTabIndex"> <!-- ng-init="vm.getUserProfile()" -->
             <md-tab md-on-select="vm.onTabChanges('chat')">
                 <md-tab-label>
                     <i class="mdi mdi-24px mdi-message " ng-class="vm.selectedTab == 'chat' ? 'pink-color':'white-color'"></i>
@@ -23,18 +23,18 @@
                                         </div>
                                         <span flex></span>
                                         <div class="grey-color">
-                                            <i><h6>{{chat.created_at | date:'HH:mm a'}}</h6></i>
+                                            <i><h6>{{chat.created_at | date :'hh:mm a'}}</h6></i>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             
                         </div>
-                        <div flex class="border-top-chat-pannel" style="color: white!important; background: #1f1f1f;">
+                        <div flex class="border-top-chat-pannel" style="color: white!important; background: #000;">
                             <form name="chatForm" ng-submit="vm.postChat()" flex>
                                 <div layout="row" flex class="chat-text-box">
-                                    <md-input-container flex style="margin: 0px;padding: 0px;background: #1f1f1f" md-no-float>
-                                        <input ng-model="vm.data.message" placeholder="Type your message..." style="color: white!important; background: #1f1f1f !important">
+                                    <md-input-container class="hide-validation-error" flex style="margin: 5px;background: #000" md-no-float>
+                                        <input ng-model="vm.data.message" placeholder="Type your message..." style="color: white!important; background: #000 !important">
                                     </md-input-container>
                                     <!-- <md-button class="md-fab md-primary md-mini" ng-click="vm.postChat()"> <i class="fa fa-send" aria-hidden="true"></i> </md-button> -->
                                 </div>

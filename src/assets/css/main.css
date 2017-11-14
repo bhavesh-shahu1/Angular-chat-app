@@ -38,14 +38,15 @@
     background: #1f1f1f;
 }
 
+
 .background-image-music {
     background-image: url(../images/landing-page.jpg);
 }
 
 // full background image
 .full-image-background {
-  background-size: cover;
-  background-position: center;
+    background-size: cover;
+    background-position: center;
 }
 
 chat-text-box ::-webkit-scrollbar-corner {
@@ -53,29 +54,29 @@ chat-text-box ::-webkit-scrollbar-corner {
 }
 
 .chat-text-box input::-webkit-input-placeholder {
-    color: #999 !important;
-    background: black;
+    color: #aaa !important;
+    background: #000;
 }
 
 .chat-text-box input:-moz-placeholder {
     /* Firefox 18- */
-    color: #999 !important;
-    background: black;
+    color: #aaa !important;
+    background: #000;
 }
 
 .chat-text-box input::-moz-placeholder {
     /* Firefox 19+ */
-    color: #999 !important;
-    background: black;
+    color: #aaa !important;
+    background: #000;
 }
 
 .chat-text-box input:-ms-input-placeholder {
-    color: #999 !important;
-    background: black;
+    color: #aaa !important;
+    background: #000;
 }
 
 .backgroud-black {
-    background: black;
+    background: #1f1f1f;
     color: white;
 }
 
@@ -116,6 +117,7 @@ md-tabs-wrapper {
 .grey-color {
     color: #7b7b7b;
 }
+
 
 
 /* BIG CONTENT */
@@ -231,6 +233,7 @@ md-tabs-wrapper {
 }
 
 
+
 /* ROOM INFO PAGE */
 
 #middle #room-info {
@@ -320,6 +323,7 @@ md-tabs-wrapper {
 }
 
 
+
 /* PLAYLISTS PAGE */
 
 #middle #playlists {
@@ -396,6 +400,7 @@ md-tabs-wrapper {
 #middle #playlists #playlists-content #playlist-lists .playlistlinks {
     cursor: pointer;
 }
+
 
 
 /* PLAYLIST CONTENT => ALL ITEMS IN PLAYLISTS */
@@ -544,6 +549,7 @@ md-tabs-wrapper {
 }
 
 
+
 /* HISTORY PAGE */
 
 #middle #history {
@@ -598,6 +604,7 @@ md-tabs-wrapper {
 #middle #history #history-content .history-item .votes .add-to-playlist {
     cursor: pointer;
 }
+
 
 
 /* VIDEO PLAYER */
@@ -726,6 +733,7 @@ md-tabs-wrapper {
 }
 
 
+
 /* BOTTOM BAR */
 
 #bottom-bar {
@@ -748,6 +756,7 @@ md-tabs-wrapper {
     margin-top: 19px;
     margin-left: -5px;
 }
+
 
 
 /* SIDE BAR */
@@ -812,8 +821,9 @@ md-tabs-wrapper {
     width: 100%;
     border-top: none;
     border-bottom: 3px solid #111111;
-    color:white;
+    color: white;
 }
+
 
 
 /* CHAT */
@@ -914,6 +924,7 @@ md-tabs-wrapper {
 }
 
 
+
 /* USERLIST */
 
 #app-right #userlist #userlist-content {
@@ -943,6 +954,7 @@ md-tabs-wrapper {
     font-style: italic;
     color: #7b7b7b;
 }
+
 
 
 /* WAITLIST */
@@ -983,6 +995,7 @@ md-tabs-wrapper {
     color: #7b7b7b;
     cursor: pointer;
 }
+
 
 
 /* USER SETTINGS */
@@ -1049,6 +1062,7 @@ md-tabs-wrapper {
     top: -3px;
     padding-left: 10px;
 }
+
 
 
 /* STAFF MENU */
@@ -1175,6 +1189,7 @@ md-tabs-wrapper {
     max-height: 100%;
 }
 
+
 /*#app-right #vote-buttons {
     overflow: hidden;
     height: 60px;
@@ -1206,8 +1221,7 @@ md-tabs-wrapper {
 }
 
 #app-right #vote-buttons button.upvote:hover,
-#app-right #vote-buttons button.upvote.active
- {
+#app-right #vote-buttons button.upvote.active {
     background-color: rgba(144, 173, 47, 0.6) !important;
     color: #90AD2F !important;
 }
@@ -1264,6 +1278,7 @@ md-tabs-wrapper {
 }
 
 
+
 /* RANDOM */
 
 .checkboxLabel {
@@ -1295,6 +1310,7 @@ md-tabs-wrapper {
 }
 
 
+
 /*
 input[type=range] {
     -webkit-appearance: none;
@@ -1309,6 +1325,7 @@ input[type=range] {
 .menulinks {
     outline: 0
 }
+
 
 /* stripes */
 
@@ -1330,6 +1347,7 @@ input[type=range] {
 #staffMutelist-content .user:nth-child(odd) {
     background-color: rgba(27, 27, 27, 0.6);
 }
+
 
 
 /*iframe {pointer-events: none;} */
@@ -1361,14 +1379,20 @@ input[type=range] {
     background-color: yellow;
 }
 
-md-tabs.md-whiteAccentTheme-theme md-ink-bar, md-tabs md-ink-bar {
+md-tabs.md-whiteAccentTheme-theme md-ink-bar,
+md-tabs md-ink-bar {
     color: #fb294f !important;
-    background-color:#fb294f !important;
+    background-color: #fb294f !important;
 }
 
-.odd{
+.odd {
     background-color: rgba(27, 27, 27, 0.6)!important;
 }
-.even{
-    background-color: rgba(31,31,31, 0.6)!important;   
+
+.even {
+    background-color: rgba(31, 31, 31, 0.6)!important;
+}
+
+.hide-validation-error .md-errors-spacer {
+    display: none;
 }

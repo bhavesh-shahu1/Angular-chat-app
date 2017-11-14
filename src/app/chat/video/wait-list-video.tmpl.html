@@ -86,10 +86,10 @@ md-autocomplete md-autocomplete-wrap {
 </div> -->
 <div style="padding-top: 65px;" id="activ_video">
     <div ng-if="!vm.response" layout="row" layout-align="center center">
-        <img style="width: 68%;" src="../assets/images/no-video.gif" />
+        <img style="width: 68%;" src="assets/images/no-video.gif" />
     </div>
     <div flex layout="row" layout-align="center center" ng-if="vm.response">
-        <youtube-video video-url="vm.response.videoplaylists_id.url" player-vars="vm.playerVars"></youtube-video>
+        <youtube-video video-url="vm.response.videoplaylists_id.url" player-vars="vm.playerVars" onstatechange="vm.playerStateChanged"></youtube-video>
     </div>
    <!--  <div flex-offset="15" layout="row">
         <div>
@@ -148,7 +148,7 @@ md-autocomplete md-autocomplete-wrap {
     </div>
 </div>
 <!-- show create playlist video -->
-<div layout="row" flex ng-if="vm.screenType == 'createdPlayList'" style="position: fixed;top: 63px;opacity: 0.95;" ng-style="vm.playlistStyle">
+<div layout="row" flex ng-if="vm.screenType == 'createdPlayList'" style="position: fixed;top: 63px;opacity: 0.95;background: #1f1f1f;border-bottom: 3px solid #111111" ng-style="vm.playlistStyle">
     <div flex="30" style="border-right: 3px solid #d7294f;">
         <div style="border-bottom: 3px solid #cf274e; background-color: #1f1f1f;" layout="row" flex>
             <div flex="80">
@@ -158,7 +158,7 @@ md-autocomplete md-autocomplete-wrap {
                 <i class="mdi mdi-24px mdi-playlist-plus" style="padding: 16px; color: #FFFFFF;"></i>
             </div>
         </div>
-        <div style="background-color: #1f1f1f;height: 80vh; overflow-y: auto;" ng-style="vm.createPlaylistSidebarStyle" id="playlists">
+        <div style="background-color: #1f1f1f; overflow-y: auto;" ng-style="vm.createPlaylistSidebarStyle" id="playlists">
             <div style="height: 18px;
                 padding: 15px; cursor: pointer; color: #FFFFFF;outline: 0;" ng-repeat="item in vm.playlist" ng-click="vm.getVideoListByName(item,$index)" layout="row" layout-align="space-between center" class="List playlistlinks active list1" ng-class-odd="'odd'" ng-class-even="'even'">
                 <div style="float: left;font-size: 15px;font-weight: 700;">{{ item.name }}</div>
@@ -224,7 +224,7 @@ md-autocomplete md-autocomplete-wrap {
                             <div style="height: 75px;clear: both; font-weight:normal;" layout="row" layout-align="space-between center" ui-tree-handle>
                                 <div style="float: left;padding: 15px;">
                                     <div style="color: #FFFFFF;">{{ item.title }}</div>
-                                    <div style="font-size: 14px;color: #7b7b7b;">{{ Math.floor(item.duration/60)}}:{{ Math.floor(item.duration%60) }}</div>
+                                    <div style="font-size: 14px;color: #7b7b7b;">{{ item.duration | songTime }}</div>
                                 </div>
                                 <div layout="row">
                                     <div style="float: left;width: 47px;height: 34px;padding-top: 7px;cursor: pointer; color: #FFFFFF">

@@ -1,6 +1,20 @@
 (function() {
     'use strict';
     angular.module('app.chat.component').controller('ToolbarController', ToolbarController)
+        .filter('songTime', function() {
+            return function(s) {
+                var secs = s % 60;
+                s = (s - secs) / 60;
+                var mins = s % 60;
+                var hrs = (s - mins) / 60;
+
+                return aZero(hrs) + ':' + aZero(mins) + ':' + aZero(secs);
+            };
+
+            function aZero(n) {
+                return n.toString().length == 1 ? n = '0' + n : n;
+            }
+        })
         .filter('time', function() {
 
             var conversions = {
@@ -39,7 +53,7 @@
             };
         });
     /* @ngInject */
-    function ToolbarController($mdSidenav, $scope, videoService, commonService, $mdDialog, $state, $rootScope) {
+    function ToolbarController($mdSidenav, $scope, videoService, commonService, $mdDialog, $state, $rootScope, $interval) {
         var vm = this;
         vm.init = init;
         vm.openLeftMenu = openLeftMenu;
@@ -56,7 +70,9 @@
         vm.showUserProfile = showUserProfile;
         vm.logout = logout;
         vm.openHistory = openHistory;
-        vm.openSocialMedia  = openSocialMedia;    
+        vm.openSocialMedia = openSocialMedia;
+        vm.Timer = null;
+
         function init() {
             // vm.videoInfo = localStorage.getItem('videoInfo');
             // if (angular.isDefined(localStorage.getItem('videoInfo')) && localStorage.getItem('videoInfo') != null) {
@@ -66,7 +82,7 @@
             // }
         }
 
-        function openSocialMedia(action){
+        function openSocialMedia(action) {
             vm.isSocialMediaButton = action;
             if (vm.isSocialMediaButton) {
                 var screenType = {
@@ -177,7 +193,25 @@
         $scope.$on('nextVideoInfo', function($event, nextVideoInfo) {
             vm.videoTitle = nextVideoInfo.title;
         });
+        $scope.$on('bufferVideo', function($event, buffer) {
+            console.log(buffer);
+            if (!buffer) {
+               vm.Timer= $interval(function() {
+                    if (vm.videoInformation && vm.videoInformation.duration && vm.videoInformation.duration > 0)
+                        vm.videoInformation.duration--;
+                }, 1000);
+            }else{
+                if (angular.isDefined(vm.Timer)) {
+                    $interval.cancel(vm.Timer);
+                }
+            }
+        });
 
+        $scope.$on('noVideoFound', function($event, array) {
+            vm.videoTitle = null;
+            vm.playingBy = null;
+            vm.videoInformation = [];
+        })
         // Add event to get select vedio Info
         $scope.$on('playCurrentUserSelectedVideo', function($event, videoInfo) {
             if (angular.isDefined(videoInfo)) {

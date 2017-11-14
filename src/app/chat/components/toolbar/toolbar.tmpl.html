@@ -144,7 +144,7 @@
                 <div class="current-song">
                     <div class="disc"><img src="assets/images/disc.png" alt="Logo" /></div>
                     <div class="song-info">
-                        <div id="currentSong">{{vm.videoTitle}}</div>
+                        <div id="currentSong" ng-if="vm.videoTitle">{{vm.videoTitle | limitTo :60}}<span ng-if="vm.videoTitle.length>60">...</span></div>
                         <div class="current-dj" ng-if="vm.playingBy">Current DJ:<font id="currentDj">{{vm.playingBy}}</font></div>
                     </div>
                 </div>
@@ -157,8 +157,8 @@
                 <div class="skip-button" onclick="confirmSkip()">
                     <i class="mdi mdi-skip-next" style="font-size: 30px;"></i>
                 </div>
-                <div id="timeProgress">
-                    {{vm.videoInformation.duration | time:'mm'}}   
+                <div id="timeProgress" ng-if="vm.videoInformation.duration" style="padding-right: 15px">
+                    {{vm.videoInformation.duration | songTime}}   
                 </div>
             </div>
         

@@ -33,6 +33,10 @@
             vm.init();
         });
 
+         $scope.$on('noVideoFound', function($event, array) {
+            vm.videoInformation ={};
+        });
+
 
 
         // Brodcast event show data in left navigation bar
@@ -74,6 +78,8 @@
                 // });
             }
         }
+
+           
 
         vm.init();
 

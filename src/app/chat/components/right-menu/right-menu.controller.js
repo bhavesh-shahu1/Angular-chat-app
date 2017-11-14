@@ -49,8 +49,8 @@
             downvote: 0,
             upvoteUser: [],
             downvoteUser: [],
-            grab : 0,
-            grabUser : []
+            grab: 0,
+            grabUser: []
         }
         vm.upvote = upvote;
         vm.downvote = downvote;
@@ -58,8 +58,8 @@
         vm.onlineUser = [];
         vm.socketId = socketService.getId();
         vm.ChatStyle = {
-            'max-height': $window.innerHeight - 181 + "px",
-            'min-height': $window.innerHeight - 181 + "px",
+            'max-height': $window.innerHeight - 160 + "px",
+            'min-height': $window.innerHeight - 160 + "px",
             'overflow-y': 'scroll'
         };
         vm.userProfileStyle = {
@@ -85,8 +85,8 @@
         var w = angular.element($window);
         w.bind('resize', function() {
             vm.ChatStyle = {
-                'max-height': $window.innerHeight - 181 + "px",
-                'min-height': $window.innerHeight - 181 + "px",
+                'max-height': $window.innerHeight - 160 + "px",
+                'min-height': $window.innerHeight - 160 + "px",
                 'overflow-y': 'scroll'
             };
             vm.userProfileStyle = {
@@ -128,7 +128,7 @@
             $scope.$apply(function() {
                 vm.userChat.data.push(data);
             });
-            // console.log(vm.userChat);
+            console.log(vm.userChat);
         });
 
         socketService.on('userGetsOnlineClientAck', function(data) {
@@ -186,7 +186,7 @@
                     if (response.data.data.videoplaylists_id.upvote != null) {
                         vm.voting.upvote = response.data.data.upvote != '' ? response.data.data.upvote.split(',').length - 1 : 0;
                         vm.voting.downvote = response.data.data.downvote != '' ? response.data.data.downvote.split(',').length - 1 : 0;
-                        vm.voting.grab = response.data.data.grab!=''?response.data.data.grab.split(',').length-1:0;
+                        vm.voting.grab = response.data.data.grab != '' ? response.data.data.grab.split(',').length - 1 : 0;
                     }
 
                     // commonService.showToast(response.data.message);
@@ -196,6 +196,18 @@
             })
         }
 
+        $scope.$on('noVideoFound', function($event, array) {
+            vm.voting = {
+                upvote: 0,
+                downvote: 0,
+                upvoteUser: [],
+                downvoteUser: [],
+                grab: 0,
+                grabUser: []
+            };
+            vm.init();
+            vm.waitlistStatus=null;
+        });
 
         // Add event to get select vedio Info
         $scope.$on('playUserSelectedVideo', function($event, videoInfo) {
@@ -322,10 +334,10 @@
         function openMenu($mdMenu, ev) {
             vm.playlist = {};
             vm.getPlayListName();
-            if(vm.userCurrentVideoInformation)
-         {   var originatorEv = ev;
-            $mdMenu.open(ev);
-        }
+            if (vm.userCurrentVideoInformation) {
+                var originatorEv = ev;
+                $mdMenu.open(ev);
+            }
         };
 
         // Get user playlist 
@@ -352,7 +364,7 @@
                     // commonService.showToast(response.message);
                     vm.grabvote();
                 })
-            }else{
+            } else {
                 commonService.showToast('video not avaliable !');
             }
         }
@@ -487,6 +499,5 @@
             vm.getWaitList();
         });
 
-        vm.init();
-    }
+        vm.init();    }
 })();
