@@ -1,6 +1,6 @@
 <md-content>
     <div md-theme="whiteAccentTheme" ng-init="vm.onTabChanges('chat')">
-        <md-tabs md-dynamic-height class="md-primary md-accent" style="border-radius: 0px;" md-selected="vm.selectedTabIndex"> <!-- ng-init="vm.getUserProfile()" -->
+        <md-tabs md-dynamic-height md-border-bottom class="md-primary md-accent" style="border-radius: 0px;" md-selected="vm.selectedTabIndex"> <!-- ng-init="vm.getUserProfile()" -->
             <md-tab md-on-select="vm.onTabChanges('chat')">
                 <md-tab-label>
                     <i class="mdi mdi-24px mdi-message " ng-class="vm.selectedTab == 'chat' ? 'pink-color':'white-color'"></i>

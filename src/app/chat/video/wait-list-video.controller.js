@@ -6,6 +6,7 @@
         var vm = this;
         $scope.Math = Math;
         vm.stateParams = {};
+        vm.editPlaylist = editPlaylist;
         $scope.$on('menu-open', function($event, message) {
             vm.stateParams = commonService.decodeToObject(message);
             vm.screenType = vm.stateParams.screenType;
@@ -44,6 +45,7 @@
         vm.getConfiguration = getConfiguration;
         vm.screenType = vm.stateParams.screenType;
         vm.playerStateChanged = playerStateChanged;
+        vm.deletePlaylist = deletePlaylist;
 
 
         function init() {
@@ -106,6 +108,54 @@
         function playerStateChanged(event) {
             console.log(event); // Event data logged
         };
+
+
+        function editPlaylist(ev) {
+
+            // Appending dialog to document.body to cover sidenav in docs app
+            var confirm = $mdDialog.prompt()
+                .title('Upate Playlist')
+                .textContent('')
+                .placeholder('Playlist Name')
+                .ariaLabel('Playlist Name')
+                .initialValue(vm.activeListDetail.name)
+                .targetEvent(ev)
+                .required(true)
+                .ok('Update')
+                .cancel('Cancel');
+            console.log(vm.activeListDetail);
+            $mdDialog.show(confirm).then(function(result) {
+                vm.postParameter = {
+                    name: result
+                }
+                videoService.postCustomData('api', 'uservideoplaylist', 'edit', vm.activeListDetail._id, null, null, vm.postParameter).then(function(response) {
+                    console.log('Playlist updated');
+                    vm.init();
+                });
+            }, function() {
+                //$scope.status = 'You didn\'t name your dog.';
+            });
+        };
+
+        function deletePlaylist(ev) {
+            // Appending dialog to document.body to cover sidenav in docs app
+            var confirm = $mdDialog.confirm()
+                .title('Are you sure')
+                .textContent('Would you like to delete this playlist?')
+                .ariaLabel('Lucky day')
+                .targetEvent(ev)
+                .ok('Delete')
+                .cancel('Cancel');
+
+            $mdDialog.show(confirm).then(function() {
+                vm.postParameter = {};
+                videoService.postCustomData('api', 'uservideoplaylist', 'delete', vm.activeListDetail._id, null, null, vm.postParameter).then(function(response) {
+                    console.log('Playlist updated');
+                    vm.init();
+                });
+            }, function() {});
+        }
+
 
         function getNextVideo() {
             vm.activated = true;
