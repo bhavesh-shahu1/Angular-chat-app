@@ -221,13 +221,13 @@ md-autocomplete md-autocomplete-wrap {
                 <div ui-tree="treeOptions" id="tree-root" class="table-responsive" ng-if="vm.videoList.length > 0">
                     <div ui-tree-nodes ng-model="vm.videoList">
                         <div ng-repeat="item in vm.videoList" ui-tree-node ng-class-odd="'odd'" ng-class-even="'even'">
-                            <div style="height: 75px;clear: both; font-weight:normal;" layout="row" layout-align="space-between center" ui-tree-handle>
+                            <div style="height: 75px;clear: both; font-weight:normal;" layout="row" layout-align="space-between center">
                                 <div style="float: left;padding: 15px;">
                                     <div style="color: #FFFFFF;">{{ item.title }}</div>
                                     <div style="font-size: 14px;color: #7b7b7b;">{{ item.duration | songTime }}</div>
                                 </div>
                                 <div layout="row">
-                                    <div style="float: left;width: 47px;height: 34px;padding-top: 7px;cursor: pointer; color: #FFFFFF">
+                                    <div style="float: left;width: 47px;height: 34px;padding-top: 7px;cursor: pointer; color: #FFFFFF" ui-tree-handle>
                                         <i class="mdi mdi-24px mdi-plus-box-outline"></i>
                                     </div>
                                     <div style="float: left;width: 47px;height: 34px;padding-top: 7px;cursor: pointer; color: #FFFFFF">
