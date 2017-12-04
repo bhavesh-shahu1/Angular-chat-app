@@ -71,6 +71,7 @@
 
         // Login to system whiout entring creadential
         function loginAutomtically() {
+            if(angular.isDefined(vm.userInfo) && angular.isDefined(vm.userInfo.password1)){
             vm.decode = commonService.decodeToObject(vm.userInfo.password1);
             var postParam = {
                 name : vm.userInfo.username,
@@ -100,6 +101,7 @@
                     }
                 })
         }
+    }
         vm.init();
 
     }
