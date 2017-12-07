@@ -41,6 +41,8 @@
 
         function saveOrder() {
             vm.activated = true;
+            console.log("Test");
+            
             var postParameter = {
                 videoplaylists_id: vm.selectedList._id,
                 userplaylist_id: vm.selectedList.userplaylist_id,

@@ -218,7 +218,7 @@ md-autocomplete md-autocomplete-wrap {
             <md-divider style="background-color: #fb294f;border-top-width: 3px;"></md-divider>
             <!-- <div style="overflow-y: auto; max-height: 422px"> -->
             <div style="max-height: 422px">
-                <div ui-tree="treeOptions" id="tree-root" class="table-responsive" ng-if="vm.videoList.length > 0">
+                <div ui-tree="vm.treeOptions1" id="tree-root" class="table-responsive" ng-if="vm.videoList.length > 0">
                     <div ui-tree-nodes ng-model="vm.videoList">
                         <div ng-repeat="item in vm.videoList" ui-tree-node ng-class-odd="'odd'" ng-class-even="'even'">
                             <div style="height: 75px;clear: both; font-weight:normal;" layout="row" layout-align="space-between center" ui-tree-handle>
@@ -233,7 +233,7 @@ md-autocomplete md-autocomplete-wrap {
                                     <div style="float: left;width: 47px;height: 34px;padding-top: 7px;cursor: pointer; color: #FFFFFF">
                                         <i class="mdi mdi-24px mdi-pencil"></i>
                                     </div>
-                                    <div style="float: left;width: 47px;height: 34px;padding-top: 7px;cursor: pointer; color: #FFFFFF">
+                                    <div ng-click="vm.deletesong()" style="float: left;width: 47px;height: 34px;padding-top: 7px;cursor: pointer; color: #FFFFFF">
                                         <i class="mdi mdi-24px mdi-delete"></i>
                                     </div>
                                 </div>
