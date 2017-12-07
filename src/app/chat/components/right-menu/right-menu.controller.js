@@ -58,8 +58,8 @@
         vm.onlineUser = [];
         vm.socketId = socketService.getId();
         vm.ChatStyle = {
-            'max-height': $window.innerHeight - 160 + "px",
-            'min-height': $window.innerHeight - 160 + "px",
+            'max-height': $window.innerHeight - 172 + "px",
+            'min-height': $window.innerHeight - 172 + "px",
             'overflow-y': 'scroll'
         };
         vm.userProfileStyle = {
@@ -206,7 +206,7 @@
                 grabUser: []
             };
             vm.init();
-            vm.waitlistStatus=null;
+            vm.waitlistStatus = null;
         });
 
         // Add event to get select vedio Info
@@ -434,16 +434,20 @@
 
         function upvote() {
             if (vm.waitList && vm.waitList.data[0] && vm.waitList.data[0]._id) {
-                videoService.getData('api', 'upvote', vm.waitList.data[0]._id.toString(), vm.userInfo._id).then(function(response) {
-                    if (angular.isDefined(response.data.data)) {
-                        vm.voting.upvote = response.data.data.upvote != '' ? response.data.data.upvote.split(',').length - 1 : 0;
-                        vm.voting.downvote = response.data.data.downvote != '' ? response.data.data.downvote.split(',').length - 1 : 0;
-                        vm.voting.upvoteUser = response.data.data.upvote != '' ? response.data.data.upvote.split(',') : [];
-                        vm.voting.downvoteUser = response.data.data.downvote != '' ? response.data.data.downvote.split(',') : [];
-                        vm.voting.grab = response.data.data.grab != '' ? response.data.data.grab.split(',').length - 1 : 0;
-                        vm.voting.grabUser = response.data.data.grab != '' ? response.data.data.grab.split(',') : [];
-                    }
-                });
+                if (vm.waitList.data[0].user_id._id != vm.userInfo._id) {
+                    videoService.getData('api', 'upvote', vm.waitList.data[0]._id.toString(), vm.userInfo._id).then(function(response) {
+                        if (angular.isDefined(response.data.data)) {
+                            vm.voting.upvote = response.data.data.upvote != '' ? response.data.data.upvote.split(',').length - 1 : 0;
+                            vm.voting.downvote = response.data.data.downvote != '' ? response.data.data.downvote.split(',').length - 1 : 0;
+                            vm.voting.upvoteUser = response.data.data.upvote != '' ? response.data.data.upvote.split(',') : [];
+                            vm.voting.downvoteUser = response.data.data.downvote != '' ? response.data.data.downvote.split(',') : [];
+                            vm.voting.grab = response.data.data.grab != '' ? response.data.data.grab.split(',').length - 1 : 0;
+                            vm.voting.grabUser = response.data.data.grab != '' ? response.data.data.grab.split(',') : [];
+                        }
+                    });
+                } else {
+                    commonService.showToast('User can not vote own song');
+                }
             } else {
                 commonService.showToast('There is no video avaliable.');
             }
@@ -451,16 +455,20 @@
 
         function downvote() {
             if (vm.waitList && vm.waitList.data[0] && vm.waitList.data[0]._id) {
-                videoService.getData('api', 'downvote', vm.waitList.data[0]._id.toString(), vm.userInfo._id).then(function(response) {
-                    if (angular.isDefined(response.data.data)) {
-                        vm.voting.upvote = response.data.upvote != '' ? response.data.data.upvote.split(',').length - 1 : 0;
-                        vm.voting.downvote = response.data.data.downvote != '' ? response.data.data.downvote.split(',').length - 1 : 0;
-                        vm.voting.upvoteUser = response.data.upvote != '' ? response.data.data.upvote.split(',') : [];
-                        vm.voting.downvoteUser = response.data.data.downvote != '' ? response.data.data.downvote.split(',') : [];
-                        vm.voting.grab = response.data.data.grab != '' ? response.data.data.grab.split(',').length - 1 : 0;
-                        vm.voting.grabUser = response.data.data.grab != '' ? response.data.data.grab.split(',') : [];
-                    }
-                });
+                if (vm.waitList.data[0].user_id._id != vm.userInfo._id) {
+                    videoService.getData('api', 'downvote', vm.waitList.data[0]._id.toString(), vm.userInfo._id).then(function(response) {
+                        if (angular.isDefined(response.data.data)) {
+                            vm.voting.upvote = response.data.upvote != '' ? response.data.data.upvote.split(',').length - 1 : 0;
+                            vm.voting.downvote = response.data.data.downvote != '' ? response.data.data.downvote.split(',').length - 1 : 0;
+                            vm.voting.upvoteUser = response.data.upvote != '' ? response.data.data.upvote.split(',') : [];
+                            vm.voting.downvoteUser = response.data.data.downvote != '' ? response.data.data.downvote.split(',') : [];
+                            vm.voting.grab = response.data.data.grab != '' ? response.data.data.grab.split(',').length - 1 : 0;
+                            vm.voting.grabUser = response.data.data.grab != '' ? response.data.data.grab.split(',') : [];
+                        }
+                    });
+                } else {
+                    commonService.showToast('User can not vote own song');
+                }
             } else {
                 commonService.showToast('There is no video avaliable.');
             }
@@ -499,5 +507,6 @@
             vm.getWaitList();
         });
 
-        vm.init();    }
+        vm.init();
+    }
 })();

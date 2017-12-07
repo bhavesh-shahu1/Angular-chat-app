@@ -151,11 +151,11 @@ md-autocomplete md-autocomplete-wrap {
 <div layout="row" flex ng-if="vm.screenType == 'createdPlayList'" style="position: fixed;top: 63px;opacity: 0.95;background: #1f1f1f;border-bottom: 3px solid #111111" ng-style="vm.playlistStyle">
     <div flex="30" style="border-right: 3px solid #d7294f;">
         <div style="border-bottom: 3px solid #cf274e; background-color: #1f1f1f;" layout="row" flex>
-            <div flex="80">
+            <div flex="85">
                 <input style="height: 100%;width: 80%;background: none;padding: 11px;border: none;color: #FFFFFF;outline: 0;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;font-size: 12px" type="text" placeholder="Create new playlist" maxlength="256" ng-model="vm.createPlaylistData.name" >
             </div>
-            <div style="float: right;background-color: #c4254a;width: 121px;height: 40px;padding-top: 5px;cursor: pointer;" flex="20" ng-click="vm.createPlayList()">
-                <i class="mdi mdi-24px mdi-playlist-plus" style="padding: 16px; color: #FFFFFF;"></i>
+            <div style="float: right;background-color: #c4254a;width: 121px;height: 40px;padding-top: 5px;cursor: pointer;" flex="15" ng-click="vm.createPlayList()">
+                <i class="mdi mdi-24px mdi-playlist-plus" style="padding: 11px; color: #FFFFFF;"></i>
             </div>
         </div>
         <div style="background-color: #1f1f1f; overflow-y: auto;" ng-style="vm.createPlaylistSidebarStyle" id="playlists">
@@ -221,13 +221,13 @@ md-autocomplete md-autocomplete-wrap {
                 <div ui-tree="vm.treeOptions1" id="tree-root" class="table-responsive" ng-if="vm.videoList.length > 0">
                     <div ui-tree-nodes ng-model="vm.videoList">
                         <div ng-repeat="item in vm.videoList" ui-tree-node ng-class-odd="'odd'" ng-class-even="'even'">
-                            <div style="height: 75px;clear: both; font-weight:normal;" layout="row" layout-align="space-between center" ui-tree-handle>
+                            <div style="height: 75px;clear: both; font-weight:normal;" layout="row" layout-align="space-between center">
                                 <div style="float: left;padding: 15px;">
                                     <div style="color: #FFFFFF;">{{ item.title }}</div>
                                     <div style="font-size: 14px;color: #7b7b7b;">{{ item.duration | songTime }}</div>
                                 </div>
                                 <div layout="row">
-                                    <div style="float: left;width: 47px;height: 34px;padding-top: 7px;cursor: pointer; color: #FFFFFF">
+                                    <div style="float: left;width: 47px;height: 34px;padding-top: 7px;cursor: pointer; color: #FFFFFF" ui-tree-handle>
                                         <i class="mdi mdi-24px mdi-plus-box-outline"></i>
                                     </div>
                                     <div style="float: left;width: 47px;height: 34px;padding-top: 7px;cursor: pointer; color: #FFFFFF">
