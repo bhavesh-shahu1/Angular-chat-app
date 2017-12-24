@@ -46,7 +46,7 @@
         vm.screenType = vm.stateParams.screenType;
         vm.playerStateChanged = playerStateChanged;
         vm.deletePlaylist = deletePlaylist;
-
+        vm.editSongName = editSongName;
 
         function init() {
             vm.getWaitListStatus();
@@ -123,13 +123,11 @@
                 .required(true)
                 .ok('Update')
                 .cancel('Cancel');
-            console.log(vm.activeListDetail);
             $mdDialog.show(confirm).then(function(result) {
                 vm.postParameter = {
                     name: result
                 }
                 videoService.postCustomData('api', 'uservideoplaylist', 'edit', vm.activeListDetail._id, null, null, vm.postParameter).then(function(response) {
-                    console.log('Playlist updated');
                     vm.init();
                 });
             }, function() {
@@ -150,7 +148,6 @@
             $mdDialog.show(confirm).then(function() {
                 vm.postParameter = {};
                 videoService.postCustomData('api', 'uservideoplaylist', 'delete', vm.activeListDetail._id, null, null, vm.postParameter).then(function(response) {
-                    console.log('Playlist updated');
                     vm.init();
                 });
             }, function() {});
@@ -276,12 +273,10 @@
         });
 
         $scope.$on('youtube.player.buffering', function($event, player) {
-            console.log(player);
             $rootScope.$broadcast('bufferVideo', true);
         });
 
         $scope.$on('youtube.player.playing', function($event, player) {
-            console.log(player);
             $rootScope.$broadcast('bufferVideo', false);
         });
 
@@ -447,7 +442,6 @@
                 vm.youtubeVideoKey = 'AIzaSyArYZ6rnkeDpxLWlDCQ3eJ-DC9j6Eb409w';
                 vm.url = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' + vm.searchText + '&key=' + vm.youtubeVideoKey + '&type=video';
                 return $http.get(vm.url).then(function(response) {
-                    // console.log(response.data.items);
                     return response.data.items;
                 });
             }
@@ -567,6 +561,20 @@
             })
         }
 
+        function editSongName(title, id ,$event) {
+            $mdDialog.show({
+                controller: 'EditSongNameController',
+                controllerAs: 'vm',
+                templateUrl: 'app/chat/video/edit-song-name-dialog.tmpl.html',
+                targetEvent: $event,
+                locals : {
+                    title : title,
+                    videoplaylist_id : id
+                }
+            }).then(function() {
+                vm.init();
+            })
+        }
 
         vm.init();
 
