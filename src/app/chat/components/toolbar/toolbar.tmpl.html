@@ -144,7 +144,7 @@
                 <div class="current-song">
                     <div class="disc"><img src="assets/images/disc.png" alt="Logo" /></div>
                     <div class="song-info">
-                        <div id="currentSong" ng-if="vm.videoTitle">{{vm.videoTitle | limitTo :60}}<span ng-if="vm.videoTitle.length>60">...</span></div>
+                        <div id="currentSong" ng-if="vm.videoTitle">{{vm.videoTitle | limitTo :40}}<span ng-if="vm.videoTitle.length>40">...</span></div>
                         <div class="current-dj" ng-if="vm.playingBy">Current DJ:<font id="currentDj">{{vm.playingBy}}</font></div>
                     </div>
                 </div>

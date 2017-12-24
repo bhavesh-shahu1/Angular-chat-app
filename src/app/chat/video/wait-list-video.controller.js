@@ -320,13 +320,14 @@
         vm.querySearch = querySearch;
         vm.createPlaylistData = {};
 
-        $scope.treeOptions = {
+        vm.treeOptions1 = {
             dragMove: function(event) {
                 return true;
             },
             dropped: function(event) {
                 vm.newPos = event.dest.index;
-                vm.selectedList = vm.videoList[vm.newPos]
+                vm.selectedList = vm.videoList[vm.oldPos]
+                console.log(vm.selectedList._id);
                 if (vm.newPos != vm.oldPos) {
                     vm.saveOrder();
                 }
@@ -338,11 +339,12 @@
 
         function saveOrder() {
             vm.activatedPlaylistVedio = true;
+            console.log(vm.videoList[vm.oldPos]);
             var postParameter = {
                 videoplaylists_id: vm.selectedList._id,
                 userplaylist_id: vm.selectedList.userplaylist_id,
-                old_order_id: vm.oldPos,
-                new_order_id: vm.newPos
+                old_order_id: vm.oldPos+1,
+                new_order_id: vm.newPos+1
             }
             videoService.postCustomData('api', 'video', 'reorder', null, null, null, postParameter).then(function(response) {
                 vm.activatedPlaylistVedio = false;

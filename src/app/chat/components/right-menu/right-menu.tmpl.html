@@ -60,7 +60,7 @@
             </md-tab>
             <md-tab md-on-select="vm.onTabChanges('user_list')">
                 <md-tab-label>
-                    <i class="mdi mdi-24px mdi-account-multiple  " ng-class="vm.selectedTab == 'user_list' ? 'pink-color':'white-color'"></i> <span class="badge" ng-class="vm.selectedTab == 'user_list' ? 'pink-color':'white-color'">50</span>
+                    <i class="mdi mdi-24px mdi-account-multiple  " ng-class="vm.selectedTab == 'user_list' ? 'pink-color':'white-color'"></i> <span class="badge" ng-class="vm.selectedTab == 'user_list' ? 'pink-color':'white-color'">{{vm.onlineUserList.length}}</span>
                 </md-tab-label>
                 <md-tab-body>
                     <md-content>
@@ -104,7 +104,7 @@
                     </md-content>
                     <md-tab-body>
             </md-tab>
-            <md-tab label="WaitList ({{vm.waitlistCount}})" md-on-select="vm.onTabChanges('waitlist_list')">
+            <md-tab label="WaitList ({{vm.waitlistCount}})" md-on-select="vm.getWaitList();vm.onTabChanges('waitlist_list')">
                 <md-tab-label>
                     <i class="mdi mdi-24px mdi-playlist-play  " ng-class="vm.selectedTab == 'waitlist_list' ? 'pink-color':'white-color'"></i> <span class="badge" ng-class="vm.selectedTab == 'waitlist_list' ? 'pink-color':'white-color'">{{vm.waitList.data.length?vm.waitList.data.length:0}}/50</span>
                 </md-tab-label>
@@ -112,15 +112,16 @@
                     <md-content>
                         <div id="app-right" style="background: #1f1f1f" ng-style="vm.userProfileStyle">
                             <div id="waitlist" class="tabcontent" ng-repeat="item in vm.waitList.data">
-                                <div id="waitlist-content">
+                                <div id="waitlist-content" layout="coloumn" flex>
                                     <!-- {{item}} -->
-                                    <div class="queue-user">
-                                        <div class="ranking username owner">{{$index+1}}</div>
-                                        <div class="profilepic"><img ng-src="{{item.videoplaylists_id.thumbnail}}" alt=""></div>
-                                        <div class="username owner">{{item.videoplaylists_id.title| limitTo : 40}}...</div>
-                                        <div class="actions">
-                                            <div class="removeUser"><i class="mdi mdi-24px mdi-close" ng-click="vm.removeFromWaitList(item._id,item.videoplaylists_id._id)"></i></div>
-                                            <div class="moveUser"><i class="mdi mdi-24px mdi-drag"></i></div>
+                                    <div class="queue-user" layout="coloumn" flex>
+                                        <div class="ranking username owner" flex="5">{{$index+1}}</div>
+                                        <div flex="10">
+                                            <img style="width: 20px; height: 20px;min-width: 20px; min-height: 20px;border-radius: 50%;border:1px solid #fff;text-align:center;" src="http://video-playlist.herokuapp.com/images/user_avtar//{{item.user_id.avtar}}" draggable="false" alt="{{item.user_id.username| limitTo : 1}}"/></div>
+                                        <div class="username owner" flex="70">{{item.user_id.username| limitTo : 40}}<span ng-if="item.user_id.username.length>40">...</span></div>
+                                        <div class="actions" flex layout="coloumn" >
+                                            <div class="removeUser" flex><i class="mdi mdi-24px mdi-close" ng-click="vm.removeFromWaitList(item._id,item.videoplaylists_id._id)"></i></div>
+                                            <div class="moveUser" flex><i class="mdi mdi-24px mdi-drag"></i></div>
                                         </div>
                                     </div>
                                     <!-- <div class="queue-user">
