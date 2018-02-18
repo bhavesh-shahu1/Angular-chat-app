@@ -19,11 +19,16 @@
                                             <div style="color: #3180b3" ng-if="chat.user_id.user_role == 1"><b>{{chat.user_id.username}}</b></div>
                                             <div style="color: #c20448" ng-if="chat.user_id.user_role == 2"><b>{{chat.user_id.username}}</b></div>
                                             <div class="grey-color">
-                                                <h5>{{chat.msg}}</h5></div>
+                                                <h5>{{chat.msg}}</h5>
+                                            </div>
                                         </div>
                                         <span flex></span>
                                         <div class="grey-color">
                                             <i><h6>{{chat.created_at | date :'hh:mm a'}}</h6></i>
+                                            <md-button class="md-icon-button md-warn" aria-label="remove message" ng-show="true" ng-click="vm.deleteChatMessage(chat._id)" ng-if="vm.status == 2 || vm.status == 1">
+                                                    <md-tooltip md-direction="bottom">Remove</md-tooltip>
+                                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                                </md-button>
                                         </div>
                                     </div>
                                 </div>

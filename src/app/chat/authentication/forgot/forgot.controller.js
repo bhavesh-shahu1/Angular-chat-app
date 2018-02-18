@@ -20,7 +20,7 @@
                 .then(function(response) {
                     commonService.showToast(response.data.message);
                     if (response.data.status == '200') {
-                         $state.go('login');
+                         $state.go('authentication.login');
                     }
                 })
         }
