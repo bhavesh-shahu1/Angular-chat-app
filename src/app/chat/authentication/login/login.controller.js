@@ -40,7 +40,10 @@
             authenticationService.postData('login', postParam)
                 .then(function(response) {
                     commonService.showToast(response.data.message);
-                    response.data.data['password1'] = vm.encode;
+                    vm.msg = response.data.message;
+                    if(angular.isDefined(response.data.data)){
+                        response.data.data['password1'] = vm.encode;
+                    }
                     commonService.setUserInfo(response.data.data);
                     if (response.data.status == '200') {
                         commonService.setUserPermission(true);

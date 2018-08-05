@@ -1,557 +1,562 @@
 <md-content>
-    <div md-theme="whiteAccentTheme" ng-init="vm.onTabChanges('chat')">
-        <md-tabs md-dynamic-height md-border-bottom class="md-primary md-accent" style="border-radius: 0px;" md-selected="vm.selectedTabIndex"> <!-- ng-init="vm.getUserProfile()" -->
-            <md-tab md-on-select="vm.onTabChanges('chat')">
-                <md-tab-label>
-                    <i class="mdi mdi-24px mdi-message " ng-class="vm.selectedTab == 'chat' ? 'pink-color':'white-color'"></i>
-                </md-tab-label>
-                <md-tab-body>
-                    <md-content >
-                        <div md-padding style="background: #1f1f1f" ng-style="vm.ChatStyle" schroll-bottom="vm.userChat.data" id="messageDiv">
-                            <div>
-                                <div ng-repeat="chat in vm.userChat.data track by $index" flex  >
-                                    <div layout="row" ng-class-odd="'odd'" ng-class-even="'even'">
-                                        <div style="color: white;padding-right: 2px">
-                                            <img style="width: 30px; height: 30px;min-width: 30px; min-height: 30px;border-radius: 50%;border:1px solid #fff;text-align:center;" src="http://video-playlist.herokuapp.com/images/user_avtar/{{chat.user_id.avtar}}" draggable="false" alt="{{chat.user_id.username| limitTo:1}}"/>
-                                        </div>
-                                        <div class="md-body-2 white-color" layout="column" flex="75">
-                                            <div style="color: #FFFFFF" ng-if="chat.user_id.user_role == 0"><b>{{chat.user_id.username}}</b></div>
-                                            <div style="color: #3180b3" ng-if="chat.user_id.user_role == 1"><b>{{chat.user_id.username}}</b></div>
-                                            <div style="color: #c20448" ng-if="chat.user_id.user_role == 2"><b>{{chat.user_id.username}}</b></div>
-                                            <div class="grey-color">
-                                                <h5>{{chat.msg}}</h5>
-                                            </div>
-                                        </div>
-                                        <span flex></span>
-                                        <div class="grey-color">
-                                            <i><h6>{{chat.created_at | date :'hh:mm a'}}</h6></i>
-                                            <md-button class="md-icon-button md-warn" aria-label="remove message" ng-show="true" ng-click="vm.deleteChatMessage(chat._id)" ng-if="vm.status == 2 || vm.status == 1">
-                                                    <md-tooltip md-direction="bottom">Remove</md-tooltip>
-                                                    <i class="fa fa-trash" aria-hidden="true"></i>
-                                                </md-button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                        </div>
-                        <div flex class="border-top-chat-pannel" style="color: white!important; background: #000;">
-                            <form name="chatForm" ng-submit="vm.postChat()" flex>
-                                <div layout="row" flex class="chat-text-box">
-                                    <md-input-container class="hide-validation-error" flex style="margin: 5px;background: #000" md-no-float>
-                                        <input ng-model="vm.data.message" placeholder="Type your message..." style="color: white!important; background: #000 !important">
-                                    </md-input-container>
-                                    <!-- <md-button class="md-fab md-primary md-mini" ng-click="vm.postChat()"> <i class="fa fa-send" aria-hidden="true"></i> </md-button> -->
-                                </div>
-                            </form>
-                        </div>
-                        <!--  -->
-                        <!-- <div layout="column" layout-align="space-between">
-                    <div>
-                    {{vm.userChat}} 
+<div md-theme="whiteAccentTheme" ng-init="vm.onTabChanges('chat')">
+    <md-tabs md-dynamic-height md-border-bottom class="md-primary md-accent" style="border-radius: 0px;" md-selected="vm.selectedTabIndex"> <!-- ng-init="vm.getUserProfile()" -->
+    <md-tab md-on-select="vm.onTabChanges('chat')">
+    <md-tab-label>
+    <i class="mdi mdi-24px mdi-message " ng-class="vm.selectedTab == 'chat' ? 'pink-color':'white-color'"></i>
+    </md-tab-label>
+    <md-tab-body>
+    <md-content >
+    <div md-padding style="background: #1f1f1f" ng-style="vm.ChatStyle" schroll-bottom="vm.userChat.data" id="messageDiv">
+        <div>
+            <div ng-repeat="chat in vm.userChat.data track by $index" flex  >
+                <div layout="row" ng-class-odd="'odd'" ng-class-even="'even'">
+                    <div style="color: white;padding-right: 2px">
+                        <img style="width: 30px; height: 30px;min-width: 30px; min-height: 30px;border-radius: 50%;border:1px solid #fff;text-align:center;" src="http://video-playlist.herokuapp.com/images/user_avtar/{{chat.user_id.avtar}}" draggable="false" alt="{{chat.user_id.username| limitTo:1}}"/>
                     </div>
-                    <div flex>
-                    <form name="chatForm" ng-submit="vm.postChat()">
-                        <md-input-container>
-                            
-                            <input ng-model="vm.data.message" >
-                        </md-input-container>
-                        <md-button ng-click="vm.postChat()">submit</md-button>         
-                        </form>
+                    <div class="md-body-2 white-color" layout="column" flex="75">
+                        <div style="color: #FFFFFF" ng-if="chat.user_id.user_role == 0"><b>{{chat.user_id.username}}</b>&nbsp;<i class="fa fa-ban" aria-hidden="true" ng-if="chat.user_id.username != vm.username && vm.userRole != 0 && !chat.user_id.is_ban" ng-click="vm.banUser(chat.user_id._id)"><md-tooltip md-direction="bottom">ban</md-tooltip></i><i class="fa fa-unlock" aria-hidden="true" ng-if="chat.user_id.username != vm.username && vm.userRole != 0 && chat.user_id.is_ban" ng-click="vm.unbanUser(chat.user_id._id)"><md-tooltip md-direction="bottom">Unban</md-tooltip></i></div>
+                        <div style="color: #3180b3" ng-if="chat.user_id.user_role == 1"><b>{{chat.user_id.username}}</b>&nbsp;<i class="fa fa-ban" aria-hidden="true" ng-if="chat.user_id.username != vm.username && vm.userRole != 0 && !chat.user_id.is_ban" ng-click="vm.banUser(chat.user_id._id)"><md-tooltip md-direction="bottom">ban</md-tooltip></i><i class="fa fa-unlock" aria-hidden="true" ng-if="chat.user_id.username != vm.username && vm.userRole != 0 && chat.user_id.is_ban" ng-click="vm.unbanUser(chat.user_id._id)"><md-tooltip md-direction="bottom">Unban</md-tooltip></i></div>
+                        <div style="color: #c20448" ng-if="chat.user_id.user_role == 2"><b>{{chat.user_id.username}}</b>&nbsp;<i class="fa fa-ban" aria-hidden="true" ng-if="chat.user_id.username != vm.username && vm.userRole != 0 && !chat.user_id.is_ban" ng-click="vm.banUser(chat.user_id._id)"><md-tooltip md-direction="bottom">ban</md-tooltip></i><i class="fa fa-unlock" aria-hidden="true" ng-if="chat.user_id.username != vm.username && vm.userRole != 0 && chat.user_id.is_ban" ng-click="vm.unbanUser(chat.user_id._id)"><md-tooltip md-direction="bottom">Unban</md-tooltip></i></div>
+                        <div class="grey-color">
+                            <h5>{{chat.msg}}</h5>
+                        </div>
                     </div>
-                </div> -->
-                    </md-content>
-                    <md-tab-body>
-            </md-tab>
-            <md-tab md-on-select="vm.onTabChanges('user_list')">
-                <md-tab-label>
-                    <i class="mdi mdi-24px mdi-account-multiple  " ng-class="vm.selectedTab == 'user_list' ? 'pink-color':'white-color'"></i> <span class="badge" ng-class="vm.selectedTab == 'user_list' ? 'pink-color':'white-color'">{{vm.onlineUserList.length}}</span>
-                </md-tab-label>
-                <md-tab-body>
-                    <md-content>
-                        <div id="app-right" flex layout="coloumn" ng-style="vm.userProfileStyle">
-                                <!-- <span ng-if="vm.onlineUserList.length == 0">No Online User found</span> -->
-                            <div id="userlist" class="tabcontent" ng-repeat="onlineUser in vm.onlineUserList">
-                                <div id="userlist-content" ng-if="onlineUser.user_role == 2">
-                                    <div class="user">
-                                        <div class="profilepic"><img src="onlineUser.avtar" alt=""></div>
-                                        <div class="username owner">{{onlineUser.username}}</div>
-                                        <div class="rank">Owner</div>
-                                    </div>
-                                    <!-- <div class="user">
-                                        <div class="profilepic"><img src="assets/images/profipic.png" alt=""></div>
-                                        <div class="username manager">User 2</div>
-                                        <div class="rank">Manager</div>
-                                    </div> -->
-                                    <div class="user" ng-if="onlineUser.user_role == 1">
-                                        <div class="profilepic"><img src="onlineUser.avtar" alt=""></div>
-                                        <div class="username moderator">{{onlineUser.username}}</div>
-                                        <div class="rank">Moderator</div>
-                                    </div>
-                                    <!-- <div class="user">
-                                        <div class="profilepic"><img src="onlineUser.avtar" alt=""></div>
-                                        <div class="username donator">User 4</div>
-                                        <div class="rank">Donator</div>
-                                    </div> -->
-                                    <div class="user" ng-if="onlineUser.user_role == 0">
-                                        <div class="profilepic"><img src="onlineUser.avtar" alt=""></div>
-                                        <div class="username">{{onlineUser.username}}</div>
-                                        <div class="rank"></div>
-                                    </div>
-                                    <!-- Amount of guests (not logged in visitors) -->
-                                    <!-- <div class="user">
-                                        <div class="username guests" style="">And 13 guests</div>
-                                    </div> -->
-                                </div>
-                            </div>
-                        </div>
-                        <!--  -->
-                    </md-content>
-                    <md-tab-body>
-            </md-tab>
-            <md-tab label="WaitList ({{vm.waitlistCount}})" md-on-select="vm.getWaitList();vm.onTabChanges('waitlist_list')">
-                <md-tab-label>
-                    <i class="mdi mdi-24px mdi-playlist-play  " ng-class="vm.selectedTab == 'waitlist_list' ? 'pink-color':'white-color'"></i> <span class="badge" ng-class="vm.selectedTab == 'waitlist_list' ? 'pink-color':'white-color'">{{vm.waitList.data.length?vm.waitList.data.length:0}}/50</span>
-                </md-tab-label>
-                <md-tab-body>
-                    <md-content>
-                        <div id="app-right" style="background: #1f1f1f" ng-style="vm.userProfileStyle">
-                            <div id="waitlist" class="tabcontent" ng-repeat="item in vm.waitList.data">
-                                <div id="waitlist-content" layout="coloumn" flex>
-                                    <!-- {{item}} -->
-                                    <div class="queue-user" layout="coloumn" flex>
-                                        <div class="ranking username owner" flex="5">{{$index+1}}</div>
-                                        <div flex="10">
-                                            <img style="width: 20px; height: 20px;min-width: 20px; min-height: 20px;border-radius: 50%;border:1px solid #fff;text-align:center;" src="http://video-playlist.herokuapp.com/images/user_avtar//{{item.user_id.avtar}}" draggable="false" alt="{{item.user_id.username| limitTo : 1}}"/></div>
-                                        <div class="username owner" flex="70">{{item.user_id.username| limitTo : 40}}<span ng-if="item.user_id.username.length>40">...</span></div>
-                                        <div class="actions" flex layout="coloumn" >
-                                            <div class="removeUser" flex><i class="mdi mdi-24px mdi-close" ng-click="vm.removeFromWaitList(item._id,item.videoplaylists_id._id)"></i></div>
-                                            <div class="moveUser" flex><i class="mdi mdi-24px mdi-drag"></i></div>
-                                        </div>
-                                    </div>
-                                    <!-- <div class="queue-user">
-                                        <div class="ranking">2.</div>
-                                        <div class="profilepic"><img src="assets/images/profipic.png" alt=""></div>
-                                        <div class="username manager">User 2</div>
-                                        <div class="actions">
-                                            <div class="removeUser"><i class="mdi mdi-24px mdi-close"></i></div>
-                                            <div class="moveUser"><i class="mdi mdi-24px mdi-drag"></i></div>
-                                        </div>
-                                    </div>
-                                    <div class="queue-user">
-                                        <div class="ranking">3.</div>
-                                        <div class="profilepic"><img src="assets/images/profipic.png" alt=""></div>
-                                        <div class="username moderator">User 3</div>
-                                        <div class="actions">
-                                            <div class="removeUser"><i class="mdi mdi-24px mdi-close"></i></div>
-                                            <div class="moveUser"><i class="mdi mdi-24px mdi-drag"></i></div>
-                                        </div>
-                                    </div>
-                                    <div class="queue-user">
-                                        <div class="ranking">4.</div>
-                                        <div class="profilepic"><img src="assets/images/profipic.png" alt=""></div>
-                                        <div class="username donator">User 4</div>
-                                        <div class="actions">
-                                            <div class="removeUser"><i class="mdi mdi-24px mdi-close"></i></div>
-                                            <div class="moveUser"><i class="mdi mdi-24px mdi-drag"></i></div>
-                                        </div>
-                                    </div>
-                                    <div class="queue-user">
-                                        <div class="ranking">5.</div>
-                                        <div class="profilepic"><img src="assets/images/profipic.png" alt=""></div>
-                                        <div class="username">User 5</div>
-                                        <div class="actions">
-                                            <div class="removeUser"><i class="mdi mdi-24px mdi-close"></i></div>
-                                            <div class="moveUser"><i class="mdi mdi-24px mdi-drag"></i></div>
-                                        </div>
-                                    </div> -->
-                                </div>
-                            </div>
-                        </div>
-                        <!--  -->
-                    </md-content>
-                </md-tab-body>
-            </md-tab>
-            <md-tab md-on-select="vm.onTabChanges('user_profile');">
-                <md-tab-label>
-                    <div class="avatar">
-                        <img ng-src="{{vm.userData.profilePic}}" style="width: 25px;height: 25px;min-width: 25px;min-height: 25px;border-radius: 15px;border: 2px solid #FFFFFF;" class="avatar" alt="{{vm.userData.username | limitTo : 1}}" ng-class="vm.selectedTab == 'user_profile' ? 'pink-color':'white-color'">
-                    </div>
-                </md-tab-label>
-                <md-tab-body>
-                    <md-content>
-                        <div id="app-right" ng-style="vm.userProfileStyle">
-                            <div id="usersettings" class="tabcontent">
-                                <div id="usersettings-content">
-                                    <div class="item-user">
-                                        <div class="item-name">
-                                            <img ng-src="{{vm.userData.profilePic}}" >
-                                            <div class="top-section">
-                                                <div class="username">{{vm.userData.username}}</div>
-                                                <div class="logout" style="cursor: pointer;">
-                                                    <a ng-click="vm.logout()"><i class="mdi mdi-logout-variant"></i>logout</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="item-change-avatar" ngf-select="vm.uploadPic($file,$invalidFiles)" accept="image/*">
-                                        <i class="mdi mdi-24px mdi-upload"></i>
-                                        <span>Change avatar</span>
-                                    </div>
-                                    <div class="item">
-                                        <div class="item-name">Username</div>
-                                    </div>
-                                    <div class="item">
-                                        <input class="item-input" type="text" ng-model="vm.userData.username" placeholder="Type your message..." maxlength="256" disabled="true">
-                                    </div>
-                                    <div class="item">
-                                        <div class="item-name">Old password</div>
-                                    </div>
-                                    <div class="item">
-                                        <input class="item-input"  ng-model="vm.userData.old_password" type="text" placeholder="Type your message..." maxlength="256">
-                                    </div>
-                                    <div class="item">
-                                        <div class="item-name" ">New password</div>
-                                    </div>
-                                    <div class="item">
-                                        <input class="item-input" ng-model="vm.userData.password" type="text" placeholder="Type your message..." maxlength="256">
-                                    </div>
-                                    <div class="item">
-                                        <div class="item-name">Repeat password</div>
-                                    </div>
-                                    <div class="item">
-                                        <input class="item-input" type="text" ng-model="vm.userData.confirm" placeholder="Type your message..." maxlength="256">
-                                    </div>
-                                    <div class="item-change-avatar" ng-click="vm.updateUserProfile()">
-                                        <i class="mdi mdi-24px mdi-content-save"></i>
-                                        <span>Save</span>
-                                    </div>
-                                    <div class="divider"></div>
-                                    <div class="item">
-                                        <div class="item-name checkboxItem">
-                                            <input type="checkbox" id="chatImagesSetting" />
-                                            <label for="chatImagesSetting">Chat images</label>
-                                        </div>
-                                    </div>
-                                    <div class="item">
-                                        <div class="item-name checkboxItem">
-                                            <input type="checkbox" id="mentionSoundSetting" checked />
-                                            <label for="mentionSoundSetting">Mention sound</label>
-                                        </div>
-                                    </div>
-                                    <div class="item">
-                                        <div class="item-name checkboxItem">
-                                            <input type="checkbox" id="boothAlertSetting" checked />
-                                            <label for="boothAlertSetting">Booth alert</label>
-                                        </div>
-                                    </div>
-                                    <div class="item">
-                                        <div class="item-name checkboxItem">
-                                            <input type="checkbox" id="playVideoAudioSetting" checked />
-                                            <label for="playVideoAudioSetting">Play audio/video</label>
-                                        </div>
-                                    </div>
-                                    <div class="item">
-                                        <div class="item-name checkboxItem">
-                                            <input type="checkbox" id="userJoinSetting" checked />
-                                            <label for="userJoinSetting">User join</label>
-                                        </div>
-                                    </div>
-                                    <div class="item">
-                                        <div class="item-name checkboxItem">
-                                            <input type="checkbox" id="userLeaveSetting" checked />
-                                            <label for="userLeaveSetting">User leave</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--  -->
-                    </md-content>
-                </md-tab-body>
-            </md-tab>
-            <md-tab label="Private Msg" md-on-select="vm.onTabChanges('staff_user_list');vm.getUser();vm.getMutedUser();vm.getBannedUser();vm.getConfiguration();">
-                <md-tab-label>
-                    <i class="mdi mdi-24px mdi-security " ng-class="vm.selectedTab == 'staff' || vm.selectedTab == 'staff_user_list' || vm.selectedTab == 'user_list_banned' || vm.selectedTab == 'user_deleted' || vm.selectedTab == 'user_configuration'  ? 'pink-color':'white-color'"></i>
-                </md-tab-label>
-                <md-tab-body>
-                    <md-content ng-style="vm.userProfileStyle">
-                        <div id="app-right" flex layout="coloumn" ng-style="vm.userProfileStyle">
-                            <div md-theme="whiteAccentTheme" flex>
-                                <md-tabs class="md-primary md-accent" flex>
-                                    <md-tab ng-click="vm.onTabChanges('staff_user_list');" flex>
-                                        <md-tab-label>
-                                            <i class="mdi mdi-24px mdi-account-multiple  " ng-class="vm.selectedTab == 'staff_user_list' ? 'pink-color':'white-color'"></i> <span class="badge" ng-class="vm.selectedTab == 'staff_user_list' ? 'pink-color':'white-color'">{{vm.userList.length}}</span>
-                                        </md-tab-label>
-                                        <md-tab-body>
-                                    <div id="usersettings" class="tabcontent" ng-show="vm.isEditUserProfile">
-                                        <div id="usersettings-content" style="overflow-y: hidden;">
-                                            <div class="item-user" layout="row" layout-align="space-between center">
-                                                <div class="item-name">
-                                                    <img ng-src="{{vm.userData1.profilePic}}" alt= "{{vm.userData1.username}}"/>
-                                                    <div class="top-section">
-                                                        <div class="username">{{vm.userData1.username}}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div style="padding-right: 10px;"><i class="fa fa-arrow-circle-left" ng-click="vm.isEditUserProfile = false;"></i></div>
-                                            </div>
-                                            <div class="item-change-avatar" ngf-select="vm.uploadPic($file,$invalidFiles)" accept="image/*">
-                                                <i class="mdi mdi-24px mdi-upload"></i>
-                                                <span>Change avatar</span>
-                                            </div>
-                                            <div class="item">
-                                                <div class="item-name">Username</div>
-                                            </div>
-                                            <div class="item">
-                                                <input class="item-input" type="text" ng-model="vm.userData1.username" placeholder="Type your message..." maxlength="256" >
-                                            </div>
-                                          <!--   <div class="item">
-                                                <div class="item-name">Old password</div>
-                                            </div>
-                                            <div class="item">
-                                                <input class="item-input"  ng-model="vm.userData1.old_password" type="text" placeholder="Type your message..." maxlength="256">
-                                            </div> -->
-                                            <div class="item">
-                                                <div class="item-name" ">New password</div>
-                                            </div>
-                                            <div class="item">
-                                                <input class="item-input" ng-model="vm.userData1.password" type="text" placeholder="Type your message..." maxlength="256">
-                                            </div>
-                                            <div class="item">
-                                                <div class="item-name">Repeat password</div>
-                                            </div>
-                                            <div class="item">
-                                                <input class="item-input" type="text" ng-model="vm.userData1.confirm" placeholder="Type your message..." maxlength="256">
-                                            </div>
-                                            <div class="item-change-avatar" ng-click="vm.updateUserProfileOnEdit()">
-                                                <i class="mdi mdi-24px mdi-content-save"></i>
-                                                <span>Save</span>
-                                            </div>
-                                            <div class="divider"></div>
-                                            <div class="item">
-                                                <div class="item-name checkboxItem">
-                                                    <input type="checkbox" id="chatImagesSetting" />
-                                                    <label for="chatImagesSetting">Chat images</label>
-                                                </div>
-                                            </div>
-                                            <div class="item">
-                                                <div class="item-name checkboxItem">
-                                                    <input type="checkbox" id="mentionSoundSetting" checked />
-                                                    <label for="mentionSoundSetting">Mention sound</label>
-                                                </div>
-                                            </div>
-                                            <div class="item">
-                                                <div class="item-name checkboxItem">
-                                                    <input type="checkbox" id="boothAlertSetting" checked />
-                                                    <label for="boothAlertSetting">Booth alert</label>
-                                                </div>
-                                            </div>
-                                            <div class="item">
-                                                <div class="item-name checkboxItem">
-                                                    <input type="checkbox" id="playVideoAudioSetting" checked />
-                                                    <label for="playVideoAudioSetting">Play audio/video</label>
-                                                </div>
-                                            </div>
-                                            <div class="item">
-                                                <div class="item-name checkboxItem">
-                                                    <input type="checkbox" id="userJoinSetting" checked />
-                                                    <label for="userJoinSetting">User join</label>
-                                                </div>
-                                            </div>
-                                            <div class="item">
-                                                <div class="item-name checkboxItem">
-                                                    <input type="checkbox" id="userLeaveSetting" checked />
-                                                    <label for="userLeaveSetting">User leave</label>
-                                                </div>
-                                            </div>
-                                        </div>                           
-                                        </div>
-                                            
-                                            <div id="staff" ng-hide="vm.isEditUserProfile">
-                                                <div id="staff-content">
-                                                    <div id="staffUserlist" class="pagecontent" style="display: block;">
-                                                        <div id="staffUserlist-content">
-                                                            <div class="user" ng-repeat="(userKey, userValue) in vm.userList">
-                                                                <div class="profilepic">
-                                                                    <img src="assets/images/profipic.png" alt="">
-                                                                </div>
-                                                                <div class="username owner" ng-style="{color:vm.color[$index%vm.color.length]}">{{userValue.username}}</div>
-                                                                <div class="actions">
-                                                                    <div class="rank">
-                                                                        <span ng-if="userValue.user_role==0">Normal</span>
-                                                                        <span ng-if="userValue.user_role==1">Moderator</span>
-                                                                        <span ng-if="userValue.user_role==2">Admin</span>
-                                                                    </div>
-                                                                    <div class="editUser"><i class="mdi mdi-24px mdi-pencil" ng-click="vm.getUserProfileOnEdit(userValue._id,'edit');"></i></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </md-tab-body>
-                                    </md-tab>
-                                    <md-tab md-on-select="vm.onTabChanges('user_list_banned');">
-                                        <md-tab-label>
-                                            <i class="mdi mdi-24px mdi-account-minus" ng-class="vm.selectedTab == 'user_list_banned' ? 'pink-color':'white-color'"></i> <span class="badge" ng-class="vm.selectedTab == 'user_list_banned' ? 'pink-color':'white-color'">{{vm.userBannedList?vm.userBannedList.length:'0'}}</span>
-                                        </md-tab-label>
-                                        <md-tab-body>
-                                            <div id="staff">
-                                                <div id="staff-content">
-                                                    <div id="staffUserlist" class="pagecontent" style="display: block;">
-                                                        <div id="staffUserlist-content">
-                                                            <div class="user" ng-repeat="(userKey, userValue) in vm.userBannedList">
-                                                                <div class="profilepic">
-                                                                    <img src="assets/images/profipic.png" alt="">
-                                                                </div>
-                                                                <div class="username owner" ng-style="{color:vm.color[$index%vm.color.length]}">{{userValue.username}}</div>
-                                                                <div class="actions">
-                                                                    <div class="rank">
-                                                                        <span ng-if="userValue.user_role==0">Normal</span>
-                                                                        <span ng-if="userValue.user_role==1">Moderator</span>
-                                                                        <span ng-if="userValue.user_role==2">Admin</span>
-                                                                    </div>
-                                                                    <div class="editUser"><i class="mdi mdi-24px mdi-pencil"></i></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </md-tab-body>
-                                    </md-tab>
-                                    <md-tab md-on-select="vm.onTabChanges('user_deleted');">
-                                        <md-tab-label>
-                                            <i class="mdi mdi-24px mdi-account-remove" ng-class="vm.selectedTab == 'user_deleted' ? 'pink-color':'white-color'"></i> <span class="badge" ng-class="vm.selectedTab == 'user_deleted' ? 'pink-color':'white-color'">{{vm.userMutedList.length?vm.userMutedList.length:'0'}}</span>
-                                        </md-tab-label>
-                                        <md-tab-body>
-                                            <div id="staff">
-                                                <div id="staff-content">
-                                                    <div id="staffUserlist" class="pagecontent" style="display: block;">
-                                                        <div id="staffUserlist-content">
-                                                            <div class="user" ng-repeat="(userKey, userValue) in vm.userMutedList">
-                                                                <div class="profilepic">
-                                                                    <img src="assets/images/profipic.png" alt="">
-                                                                </div>
-                                                                <div class="username owner" ng-style="{color:vm.color[$index%vm.color.length]}">{{userValue.username}}</div>
-                                                                <div class="actions">
-                                                                    <div class="rank">
-                                                                        <span ng-if="userValue.user_role==0">Normal</span>
-                                                                        <span ng-if="userValue.user_role==1">Moderator</span>
-                                                                        <span ng-if="userValue.user_role==2">Admin</span>
-                                                                    </div>
-                                                                    <div class="editUser"><i class="mdi mdi-24px mdi-pencil"></i></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </md-tab-body>
-                                    </md-tab>
-                                    <md-tab md-on-select="vm.onTabChanges('user_configuration');">
-                                        <md-tab-label>
-                                            <i class="mdi mdi-24px mdi-home" ng-class="vm.selectedTab == 'user_configuration' ? 'pink-color':'white-color'"></i> <span class="badge" ng-class="vm.selectedTab == 'user_configuration' ? 'pink-color':'white-color'"></span>
-                                        </md-tab-label>
-                                        <md-tab-body>
-                                            <div id="staff" >
-                                                <div id="staff-content">
-                                                    <div id="staffEditHome" class="pagecontent">
-                                                        <div id="staffEditHome-content">
-                                                            <div class="item">
-                                                                <div class="item-name checkboxItem">
-                                                                    <input type="checkbox" ng-model="vm.configuration.lock_queue" id="staffLockQueue" />
-                                                                    <label for="staffLockQueue">Lock queue</label>
-                                                                </div>
-                                                            </div>
-                                                            <div class="item">
-                                                                <div class="item-name checkboxItem">
-                                                                    <input type="checkbox" ng-model="vm.configuration.toggle_cycle" id="staffToggleCycle" />
-                                                                    <label for="staffToggleCycle" >Toggle cycle</label>
-                                                                </div>
-                                                            </div>
-                                                            <div class="item">
-                                                                <div class="item-name">Discord URL</div>
-                                                            </div>
-                                                            <div class="item">
-                                                                <input class="item-input" ng-model="vm.configuration.discord_url" type="text" placeholder="Type your message...">
-                                                            </div>
-                                                            <div class="item">
-                                                                <div class="item-name">YouTube URL</div>
-                                                            </div>
-                                                            <div class="item">
-                                                                <input class="item-input" ng-model="vm.configuration.youtube_url" type="text" placeholder="Type your message...">
-                                                            </div>
-                                                            <div class="item">
-                                                                <div class="item-name">Facebook URL</div>
-                                                            </div>
-                                                            <div class="item">
-                                                                <input class="item-input" ng-model="vm.configuration.facebook_url" type="text" placeholder="Type your message...">
-                                                            </div>
-                                                            <div class="item">
-                                                                <div class="item-name">Soundcloud URL</div>
-                                                            </div>
-                                                            <div class="item">
-                                                                <input class="item-input" ng-model="vm.configuration.soundcloud_url" type="text" placeholder="Type your message...">
-                                                            </div>
-                                                            <div class="item">
-                                                                <div class="item-name">Room info text</div>
-                                                            </div>
-                                                            <div class="item-textarea">
-                                                                <textarea class="item-input" ng-model="vm.configuration.room_info_text" placeholder="Type your message..."></textarea>
-                                                            </div>
-                                                            <div class="item-save-settings" ng-click="vm.updateConfiguration()">
-                                                                <i class="mdi mdi-24px mdi-content-save"></i>
-                                                                <span>Save</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </md-tab-body>
-                                    </md-tab>
-                                </md-tabs>
-                            </div>
-                        </div>
-                    </md-content>
-                </md-tab-body>
-            </md-tab>
-        </md-tabs>
-         <div id="app-right" flex layout="coloumn" layout-align="center center">
-            <div id="vote-buttons" layout="row" flex layout-align="center center">
-                <div flex="100" layout="row" layout-align="center center">
-                    <button flex id="upvote" class="votelinks upvote" ng-click="vm.upvote()"><i class="mdi mdi-24px mdi-thumb-up" ng-if="vm.voting.upvoteUser.indexOf(vm.userId)>0"></i><i class="mdi mdi-24px mdi-thumb-up-outline" ng-if="vm.voting.upvoteUser.indexOf(vm.userId)<=0"></i> {{vm.voting.upvote}}</button>
-                </div>
-                <div flex="100" layout="row" layout-align="center center" >
-                  <md-menu flex md-offset="0 -310">
-                  <!--   <button flex id="grab" class="votelinks grab" ng-click="voteButton(event, 'grab')"><i class="mdi mdi-24px mdi-star-outline"></i> 5</button> -->
-                        <md-button aria-label="Open phone interactions menu"   ng-click="vm.openMenu($mdMenu, $event)" id="grab" class="votelinks grab" style="margin: 0px 0px;width: 100%;">
-                                <i class="mdi mdi-24px mdi-star-outline"></i> {{vm.voting.grab}}
+                    <span flex></span>
+                    <div class="grey-color">
+                        <i><h6>{{chat.created_at | date :'hh:mm a'}}</h6></i>
+                        <md-button class="md-icon-button md-warn" aria-label="remove message" ng-show="true" ng-click="vm.deleteChatMessage(chat._id)" ng-if="vm.status == 2 || vm.status == 1">
+                        <md-tooltip md-direction="bottom">Remove</md-tooltip>
+                        <i class="fa fa-trash" aria-hidden="true"></i>
                         </md-button>
-                    <md-menu-content width="4" style="background-color: #111111;overflow-y: scroll;min-height: 300px;">
-                                <md-menu-item ng-repeat="item in vm.playlist" style="height: 18px;
-                 cursor: pointer; color: #FFFFFF">
-                            <md-button ng-click="vm.AddToWaitList(item._id,$index)">
-                            <div style="float: left;font-size: 15px;font-weight: 700;">{{ item.name | limitTo : 20}}<span ng-if="item.name.length>20">...</span></div>
-                                <div style="float: right;font-size: 12px;color: #7b7b7b;padding-top: 3px;">{{ item.total_video }}</div>
-                            </md-button>
-                        </md-menu-item>
-                        <md-menu-divider></md-menu-divider>
-                    </md-menu-content></md-menu>
+                    </div>
                 </div>
-                <div flex="100" layout="row" layout-align="center center">
-                    <button flex id="downvote" class="votelinks downvote" ng-click="vm.downvote()">
-                        <i class="mdi mdi-24px mdi-thumb-down" ng-if="vm.voting.downvoteUser.indexOf(vm.userId)>0"></i><i class="mdi mdi-24px mdi-thumb-down-outline" ng-if="vm.voting.downvoteUser.indexOf(vm.userId)<=0"></i>
-                    {{vm.voting.downvote}}</button>
-                </div>
-                <div flex="100" layout="row" layout-align="center center" ng-if="!vm.waitlistStatus">
-                    <button flex id="joinqueue" class="votelinks joinqueue" ng-click="vm.setWaitListStatus('joinWaitList')"><i class="mdi mdi-24px mdi-playlist-plus" ></i></button>
-                </div>
-                <div flex="100" layout="row" layout-align="center center" ng-if="vm.waitlistStatus">
-                <button flex id="joinqueue" class="votelinks" style="background-color: rgba(241, 84, 51, 0.6)" ng-click="vm.setWaitListStatus('stopPlaying')"><i class="mdi mdi-24px mdi-playlist-remove " ></i></button>
             </div>
+        </div>
+        
+    </div>
+    <div flex class="border-top-chat-pannel" style="color: white!important; background: #000;">
+        <form name="chatForm" ng-submit="vm.postChat()" flex>
+            <div layout="row" flex class="chat-text-box">
+                <md-input-container class="hide-validation-error" flex style="margin: 5px;background: #000" md-no-float>
+                <input ng-model="vm.data.message" placeholder="Type your message..." style="color: white!important; background: #000 !important">
+                </md-input-container>
+                <!-- <md-button class="md-fab md-primary md-mini" ng-click="vm.postChat()"> <i class="fa fa-send" aria-hidden="true"></i> </md-button> -->
+            </div>
+        </form>
+    </div>
+    <!--  -->
+    <!-- <div layout="column" layout-align="space-between">
+        <div>
+            {{vm.userChat}}
+        </div>
+        <div flex>
+            <form name="chatForm" ng-submit="vm.postChat()">
+                <md-input-container>
+                
+                <input ng-model="vm.data.message" >
+                </md-input-container>
+                <md-button ng-click="vm.postChat()">submit</md-button>
+            </form>
+        </div>
+    </div> -->
+    </md-content>
+    <md-tab-body>
+    </md-tab>
+    <md-tab md-on-select="vm.onTabChanges('user_list')">
+    <md-tab-label>
+    <i class="mdi mdi-24px mdi-account-multiple  " ng-class="vm.selectedTab == 'user_list' ? 'pink-color':'white-color'"></i> <span class="badge" ng-class="vm.selectedTab == 'user_list' ? 'pink-color':'white-color'">{{vm.onlineUserList.length}}</span>
+    </md-tab-label>
+    <md-tab-body>
+    <md-content>
+    <div id="app-right" flex layout="coloumn" ng-style="vm.userProfileStyle">
+        <!-- <span ng-if="vm.onlineUserList.length == 0">No Online User found</span> -->
+        <div id="userlist" class="tabcontent" ng-repeat="onlineUser in vm.onlineUserList">
+            <div id="userlist-content" ng-if="onlineUser.user_role == 2">
+                <div class="user">
+                    <div class="profilepic"><img src="onlineUser.avtar" alt=""></div>
+                    <div class="username owner">{{onlineUser.username}}</div>
+                    <div class="rank">Owner</div>
+                </div>
+                <!-- <div class="user">
+                    <div class="profilepic"><img src="assets/images/profipic.png" alt=""></div>
+                    <div class="username manager">User 2</div>
+                    <div class="rank">Manager</div>
+                </div> -->
+                <div class="user" ng-if="onlineUser.user_role == 1">
+                    <div class="profilepic"><img src="onlineUser.avtar" alt=""></div>
+                    <div class="username moderator">{{onlineUser.username}}</div>
+                    <div class="rank">Moderator</div>
+                </div>
+                <!-- <div class="user">
+                    <div class="profilepic"><img src="onlineUser.avtar" alt=""></div>
+                    <div class="username donator">User 4</div>
+                    <div class="rank">Donator</div>
+                </div> -->
+                <div class="user" ng-if="onlineUser.user_role == 0">
+                    <div class="profilepic"><img src="onlineUser.avtar" alt=""></div>
+                    <div class="username">{{onlineUser.username}}</div>
+                    <div class="rank"></div>
+                </div>
+                <!-- Amount of guests (not logged in visitors) -->
+                <!-- <div class="user">
+                    <div class="username guests" style="">And 13 guests</div>
+                </div> -->
             </div>
         </div>
     </div>
+    <!--  -->
+    </md-content>
+    <md-tab-body>
+    </md-tab>
+    <md-tab label="WaitList ({{vm.waitlistCount}})" md-on-select="vm.getWaitList();vm.onTabChanges('waitlist_list')">
+    <md-tab-label>
+    <i class="mdi mdi-24px mdi-playlist-play  " ng-class="vm.selectedTab == 'waitlist_list' ? 'pink-color':'white-color'"></i> <span class="badge" ng-class="vm.selectedTab == 'waitlist_list' ? 'pink-color':'white-color'">{{vm.waitList.data.length?vm.waitList.data.length:0}}/50</span>
+    </md-tab-label>
+    <md-tab-body>
+    <md-content>
+    <div id="app-right" style="background: #1f1f1f" ng-style="vm.userProfileStyle">
+        <div id="waitlist" class="tabcontent" ng-repeat="item in vm.waitList.data">
+            <div id="waitlist-content" layout="coloumn" flex>
+                <!-- {{item}} -->
+                <div class="queue-user" layout="coloumn" flex>
+                    <div class="ranking username owner" flex="5">{{$index+1}}</div>
+                    <div flex="10">
+                    <img style="width: 20px; height: 20px;min-width: 20px; min-height: 20px;border-radius: 50%;border:1px solid #fff;text-align:center;" src="http://video-playlist.herokuapp.com/images/user_avtar//{{item.user_id.avtar}}" draggable="false" alt="{{item.user_id.username| limitTo : 1}}"/></div>
+                    <div class="username owner" flex="70">{{item.user_id.username| limitTo : 40}}<span ng-if="item.user_id.username.length>40">...</span></div>
+                    <div class="actions" flex layout="coloumn" >
+                        <div class="removeUser" flex><i class="mdi mdi-24px mdi-close" ng-click="vm.removeFromWaitList(item._id,item.videoplaylists_id._id)"></i></div>
+                        <div class="moveUser" flex><i class="mdi mdi-24px mdi-drag"></i></div>
+                    </div>
+                </div>
+                <!-- <div class="queue-user">
+                    <div class="ranking">2.</div>
+                    <div class="profilepic"><img src="assets/images/profipic.png" alt=""></div>
+                    <div class="username manager">User 2</div>
+                    <div class="actions">
+                        <div class="removeUser"><i class="mdi mdi-24px mdi-close"></i></div>
+                        <div class="moveUser"><i class="mdi mdi-24px mdi-drag"></i></div>
+                    </div>
+                </div>
+                <div class="queue-user">
+                    <div class="ranking">3.</div>
+                    <div class="profilepic"><img src="assets/images/profipic.png" alt=""></div>
+                    <div class="username moderator">User 3</div>
+                    <div class="actions">
+                        <div class="removeUser"><i class="mdi mdi-24px mdi-close"></i></div>
+                        <div class="moveUser"><i class="mdi mdi-24px mdi-drag"></i></div>
+                    </div>
+                </div>
+                <div class="queue-user">
+                    <div class="ranking">4.</div>
+                    <div class="profilepic"><img src="assets/images/profipic.png" alt=""></div>
+                    <div class="username donator">User 4</div>
+                    <div class="actions">
+                        <div class="removeUser"><i class="mdi mdi-24px mdi-close"></i></div>
+                        <div class="moveUser"><i class="mdi mdi-24px mdi-drag"></i></div>
+                    </div>
+                </div>
+                <div class="queue-user">
+                    <div class="ranking">5.</div>
+                    <div class="profilepic"><img src="assets/images/profipic.png" alt=""></div>
+                    <div class="username">User 5</div>
+                    <div class="actions">
+                        <div class="removeUser"><i class="mdi mdi-24px mdi-close"></i></div>
+                        <div class="moveUser"><i class="mdi mdi-24px mdi-drag"></i></div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+    <!--  -->
+    </md-content>
+    </md-tab-body>
+    </md-tab>
+    <md-tab md-on-select="vm.onTabChanges('user_profile');">
+    <md-tab-label>
+    <div class="avatar">
+        <img ng-src="{{vm.userData.profilePic}}" style="width: 25px;height: 25px;min-width: 25px;min-height: 25px;border-radius: 15px;border: 2px solid #FFFFFF;" class="avatar" alt="{{vm.userData.username | limitTo : 1}}" ng-class="vm.selectedTab == 'user_profile' ? 'pink-color':'white-color'">
+    </div>
+    </md-tab-label>
+    <md-tab-body>
+    <md-content>
+    <div id="app-right" ng-style="vm.userProfileStyle">
+        <div id="usersettings" class="tabcontent">
+            <div id="usersettings-content">
+                <div class="item-user">
+                    <div class="item-name">
+                        <img ng-src="{{vm.userData.profilePic}}" >
+                        <div class="top-section">
+                            <div class="username">{{vm.userData.username}}</div>
+                            <div class="logout" style="cursor: pointer;">
+                                <a ng-click="vm.logout()"><i class="mdi mdi-logout-variant"></i>logout</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="item-change-avatar" ngf-select="vm.uploadPic($file,$invalidFiles)" accept="image/*">
+                    <i class="mdi mdi-24px mdi-upload"></i>
+                    <span>Change avatar</span>
+                </div>
+                <div class="item">
+                    <div class="item-name">Username</div>
+                </div>
+                <div class="item">
+                    <input class="item-input" type="text" ng-model="vm.userData.username" placeholder="Type your message..." maxlength="256" disabled="true">
+                </div>
+                <div class="item">
+                    <div class="item-name">Old password</div>
+                </div>
+                <div class="item">
+                    <input class="item-input"  ng-model="vm.userData.old_password" type="text" placeholder="Type your message..." maxlength="256">
+                </div>
+                <div class="item">
+                    <div class="item-name" ">New password</div>
+                </div>
+                <div class="item">
+                    <input class="item-input" ng-model="vm.userData.password" type="text" placeholder="Type your message..." maxlength="256">
+                </div>
+                <div class="item">
+                    <div class="item-name">Repeat password</div>
+                </div>
+                <div class="item">
+                    <input class="item-input" type="text" ng-model="vm.userData.confirm" placeholder="Type your message..." maxlength="256">
+                </div>
+                <div class="item-change-avatar" ng-click="vm.updateUserProfile()">
+                    <i class="mdi mdi-24px mdi-content-save"></i>
+                    <span>Save</span>
+                </div>
+                <div class="divider"></div>
+                <div class="item">
+                    <div class="item-name checkboxItem">
+                        <input type="checkbox" id="chatImagesSetting" />
+                        <label for="chatImagesSetting">Chat images</label>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="item-name checkboxItem">
+                        <input type="checkbox" id="mentionSoundSetting" checked />
+                        <label for="mentionSoundSetting">Mention sound</label>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="item-name checkboxItem">
+                        <input type="checkbox" id="boothAlertSetting" checked />
+                        <label for="boothAlertSetting">Booth alert</label>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="item-name checkboxItem">
+                        <input type="checkbox" id="playVideoAudioSetting" checked />
+                        <label for="playVideoAudioSetting">Play audio/video</label>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="item-name checkboxItem">
+                        <input type="checkbox" id="userJoinSetting" checked />
+                        <label for="userJoinSetting">User join</label>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="item-name checkboxItem">
+                        <input type="checkbox" id="userLeaveSetting" checked />
+                        <label for="userLeaveSetting">User leave</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--  -->
+    </md-content>
+    </md-tab-body>
+    </md-tab>
+    <md-tab label="Private Msg" md-on-select="vm.onTabChanges('staff_user_list');vm.getUser();vm.getMutedUser();vm.getBannedUser();vm.getConfiguration();">
+    <md-tab-label>
+    <i class="mdi mdi-24px mdi-security " ng-class="vm.selectedTab == 'staff' || vm.selectedTab == 'staff_user_list' || vm.selectedTab == 'user_list_banned' || vm.selectedTab == 'user_deleted' || vm.selectedTab == 'user_configuration'  ? 'pink-color':'white-color'"></i>
+    </md-tab-label>
+    <md-tab-body>
+    <md-content ng-style="vm.userProfileStyle">
+    <div id="app-right" flex layout="coloumn" ng-style="vm.userProfileStyle">
+        <div md-theme="whiteAccentTheme" flex>
+            <md-tabs class="md-primary md-accent" flex>
+            <md-tab ng-click="vm.onTabChanges('staff_user_list');" flex>
+            <md-tab-label>
+            <i class="mdi mdi-24px mdi-account-multiple  " ng-class="vm.selectedTab == 'staff_user_list' ? 'pink-color':'white-color'"></i> <span class="badge" ng-class="vm.selectedTab == 'staff_user_list' ? 'pink-color':'white-color'">{{vm.userList.length}}</span>
+            </md-tab-label>
+            <md-tab-body>
+            <div id="usersettings" class="tabcontent" ng-show="vm.isEditUserProfile">
+                <div id="usersettings-content" style="overflow-y: hidden;">
+                    <div class="item-user" layout="row" layout-align="space-between center">
+                        <div class="item-name">
+                            <img ng-src="{{vm.userData1.profilePic}}"/>
+                            <!-- alt= "{{vm.userData1.username}}" -->
+                            <div class="top-section">
+                                <div class="username">{{vm.userData1.username}}
+                                </div>
+                            </div>
+                        </div>
+                        <div style="padding-right: 10px;">
+                            <i class="fa fa-ban" ng-click="vm.banUser(vm.userData1._id)" ng-if="!vm.userData1.is_ban && vm.userRole != 0">&nbsp;<md-tooltip md-direction="bottom">Ban</md-tooltip></i>
+                            <i class="fa fa-unlock" ng-click="vm.unbanUser(vm.userData1._id)" ng-if="vm.userData1.is_ban && vm.userRole != 0"> <md-tooltip md-direction="bottom">Unban</md-tooltip> &nbsp;</i>
+                            <i class="fa fa-arrow-circle-left" ng-click="vm.isEditUserProfile = false;"><md-tooltip md-direction="bottom">Back</md-tooltip></i>
+                        </div>
+                    </div>
+                    <div class="item-change-avatar" ngf-select="vm.uploadPic($file,$invalidFiles)" accept="image/*">
+                        <i class="mdi mdi-24px mdi-upload"></i>
+                        <span>Change avatar</span>
+                    </div>
+                    <div class="item">
+                        <div class="item-name">Username</div>
+                    </div>
+                    <div class="item">
+                        <input class="item-input" type="text" ng-model="vm.userData1.username" placeholder="Type your message..." maxlength="256" >
+                    </div>
+                    <!--   <div class="item">
+                        <div class="item-name">Old password</div>
+                    </div>
+                    <div class="item">
+                        <input class="item-input"  ng-model="vm.userData1.old_password" type="text" placeholder="Type your message..." maxlength="256">
+                    </div> -->
+                    <div class="item">
+                        <div class="item-name" ">New password</div>
+                    </div>
+                    <div class="item">
+                        <input class="item-input" ng-model="vm.userData1.password" type="text" placeholder="Type your message..." maxlength="256">
+                    </div>
+                    <div class="item">
+                        <div class="item-name">Repeat password</div>
+                    </div>
+                    <div class="item">
+                        <input class="item-input" type="text" ng-model="vm.userData1.confirm" placeholder="Type your message..." maxlength="256">
+                    </div>
+                    <div class="item-change-avatar" ng-click="vm.updateUserProfileOnEdit()">
+                        <i class="mdi mdi-24px mdi-content-save"></i>
+                        <span>Save</span>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="item">
+                        <div class="item-name checkboxItem">
+                            <input type="checkbox" id="chatImagesSetting" />
+                            <label for="chatImagesSetting">Chat images</label>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="item-name checkboxItem">
+                            <input type="checkbox" id="mentionSoundSetting" checked />
+                            <label for="mentionSoundSetting">Mention sound</label>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="item-name checkboxItem">
+                            <input type="checkbox" id="boothAlertSetting" checked />
+                            <label for="boothAlertSetting">Booth alert</label>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="item-name checkboxItem">
+                            <input type="checkbox" id="playVideoAudioSetting" checked />
+                            <label for="playVideoAudioSetting">Play audio/video</label>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="item-name checkboxItem">
+                            <input type="checkbox" id="userJoinSetting" checked />
+                            <label for="userJoinSetting">User join</label>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="item-name checkboxItem">
+                            <input type="checkbox" id="userLeaveSetting" checked />
+                            <label for="userLeaveSetting">User leave</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="staff" ng-hide="vm.isEditUserProfile">
+                <div id="staff-content">
+                    <div id="staffUserlist" class="pagecontent" style="display: block;">
+                        <div id="staffUserlist-content">
+                            <div class="user" ng-repeat="(userKey, userValue) in vm.userList">
+                                <div class="profilepic">
+                                    <img src="assets/images/profipic.png" alt="">
+                                </div>
+                                <div class="username owner" ng-style="{color:vm.color[$index%vm.color.length]}">{{userValue.username}}</div>
+                                <div class="actions">
+                                    <div class="rank">
+                                        <span ng-if="userValue.user_role==0">Normal</span>
+                                        <span ng-if="userValue.user_role==1">Moderator</span>
+                                        <span ng-if="userValue.user_role==2">Admin</span>
+                                    </div>
+                                    <div class="editUser"><i class="mdi mdi-24px mdi-pencil" ng-click="vm.getUserProfileOnEdit(userValue._id,'edit');"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </md-tab-body>
+            </md-tab>
+            <md-tab md-on-select="vm.onTabChanges('user_list_banned');">
+            <md-tab-label>
+            <i class="mdi mdi-24px mdi-account-minus" ng-class="vm.selectedTab == 'user_list_banned' ? 'pink-color':'white-color'"></i> <span class="badge" ng-class="vm.selectedTab == 'user_list_banned' ? 'pink-color':'white-color'">{{vm.userBannedList?vm.userBannedList.length:'0'}}</span>
+            </md-tab-label>
+            <md-tab-body>
+            <div id="staff">
+                <div id="staff-content">
+                    <div id="staffUserlist" class="pagecontent" style="display: block;">
+                        <div id="staffUserlist-content">
+                            <div class="user" ng-repeat="(userKey, userValue) in vm.userBannedList">
+                                <div class="profilepic">
+                                    <img src="assets/images/profipic.png" alt="">
+                                </div>
+                                <div class="username owner" ng-style="{color:vm.color[$index%vm.color.length]}">{{userValue.username}}</div>
+                                <div class="actions">
+                                    <div class="rank">
+                                        <span ng-if="userValue.user_role==0">Normal</span>
+                                        <span ng-if="userValue.user_role==1">Moderator</span>
+                                        <span ng-if="userValue.user_role==2">Admin</span>
+                                    </div>
+                                    <div class="editUser"><i class="mdi mdi-24px mdi-pencil"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </md-tab-body>
+            </md-tab>
+            <md-tab md-on-select="vm.onTabChanges('user_deleted');">
+            <md-tab-label>
+            <i class="mdi mdi-24px mdi-account-remove" ng-class="vm.selectedTab == 'user_deleted' ? 'pink-color':'white-color'"></i> <span class="badge" ng-class="vm.selectedTab == 'user_deleted' ? 'pink-color':'white-color'">{{vm.userMutedList.length?vm.userMutedList.length:'0'}}</span>
+            </md-tab-label>
+            <md-tab-body>
+            <div id="staff">
+                <div id="staff-content">
+                    <div id="staffUserlist" class="pagecontent" style="display: block;">
+                        <div id="staffUserlist-content">
+                            <div class="user" ng-repeat="(userKey, userValue) in vm.userMutedList">
+                                <div class="profilepic">
+                                    <img src="assets/images/profipic.png" alt="">
+                                </div>
+                                <div class="username owner" ng-style="{color:vm.color[$index%vm.color.length]}">{{userValue.username}}</div>
+                                <div class="actions">
+                                    <div class="rank">
+                                        <span ng-if="userValue.user_role==0">Normal</span>
+                                        <span ng-if="userValue.user_role==1">Moderator</span>
+                                        <span ng-if="userValue.user_role==2">Admin</span>
+                                    </div>
+                                    <div class="editUser"><i class="mdi mdi-24px mdi-pencil"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </md-tab-body>
+            </md-tab>
+            <md-tab md-on-select="vm.onTabChanges('user_configuration');">
+            <md-tab-label>
+            <i class="mdi mdi-24px mdi-home" ng-class="vm.selectedTab == 'user_configuration' ? 'pink-color':'white-color'"></i> <span class="badge" ng-class="vm.selectedTab == 'user_configuration' ? 'pink-color':'white-color'"></span>
+            </md-tab-label>
+            <md-tab-body>
+            <div id="staff" >
+                <div id="staff-content">
+                    <div id="staffEditHome" class="pagecontent">
+                        <div id="staffEditHome-content">
+                            <div class="item">
+                                <div class="item-name checkboxItem">
+                                    <input type="checkbox" ng-model="vm.configuration.lock_queue" id="staffLockQueue" />
+                                    <label for="staffLockQueue">Lock queue</label>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="item-name checkboxItem">
+                                    <input type="checkbox" ng-model="vm.configuration.toggle_cycle" id="staffToggleCycle" />
+                                    <label for="staffToggleCycle" >Toggle cycle</label>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="item-name">Discord URL</div>
+                            </div>
+                            <div class="item">
+                                <input class="item-input" ng-model="vm.configuration.discord_url" type="text" placeholder="Type your message...">
+                            </div>
+                            <div class="item">
+                                <div class="item-name">YouTube URL</div>
+                            </div>
+                            <div class="item">
+                                <input class="item-input" ng-model="vm.configuration.youtube_url" type="text" placeholder="Type your message...">
+                            </div>
+                            <div class="item">
+                                <div class="item-name">Facebook URL</div>
+                            </div>
+                            <div class="item">
+                                <input class="item-input" ng-model="vm.configuration.facebook_url" type="text" placeholder="Type your message...">
+                            </div>
+                            <div class="item">
+                                <div class="item-name">Soundcloud URL</div>
+                            </div>
+                            <div class="item">
+                                <input class="item-input" ng-model="vm.configuration.soundcloud_url" type="text" placeholder="Type your message...">
+                            </div>
+                            <div class="item">
+                                <div class="item-name">Room info text</div>
+                            </div>
+                            <div class="item-textarea">
+                                <textarea class="item-input" ng-model="vm.configuration.room_info_text" placeholder="Type your message..."></textarea>
+                            </div>
+                            <div class="item-save-settings" ng-click="vm.updateConfiguration()">
+                                <i class="mdi mdi-24px mdi-content-save"></i>
+                                <span>Save</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </md-tab-body>
+            </md-tab>
+            </md-tabs>
+        </div>
+    </div>
+    </md-content>
+    </md-tab-body>
+    </md-tab>
+    </md-tabs>
+    <div id="app-right" flex layout="coloumn" layout-align="center center">
+        <div id="vote-buttons" layout="row" flex layout-align="center center">
+            <div flex="100" layout="row" layout-align="center center">
+                <button flex id="upvote" class="votelinks upvote" ng-click="vm.upvote()"><i class="mdi mdi-24px mdi-thumb-up" ng-if="vm.voting.upvoteUser.indexOf(vm.userId)>0"></i><i class="mdi mdi-24px mdi-thumb-up-outline" ng-if="vm.voting.upvoteUser.indexOf(vm.userId)<=0"></i> {{vm.voting.upvote}}</button>
+            </div>
+            <div flex="100" layout="row" layout-align="center center" >
+                <md-menu flex md-offset="0 -310">
+                <!--   <button flex id="grab" class="votelinks grab" ng-click="voteButton(event, 'grab')"><i class="mdi mdi-24px mdi-star-outline"></i> 5</button> -->
+                <md-button aria-label="Open phone interactions menu"   ng-click="vm.openMenu($mdMenu, $event)" id="grab" class="votelinks grab" style="margin: 0px 0px;width: 100%;">
+                <i class="mdi mdi-24px mdi-star-outline"></i> {{vm.voting.grab}}
+                </md-button>
+                <md-menu-content width="4" style="background-color: #111111;overflow-y: scroll;min-height: 300px;">
+                <md-menu-item ng-repeat="item in vm.playlist" style="height: 18px;
+                cursor: pointer; color: #FFFFFF">
+                <md-button ng-click="vm.AddToWaitList(item._id,$index)">
+                <div style="float: left;font-size: 15px;font-weight: 700;">{{ item.name | limitTo : 20}}<span ng-if="item.name.length>20">...</span></div>
+                <div style="float: right;font-size: 12px;color: #7b7b7b;padding-top: 3px;">{{ item.total_video }}</div>
+                </md-button>
+                </md-menu-item>
+                <md-menu-divider></md-menu-divider>
+                </md-menu-content></md-menu>
+            </div>
+            <div flex="100" layout="row" layout-align="center center">
+                <button flex id="downvote" class="votelinks downvote" ng-click="vm.downvote()">
+                <i class="mdi mdi-24px mdi-thumb-down" ng-if="vm.voting.downvoteUser.indexOf(vm.userId)>0"></i><i class="mdi mdi-24px mdi-thumb-down-outline" ng-if="vm.voting.downvoteUser.indexOf(vm.userId)<=0"></i>
+                {{vm.voting.downvote}}</button>
+            </div>
+            <div flex="100" layout="row" layout-align="center center" ng-if="!vm.waitlistStatus">
+                <button flex id="joinqueue" class="votelinks joinqueue" ng-click="vm.setWaitListStatus('joinWaitList')"><i class="mdi mdi-24px mdi-playlist-plus" ></i></button>
+            </div>
+            <div flex="100" layout="row" layout-align="center center" ng-if="vm.waitlistStatus">
+                <button flex id="joinqueue" class="votelinks" style="background-color: rgba(241, 84, 51, 0.6)" ng-click="vm.setWaitListStatus('stopPlaying')"><i class="mdi mdi-24px mdi-playlist-remove " ></i></button>
+            </div>
+        </div>
+    </div>
+</div>
 </md-content>

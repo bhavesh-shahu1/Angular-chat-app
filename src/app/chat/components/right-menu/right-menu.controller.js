@@ -78,7 +78,8 @@
         vm.AddToWaitList = AddToWaitList;
         vm.onlineUserList = [];
         vm.grabvote = grabvote;
-
+        vm.banUser = banUser;
+        vm.unbanUser = unbanUser;
         function scrollDown($element) {
             // $timeout(function() { $("#messageDiv").scrollTop($("#messageDiv")[0].scrollHeight); }, 10);
         }
@@ -497,6 +498,31 @@
                 vm.onlineUserList = response.data.data;
             })
         }
+
+        function banUser(banUserId) {
+            vm.activated = true;
+             var postParam = {
+                login_user_id : vm.userInfo._id
+             }
+                    homeService.postCustomData('api', 'user', '', 'ban_user', banUserId, '', postParam).then(function(response) {
+                        vm.activated = false;
+                        vm.getUserProfileOnEdit(banUserId,'edit');
+                        // commonService.showToast(response.message);
+                    });
+        }
+
+        function unbanUser(banUserId) {
+            vm.activated = true;
+             var postParam = {
+                login_user_id : vm.userInfo._id
+             }
+                    homeService.postCustomData('api', 'user', '', 'unban_user', banUserId, '', postParam).then(function(response) {
+                        vm.activated = false;
+                        vm.getUserProfileOnEdit(banUserId,'edit');
+                        commonService.showToast(response.message);
+                    });
+        }
+
         // Whenever video add in waitList update waitlist
         $scope.$on('updateWaitList', function($event, message) {
             vm.getWaitList();
